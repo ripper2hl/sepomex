@@ -24,6 +24,3 @@ services :
       - web
       - db
     image: sepomex
-
-    ports :
-      - "8080:8080"

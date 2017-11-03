@@ -4,8 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
-import org.springframework.jndi.JndiObjectFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -22,11 +23,11 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableTransactionManagement
 @EnableAspectJAutoProxy(proxyTargetClass = true)
+@EnableJpaRepositories( basePackages = { "com.perales.sepomex.repository" })
 @ComponentScan("com.perales.sepomex")
 public class AppConfig extends WebMvcConfigurerAdapter {
 
     private LocalContainerEntityManagerFactoryBean emf;
-    private JndiObjectFactoryBean jofb;
     private HibernateJpaVendorAdapter hibernateJpaVendorAdapter;
     private DataSource dataSource;
 
@@ -41,7 +42,6 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
         emf = new LocalContainerEntityManagerFactoryBean();
         emf.setDataSource(dataSource);
-        emf.setJpaVendorAdapter(jpaVendorAdapter);
         emf.setPackagesToScan("com.perales.sepomex.model");
         emf.setJpaVendorAdapter(hibernateJpaVendorAdapter);
         emf.setJpaProperties(hibernateProperties());
@@ -58,9 +58,9 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public JpaTransactionManager jpaTransactionManager(){
+    public JpaTransactionManager transactionManager(EntityManagerFactory emf){
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
-        jpaTransactionManager.setEntityManagerFactory(emf.getNativeEntityManagerFactory());
+        jpaTransactionManager.setEntityManagerFactory(emf);
         return jpaTransactionManager;
     }
 

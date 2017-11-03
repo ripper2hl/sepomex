@@ -2,7 +2,9 @@ package com.perales.sepomex.service;
 
 import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.Colonia;
+import com.perales.sepomex.repository.ColoniaRepository;
 import com.perales.util.Parser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,8 +18,11 @@ import java.util.List;
 @Service
 public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
 
+  @Autowired
+  private ColoniaRepository coloniaRepository;
+
   private static final String FILE_NAME = "/tmp/test.txt";
-  private static final int POSICIONES_MAXIMAS_SEPARADOR = 15
+  private static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
 
   public Colonia buscarPorId(Integer id) {
     return null;
@@ -28,7 +33,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
   }
 
   public Colonia guardar(Colonia entity) {
-    return null;
+    return coloniaRepository.save(entity);
   }
 
   public Colonia actualizar(Colonia entity) {
@@ -49,10 +54,17 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
       List<String> list = Arrays.asList(s.split("\\|"));
       if (list.size() == POSICIONES_MAXIMAS_SEPARADOR) {
         Colonia colonia = parser.convertirListaColonia(list);
+        revisarColonia(colonia);
         System.out.println(colonia);
       }
     }
     System.out.println(contador);
     return true;
   }
+
+  private void revisarColonia(Colonia colonia){
+      guardar(colonia);
+  }
+
+
 }
