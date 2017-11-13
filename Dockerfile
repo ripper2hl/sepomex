@@ -1,8 +1,8 @@
 FROM jboss/wildfly
 MAINTAINER perales/sepomex
 USER root
-COPY test.txt /tmp/test.txt
-RUN chown jboss:jboss /tmp/test.txt
+COPY sepomex.txt /tmp/sepomex.txt
+RUN chown jboss:jboss /tmp/sepomex.txt
 USER jboss
 ADD src/main/resources/docker/customization /opt/jboss/wildfly/customization/
 ADD src/main/resources/docker/modules /opt/jboss/wildfly/modules/

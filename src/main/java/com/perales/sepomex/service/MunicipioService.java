@@ -2,12 +2,20 @@ package com.perales.sepomex.service;
 
 import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.Municipio;
+import com.perales.sepomex.repository.EstadoRepository;
+import com.perales.sepomex.repository.MunicipioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 public class MunicipioService implements ServiceGeneric<Municipio, Integer> {
+
+    @Autowired
+    private MunicipioRepository municipioRepository;
+
     public Municipio buscarPorId(Integer id) {
         return null;
     }
@@ -16,8 +24,9 @@ public class MunicipioService implements ServiceGeneric<Municipio, Integer> {
         return null;
     }
 
+    @Transactional
     public Municipio guardar(Municipio entity) {
-        return null;
+        return municipioRepository.save(entity);
     }
 
     public Municipio actualizar(Municipio entity) {
@@ -26,5 +35,10 @@ public class MunicipioService implements ServiceGeneric<Municipio, Integer> {
 
     public Municipio borrar(Integer id) {
         return null;
+    }
+
+    @Transactional
+    public Municipio findByInegiClave(String inegiClave) {
+        return municipioRepository.findFirstByInegiClave(inegiClave);
     }
 }

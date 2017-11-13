@@ -1,7 +1,7 @@
 package com.perales.sepomex.service;
 
 import com.perales.sepomex.contract.ServiceGeneric;
-import com.perales.sepomex.model.Colonia;
+import com.perales.sepomex.model.*;
 import com.perales.sepomex.repository.ColoniaRepository;
 import com.perales.util.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +15,34 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
+@Transactional
 @Service
 public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
 
   @Autowired
   private ColoniaRepository coloniaRepository;
 
-  private static final String FILE_NAME = "/tmp/test.txt";
+  @Autowired
+  private MunicipioService municipioService;
+
+  @Autowired
+  private CiudadService ciudadService;
+
+  @Autowired
+  private EstadoService estadoService;
+
+  @Autowired
+  private AsentamientoTipoService asentamientoTipoService;
+
+  @Autowired
+  private ZonaTipoService zonaTipoService;
+
+
+  private static final String FILE_NAME = "/tmp/sepomex.txt";
   private static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
 
   public Colonia buscarPorId(Integer id) {
-    return null;
+    return coloniaRepository.getOne(id);
   }
 
   public List<Colonia> buscarTodos(int page, int size) {
@@ -44,7 +61,6 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     return null;
   }
 
-  @Transactional
   public Boolean cargaMasiva() throws IOException {
     Parser parser = new Parser();
     List<String> strings = Files.readAllLines(Paths.get(FILE_NAME), Charset.forName("UTF-8"));
@@ -63,8 +79,67 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
   }
 
   private void revisarColonia(Colonia colonia){
-      guardar(colonia);
-  }
+      AsentamientoTipo asentamientoTipo = asentamientoTipoService.findBySepomexClave(colonia.getAsentamientoTipo().getSepomexClave());
+      if(asentamientoTipo == null){
+          asentamientoTipo = asentamientoTipoService.guardar(colonia.getAsentamientoTipo());
+          colonia.setAsentamientoTipo(asentamientoTipo);
+          System.out.println("******************************");
+          System.out.println(asentamientoTipo);
+          System.out.println("******************************");
+      }else{
+          System.out.println("REUTILIZANDO");
+          colonia.setAsentamientoTipo(asentamientoTipo);
+      }
 
+      Ciudad ciudad = ciudadService.findByClave(colonia.getCiudad().getClave());
+      if(ciudad == null){
+          ciudad = ciudadService.guardar(colonia.getCiudad());
+          colonia.setCiudad(ciudad);
+          System.out.println("******************************");
+          System.out.println(ciudad);
+          System.out.println("******************************");
+      }else{
+          System.out.println("REUTILIZANDO");
+          colonia.setCiudad(ciudad);
+      }
+
+      Estado estado = estadoService.findByInegiClave(colonia.getEstado().getInegiClave());
+      if(estado == null){
+          estado = estadoService.guardar(colonia.getEstado());
+          colonia.setEstado(estado);
+          System.out.println("******************************");
+          System.out.println(estado);
+          System.out.println("******************************");
+      }else{
+          System.out.println("REUTILIZANDO");
+          colonia.setEstado(estado);
+      }
+
+      Municipio municipio = municipioService.findByInegiClave(colonia.getMunicipio().getInegiClave());
+      if(municipio == null){
+          municipio = municipioService.guardar(colonia.getMunicipio());
+          colonia.setMunicipio(municipio);
+          System.out.println("******************************");
+          System.out.println(municipio);
+          System.out.println("******************************");
+      }else{
+          System.out.println("REUTILIZANDO");
+          colonia.setMunicipio(municipio);
+      }
+
+      ZonaTipo zonaTipo = zonaTipoService.findByNombre(colonia.getZonaTipo().getNombre());
+      if(zonaTipo == null){
+          zonaTipo = zonaTipoService.guardar(colonia.getZonaTipo());
+          colonia.setZonaTipo(zonaTipo);
+          System.out.println("******************************");
+          System.out.println(zonaTipo);
+          System.out.println("******************************");
+      }else{
+          System.out.println("REUTILIZANDO");
+          colonia.setZonaTipo(zonaTipo);
+      }
+      guardar(colonia);
+
+  }
 
 }

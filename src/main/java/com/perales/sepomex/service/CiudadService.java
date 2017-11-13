@@ -2,12 +2,19 @@ package com.perales.sepomex.service;
 
 import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.Ciudad;
+import com.perales.sepomex.repository.CiudadRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 public class CiudadService  implements ServiceGeneric<Ciudad, Integer> {
+
+    @Autowired
+    private CiudadRepository ciudadRepository;
+
     public Ciudad buscarPorId(Integer id) {
         return null;
     }
@@ -16,8 +23,9 @@ public class CiudadService  implements ServiceGeneric<Ciudad, Integer> {
         return null;
     }
 
+    @Transactional
     public Ciudad guardar(Ciudad entity) {
-        return null;
+        return ciudadRepository.save(entity);
     }
 
     public Ciudad actualizar(Ciudad entity) {
@@ -26,5 +34,10 @@ public class CiudadService  implements ServiceGeneric<Ciudad, Integer> {
 
     public Ciudad borrar(Integer id) {
         return null;
+    }
+
+    @Transactional
+    public Ciudad findByClave(String clave) {
+        return ciudadRepository.findFirstByClave(clave);
     }
 }

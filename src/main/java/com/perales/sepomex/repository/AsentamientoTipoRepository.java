@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AsentamientoTipoRepository extends JpaRepository<AsentamientoTipo, Integer> {
+    AsentamientoTipo findFirstBySepomexClave(String sepomexClave);
 }

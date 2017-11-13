@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ZonaTipoRepository extends JpaRepository<ZonaTipo, Integer> {
+    ZonaTipo findFirstByNombre(String nombre);
 }

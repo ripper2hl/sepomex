@@ -2,12 +2,19 @@ package com.perales.sepomex.service;
 
 import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.Estado;
+import com.perales.sepomex.repository.EstadoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
 public class EstadoService implements ServiceGeneric<Estado, Integer> {
+
+    @Autowired
+    private EstadoRepository estadoRepository;
+
     public Estado buscarPorId(Integer id) {
         return null;
     }
@@ -16,8 +23,9 @@ public class EstadoService implements ServiceGeneric<Estado, Integer> {
         return null;
     }
 
+    @Transactional
     public Estado guardar(Estado entity) {
-        return null;
+        return estadoRepository.save(entity);
     }
 
     public Estado actualizar(Estado entity) {
@@ -26,5 +34,10 @@ public class EstadoService implements ServiceGeneric<Estado, Integer> {
 
     public Estado borrar(Integer id) {
         return null;
+    }
+
+    @Transactional
+    public Estado findByInegiClave(String inegiClave) {
+        return estadoRepository.findFirstByInegiClave(inegiClave);
     }
 }
