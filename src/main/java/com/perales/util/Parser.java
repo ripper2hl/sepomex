@@ -2,13 +2,9 @@ package com.perales.util;
 
 import com.perales.sepomex.model.*;
 
-import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -69,6 +65,9 @@ public class Parser {
     colonia.setMunicipio(obtenerMunicipio(lista));
     colonia.setEstado(obtenerEstado(lista));
     colonia.setZonaTipo(obtenerZonaTipo(lista));
+
+    colonia.getCiudad().setEstado( colonia.getEstado() );
+    colonia.getMunicipio().setEstado( colonia.getEstado() );
 
     return colonia;
   }

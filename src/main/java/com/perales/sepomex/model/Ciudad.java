@@ -15,6 +15,9 @@ public class Ciudad {
     private String nombre;
     private String clave;
 
+    @ManyToOne
+    private Estado estado;
+
     @OneToMany
     private List<Colonia> colonias;
 

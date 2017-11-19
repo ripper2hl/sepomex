@@ -13,6 +13,13 @@ public class Estado {
     private Integer id;
     private String nombre;
     private String inegiClave;
+
+    @OneToMany
+    private List<Ciudad> ciudades;
+
+    @OneToMany
+    private List<Municipio> municipios;
+
     @OneToMany
     private List<Colonia> colonias;
 

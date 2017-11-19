@@ -15,6 +15,9 @@ public class Municipio {
     private String nombre;
     private String inegiClave;
     private String identificadorMunicipal;
+
+    @ManyToOne
+    private Estado estado;
     @OneToMany
     private List<Colonia> colonias;
 

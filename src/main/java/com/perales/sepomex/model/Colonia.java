@@ -19,26 +19,25 @@ public class Colonia {
     private String nombre;
     private String codigoPostal;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     private AsentamientoTipo asentamientoTipo;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     private Municipio municipio;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     private Estado estado;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     private Ciudad ciudad;
 
     private String codigoPostalAdministracionAsentamiento;
     private String codigoPostalAdministracionAsentamientoOficina;
 
-    @ManyToOne(cascade=CascadeType.ALL)
+    @ManyToOne
     private ZonaTipo zonaTipo;
 
     public Colonia() {
         super();
     }
-
 }

@@ -37,7 +37,6 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
   @Autowired
   private ZonaTipoService zonaTipoService;
 
-
   private static final String FILE_NAME = "/tmp/sepomex.txt";
   private static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
 
@@ -78,67 +77,70 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     return true;
   }
 
-  private void revisarColonia(Colonia colonia){
-      AsentamientoTipo asentamientoTipo = asentamientoTipoService.findBySepomexClave(colonia.getAsentamientoTipo().getSepomexClave());
-      if(asentamientoTipo == null){
-          asentamientoTipo = asentamientoTipoService.guardar(colonia.getAsentamientoTipo());
-          colonia.setAsentamientoTipo(asentamientoTipo);
-          System.out.println("******************************");
-          System.out.println(asentamientoTipo);
-          System.out.println("******************************");
-      }else{
-          System.out.println("REUTILIZANDO");
-          colonia.setAsentamientoTipo(asentamientoTipo);
-      }
+  private void revisarColonia(Colonia colonia) {
+    AsentamientoTipo asentamientoTipo = asentamientoTipoService
+        .findBySepomexClave(colonia.getAsentamientoTipo().getSepomexClave());
+    if (asentamientoTipo == null) {
+      asentamientoTipo = asentamientoTipoService.guardar(colonia.getAsentamientoTipo());
+      colonia.setAsentamientoTipo(asentamientoTipo);
+      System.out.println("******************************");
+      System.out.println(asentamientoTipo);
+      System.out.println("******************************");
+    } else {
+      System.out.println("REUTILIZANDO");
+      colonia.setAsentamientoTipo(asentamientoTipo);
+    }
 
-      Ciudad ciudad = ciudadService.findByClave(colonia.getCiudad().getClave());
-      if(ciudad == null){
-          ciudad = ciudadService.guardar(colonia.getCiudad());
-          colonia.setCiudad(ciudad);
-          System.out.println("******************************");
-          System.out.println(ciudad);
-          System.out.println("******************************");
-      }else{
-          System.out.println("REUTILIZANDO");
-          colonia.setCiudad(ciudad);
-      }
+    Estado estado = estadoService.findByInegiClave(colonia.getEstado().getInegiClave());
+    if (estado == null) {
+      estado = estadoService.guardar(colonia.getEstado());
+      colonia.setEstado(estado);
+      System.out.println("******************************");
+      System.out.println(estado);
+      System.out.println("******************************");
+    } else {
+      System.out.println("REUTILIZANDO");
+      colonia.setEstado(estado);
+    }
 
-      Estado estado = estadoService.findByInegiClave(colonia.getEstado().getInegiClave());
-      if(estado == null){
-          estado = estadoService.guardar(colonia.getEstado());
-          colonia.setEstado(estado);
-          System.out.println("******************************");
-          System.out.println(estado);
-          System.out.println("******************************");
-      }else{
-          System.out.println("REUTILIZANDO");
-          colonia.setEstado(estado);
-      }
+    Ciudad ciudad = ciudadService.findByNombreAndEstadoId(colonia.getCiudad().getNombre(), estado.getId());
+    if (ciudad == null) {
+      colonia.getCiudad().setEstado(estado);
+      ciudad = ciudadService.guardar(colonia.getCiudad());
+      colonia.setCiudad(ciudad);
+      System.out.println("******************************");
+      System.out.println(ciudad);
+      System.out.println("******************************");
+    } else {
+      System.out.println("REUTILIZANDO");
+      colonia.setCiudad(ciudad);
+    }
 
-      Municipio municipio = municipioService.findByInegiClave(colonia.getMunicipio().getInegiClave());
-      if(municipio == null){
-          municipio = municipioService.guardar(colonia.getMunicipio());
-          colonia.setMunicipio(municipio);
-          System.out.println("******************************");
-          System.out.println(municipio);
-          System.out.println("******************************");
-      }else{
-          System.out.println("REUTILIZANDO");
-          colonia.setMunicipio(municipio);
-      }
+    Municipio municipio = municipioService.findByInegiClave(colonia.getMunicipio().getInegiClave());
+    if (municipio == null) {
+      colonia.getMunicipio().setEstado(estado);
+      municipio = municipioService.guardar( colonia.getMunicipio() );
+      colonia.setMunicipio(municipio);
+      System.out.println("******************************");
+      System.out.println(municipio);
+      System.out.println("******************************");
+    } else {
+      System.out.println("REUTILIZANDO");
+      colonia.setMunicipio(municipio);
+    }
 
-      ZonaTipo zonaTipo = zonaTipoService.findByNombre(colonia.getZonaTipo().getNombre());
-      if(zonaTipo == null){
-          zonaTipo = zonaTipoService.guardar(colonia.getZonaTipo());
-          colonia.setZonaTipo(zonaTipo);
-          System.out.println("******************************");
-          System.out.println(zonaTipo);
-          System.out.println("******************************");
-      }else{
-          System.out.println("REUTILIZANDO");
-          colonia.setZonaTipo(zonaTipo);
-      }
-      guardar(colonia);
+    ZonaTipo zonaTipo = zonaTipoService.findByNombre(colonia.getZonaTipo().getNombre());
+    if (zonaTipo == null) {
+      zonaTipo = zonaTipoService.guardar(colonia.getZonaTipo());
+      colonia.setZonaTipo(zonaTipo);
+      System.out.println("******************************");
+      System.out.println(zonaTipo);
+      System.out.println("******************************");
+    } else {
+      System.out.println("REUTILIZANDO");
+      colonia.setZonaTipo(zonaTipo);
+    }
+    guardar(colonia);
 
   }
 
