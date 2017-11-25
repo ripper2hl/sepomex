@@ -60,6 +60,9 @@ public class Parser {
     colonia.setCodigoPostalAdministracionAsentamientoOficina(
         lista.get(CODIGO_POSTAL_ADMINISTRACION_ASENTAMIENTO_OFICINA_POSICION));
 
+    colonia.setClaveCiudad(lista.get(CIUDAD_CLAVE_POSICION));
+    colonia.setClaveMunicipio(lista.get(MUNICIPIO_CLAVE_INEGI_POSICION));
+
     colonia.setAsentamientoTipo(obtenerAsentamientoTipo(lista));
     colonia.setCiudad(obtenerCiudad(lista));
     colonia.setMunicipio(obtenerMunicipio(lista));
@@ -68,7 +71,6 @@ public class Parser {
 
     colonia.getCiudad().setEstado( colonia.getEstado() );
     colonia.getMunicipio().setEstado( colonia.getEstado() );
-
     return colonia;
   }
 
@@ -82,15 +84,13 @@ public class Parser {
   public Ciudad obtenerCiudad(List<String> lista) {
     Ciudad ciudad = new Ciudad();
     ciudad.setNombre(lista.get(CIUDAD_NOMBRE_POSICION));
-    ciudad.setClave(lista.get(CIUDAD_CLAVE_POSICION));
     return ciudad;
   }
 
   public Municipio obtenerMunicipio(List<String> lista) {
     Municipio municipio = new Municipio();
     municipio.setNombre(lista.get(MUNICIPIO_NOMBRE_POSICION));
-    municipio.setInegiClave(lista.get(MUNICIPIO_CLAVE_INEGI_POSICION));
-    municipio.setInegiClave(lista.get(ASENTAMIENTO_IDENTIFICADOR_MUNICIPAL_POSICION));
+    municipio.setIdentificadorMunicipal(lista.get(ASENTAMIENTO_IDENTIFICADOR_MUNICIPAL_POSICION));
     return municipio;
   }
 

@@ -83,11 +83,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     if (asentamientoTipo == null) {
       asentamientoTipo = asentamientoTipoService.guardar(colonia.getAsentamientoTipo());
       colonia.setAsentamientoTipo(asentamientoTipo);
-      System.out.println("******************************");
-      System.out.println(asentamientoTipo);
-      System.out.println("******************************");
     } else {
-      System.out.println("REUTILIZANDO");
       colonia.setAsentamientoTipo(asentamientoTipo);
     }
 
@@ -95,37 +91,28 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     if (estado == null) {
       estado = estadoService.guardar(colonia.getEstado());
       colonia.setEstado(estado);
-      System.out.println("******************************");
       System.out.println(estado);
-      System.out.println("******************************");
     } else {
-      System.out.println("REUTILIZANDO");
       colonia.setEstado(estado);
     }
+    System.out.println("Clave de ciudad" +  colonia.getClaveCiudad());
+    System.out.println("Clave de municipio" +  colonia.getClaveMunicipio());
 
-    Ciudad ciudad = ciudadService.findByNombreAndEstadoId(colonia.getCiudad().getNombre(), estado.getId());
+    Ciudad ciudad = ciudadService.findFirstByNombreAndEstadoId(colonia.getCiudad().getNombre(), estado.getId());
     if (ciudad == null) {
       colonia.getCiudad().setEstado(estado);
       ciudad = ciudadService.guardar(colonia.getCiudad());
       colonia.setCiudad(ciudad);
-      System.out.println("******************************");
-      System.out.println(ciudad);
-      System.out.println("******************************");
     } else {
-      System.out.println("REUTILIZANDO");
       colonia.setCiudad(ciudad);
     }
 
-    Municipio municipio = municipioService.findByInegiClave(colonia.getMunicipio().getInegiClave());
+    Municipio municipio = municipioService.findFirstByNombreAndEstadoId(colonia.getMunicipio().getNombre(), estado.getId());
     if (municipio == null) {
       colonia.getMunicipio().setEstado(estado);
       municipio = municipioService.guardar( colonia.getMunicipio() );
       colonia.setMunicipio(municipio);
-      System.out.println("******************************");
-      System.out.println(municipio);
-      System.out.println("******************************");
     } else {
-      System.out.println("REUTILIZANDO");
       colonia.setMunicipio(municipio);
     }
 
@@ -133,11 +120,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     if (zonaTipo == null) {
       zonaTipo = zonaTipoService.guardar(colonia.getZonaTipo());
       colonia.setZonaTipo(zonaTipo);
-      System.out.println("******************************");
-      System.out.println(zonaTipo);
-      System.out.println("******************************");
     } else {
-      System.out.println("REUTILIZANDO");
       colonia.setZonaTipo(zonaTipo);
     }
     guardar(colonia);

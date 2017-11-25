@@ -37,7 +37,7 @@ public class CiudadService  implements ServiceGeneric<Ciudad, Integer> {
     }
 
     @Transactional
-    public Ciudad findByNombreAndEstadoId(String nombre, Integer estadoId) {
+    public Ciudad findFirstByNombreAndEstadoId(String nombre, Integer estadoId) {
         return ciudadRepository.findFirstByNombreAndEstadoId(nombre, estadoId);
     }
 }

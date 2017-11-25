@@ -9,7 +9,8 @@ services :
         - "80:80"
   db:
     image: mysql:5.7
-
+    volumes:
+           - db-data:/var/lib/mysql/data
     ports:
       - "3306:3306"
 
@@ -24,3 +25,6 @@ services :
       - web
       - db
     image: sepomex
+
+volumes:
+  db-data:

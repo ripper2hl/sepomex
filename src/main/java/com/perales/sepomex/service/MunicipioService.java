@@ -2,7 +2,6 @@ package com.perales.sepomex.service;
 
 import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.Municipio;
-import com.perales.sepomex.repository.EstadoRepository;
 import com.perales.sepomex.repository.MunicipioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +37,7 @@ public class MunicipioService implements ServiceGeneric<Municipio, Integer> {
     }
 
     @Transactional
-    public Municipio findByInegiClave(String inegiClave) {
-        return municipioRepository.findFirstByInegiClave(inegiClave);
+    public Municipio findFirstByNombreAndEstadoId(String nombre, Integer estadoId) {
+        return municipioRepository.findFirstByNombreAndEstadoId(nombre,estadoId);
     }
 }

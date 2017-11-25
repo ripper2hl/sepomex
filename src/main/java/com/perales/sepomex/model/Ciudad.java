@@ -6,19 +6,21 @@ import javax.persistence.*;
 import java.util.List;
 
 @Data
-@Entity
+@Entity(name = "ciudad")
 public class Ciudad {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
+
+    @Column(name = "nombre")
     private String nombre;
-    private String clave;
 
     @ManyToOne
     private Estado estado;
 
-    @OneToMany
+    @OneToMany(mappedBy = "ciudad")
     private List<Colonia> colonias;
 
     public Ciudad() {

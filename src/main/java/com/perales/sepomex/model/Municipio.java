@@ -5,20 +5,23 @@ import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
 
-
 @Data
-@Entity
+@Entity(name = "municipio")
 public class Municipio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
+
+    @Column(name = "nombre")
     private String nombre;
-    private String inegiClave;
+
+    @Column(name = "identificador_municipal")
     private String identificadorMunicipal;
 
     @ManyToOne
     private Estado estado;
-    @OneToMany
+    @OneToMany(mappedBy = "municipio")
     private List<Colonia> colonias;
 
     public Municipio() {
