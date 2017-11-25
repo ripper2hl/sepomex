@@ -20,7 +20,9 @@ public class Municipio {
     private String identificadorMunicipal;
 
     @ManyToOne
+    @Column(name = "estado_id")
     private Estado estado;
+
     @OneToMany(mappedBy = "municipio")
     private List<Colonia> colonias;
 

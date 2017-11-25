@@ -37,18 +37,23 @@ public class Colonia {
     private String codigoPostalAdministracionAsentamientoOficina;
 
     @ManyToOne
+    @Column(name = "asentamiento_tipo_id")
     private AsentamientoTipo asentamientoTipo;
 
     @ManyToOne
+    @Column(name = "municipio_id")
     private Municipio municipio;
 
     @ManyToOne
+    @Column(name = "estado_id")
     private Estado estado;
 
     @ManyToOne
+    @Column(name = "ciudad_id")
     private Ciudad ciudad;
 
     @ManyToOne
+    @Column(name = "zona_tipo_id")
     private ZonaTipo zonaTipo;
 
     public Colonia() {
