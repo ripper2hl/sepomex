@@ -20,7 +20,7 @@ public class Municipio {
     private String identificadorMunicipal;
 
     @ManyToOne
-    @Column(name = "estado_id")
+    @JoinColumn(name = "estado_id")
     private Estado estado;
 
     @OneToMany(mappedBy = "municipio")

@@ -49,19 +49,31 @@ public class Parser {
   }
 
   public Colonia convertirListaColonia(List<String> lista) {
+
+    CodigoPostal codigoPostal = new CodigoPostal();
+    CodigoPostal codigoPostalAdministracionAsentamiento = new CodigoPostal();
+    CodigoPostal codigoPostalAdministracionAsentamientoOficina = new CodigoPostal();
+    InegiClaveCiudad inegiClaveCiudad = new InegiClaveCiudad();
+    InegiClaveMunicipio inegiClaveMunicipio = new InegiClaveMunicipio();
     Colonia colonia = new Colonia();
     Municipio municipio = new Municipio();
     Estado estado = new Estado();
     ZonaTipo zonaTipo = new ZonaTipo();
 
-    colonia.setNombre(lista.get(ASENTAMIENTO_NOMBRE_POSICION));
-    colonia.setCodigoPostal(lista.get(CODIGO_POSTAL_POSICION));
-    colonia.setCodigoPostalAdministracionAsentamiento(lista.get(CODIGO_POSTAL_ADMINISTRACION_ASENTAMIENTO_POSICION));
-    colonia.setCodigoPostalAdministracionAsentamientoOficina(
-        lista.get(CODIGO_POSTAL_ADMINISTRACION_ASENTAMIENTO_OFICINA_POSICION));
+    codigoPostal.setNombre( lista.get( CODIGO_POSTAL_POSICION ) );
+    codigoPostalAdministracionAsentamiento.setNombre( lista.get(CODIGO_POSTAL_ADMINISTRACION_ASENTAMIENTO_POSICION) );
+    codigoPostalAdministracionAsentamientoOficina.setNombre( lista.get(CODIGO_POSTAL_ADMINISTRACION_ASENTAMIENTO_OFICINA_POSICION) );
 
-    colonia.setClaveCiudad(lista.get(CIUDAD_CLAVE_POSICION));
-    colonia.setClaveMunicipio(lista.get(MUNICIPIO_CLAVE_INEGI_POSICION));
+    colonia.setNombre(lista.get(ASENTAMIENTO_NOMBRE_POSICION));
+    colonia.setCodigoPostal(codigoPostal);
+    colonia.setCodigoPostalAdministracionAsentamiento( codigoPostalAdministracionAsentamiento );
+    colonia.setCodigoPostalAdministracionAsentamientoOficina( codigoPostalAdministracionAsentamientoOficina );
+
+    inegiClaveCiudad.setNombre(lista.get(CIUDAD_CLAVE_POSICION));
+    colonia.setInegiClaveCiudad(inegiClaveCiudad);
+
+    inegiClaveMunicipio.setNombre( lista.get(MUNICIPIO_CLAVE_INEGI_POSICION) );
+    colonia.setInegiClaveMunicipio( inegiClaveMunicipio );
 
     colonia.setAsentamientoTipo(obtenerAsentamientoTipo(lista));
     colonia.setCiudad(obtenerCiudad(lista));

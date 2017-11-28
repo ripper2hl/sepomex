@@ -21,39 +21,44 @@ public class Colonia {
     @Column(name = "nombre")
     private String nombre;
 
-    @Column(name = "codigo_postal")
-    private String codigoPostal;
-
-    @Column(name = "clave_ciudad")
-    private String claveCiudad;
-
-    @Column(name = "clave_municipio")
-    private String claveMunicipio;
-
-    @Column(name = "codigo_postal_administracion_asentamiento")
-    private String codigoPostalAdministracionAsentamiento;
-
-    @Column(name = "codigo_postal_administracion_asentamiento_oficina")
-    private String codigoPostalAdministracionAsentamientoOficina;
+    @ManyToOne
+    @JoinColumn(name = "inegi_clave_ciudad_id")
+    private InegiClaveCiudad inegiClaveCiudad;
 
     @ManyToOne
-    @Column(name = "asentamiento_tipo_id")
+    @JoinColumn(name = "inegi_clave_municipio_id")
+    private InegiClaveMunicipio inegiClaveMunicipio;
+
+    @ManyToOne
+    @JoinColumn(name = "codigo_postal_id")
+    private CodigoPostal codigoPostal;
+
+    @ManyToOne
+    @JoinColumn(name = "codigo_postal_administracion_asentamiento_id")
+    private CodigoPostal codigoPostalAdministracionAsentamiento;
+
+    @ManyToOne
+    @JoinColumn(name = "codigo_postal_administracion_asentamiento_oficina_id")
+    private CodigoPostal codigoPostalAdministracionAsentamientoOficina;
+
+    @ManyToOne
+    @JoinColumn(name = "asentamiento_tipo_id")
     private AsentamientoTipo asentamientoTipo;
 
     @ManyToOne
-    @Column(name = "municipio_id")
+    @JoinColumn(name = "municipio_id")
     private Municipio municipio;
 
     @ManyToOne
-    @Column(name = "estado_id")
+    @JoinColumn(name = "estado_id")
     private Estado estado;
 
     @ManyToOne
-    @Column(name = "ciudad_id")
+    @JoinColumn(name = "ciudad_id")
     private Ciudad ciudad;
 
     @ManyToOne
-    @Column(name = "zona_tipo_id")
+    @JoinColumn(name = "zona_tipo_id")
     private ZonaTipo zonaTipo;
 
     public Colonia() {
