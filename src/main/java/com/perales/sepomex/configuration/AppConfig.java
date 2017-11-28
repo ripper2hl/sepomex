@@ -51,7 +51,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {
         hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-        hibernateJpaVendorAdapter.setShowSql(false);
+        hibernateJpaVendorAdapter.setShowSql( false );
         hibernateJpaVendorAdapter.setGenerateDdl(true);
         hibernateJpaVendorAdapter.setDatabase(Database.MYSQL);
         return hibernateJpaVendorAdapter;
@@ -67,6 +67,12 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.hbm2ddl.auto", "create-drop");
+        properties.put("hibernate.jdbc.batch_size", "1000");
+        properties.put("hibernate.jdbc.batch_versioned_data", "true");
+        properties.put("hibernate.order_inserts", "true");
+        properties.put("hibernate.order_updates", "true");
+        properties.put("hibernate.cache.use_second_level_cache", "false");
+        properties.put("hibernate.connection.autocommit", "false");
         return properties;
     }
 }

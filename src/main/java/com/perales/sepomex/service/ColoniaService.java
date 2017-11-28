@@ -69,6 +69,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     return null;
   }
 
+  @Transactional
   public Boolean cargaMasiva() throws IOException {
     Parser parser = new Parser();
     List<String> strings = Files.readAllLines(Paths.get(FILE_NAME), Charset.forName("UTF-8"));
@@ -79,7 +80,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
       if (list.size() == POSICIONES_MAXIMAS_SEPARADOR) {
         Colonia colonia = parser.convertirListaColonia(list);
         revisarColonia(colonia);
-        System.out.println(colonia);
+        System.out.println(contador);
       }
     }
     System.out.println(contador);

@@ -5,7 +5,7 @@ batch
 /subsystem=datasources/jdbc-driver=mysql:add(driver-name=mysql,driver-module-name=com.mysql.jdbc,driver-xa-datasource-class-name=com.mysql.jdbc.jdbc2.optional.MysqlXADataSource)
 
 # Add the datasource
-data-source add --name=sepomex --driver-name=mysql --jndi-name=java:jboss/datasources/sepomex --connection-url=jdbc:mysql://db:3306/sepomex?useSSL=false --user-name=sepomex --password=sepomex --use-ccm=false --max-pool-size=25 --blocking-timeout-wait-millis=10000 --enabled=true
+data-source add --name=sepomex --driver-name=mysql --jndi-name=java:jboss/datasources/sepomex --connection-url=jdbc:mysql://db:3306/sepomex?useSSL=false&createDatabaseIfNotExist=true --user-name=sepomex --password=sepomex --use-ccm=false --max-pool-size=25 --blocking-timeout-wait-millis=10000 --enabled=true
 
 # Execute the batch
 run-batch
