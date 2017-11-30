@@ -1,5 +1,6 @@
 package com.perales.sepomex.configuration;
 
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,7 @@ import java.util.Properties;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableJpaRepositories( basePackages = { "com.perales.sepomex.repository" })
 @ComponentScan("com.perales.sepomex")
+@EnableBatchProcessing
 public class AppConfig extends WebMvcConfigurerAdapter {
 
     private LocalContainerEntityManagerFactoryBean emf;

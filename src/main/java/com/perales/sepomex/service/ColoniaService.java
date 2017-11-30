@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
   private static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
 
   public Colonia buscarPorId(Integer id) {
-    return coloniaRepository.getOne(id);
+      return coloniaRepository.getOne(id);
   }
 
   public List<Colonia> buscarTodos(int page, int size) {
@@ -69,19 +70,21 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     return null;
   }
 
-  @Transactional
   public Boolean cargaMasiva() throws IOException {
     Parser parser = new Parser();
     List<String> strings = Files.readAllLines(Paths.get(FILE_NAME), Charset.forName("UTF-8"));
     Integer contador = 0;
+    List<Colonia> colonias = new ArrayList<>(strings.size());
     for (String s : strings) {
       contador++;
       List<String> list = Arrays.asList(s.split("\\|"));
       if (list.size() == POSICIONES_MAXIMAS_SEPARADOR) {
         Colonia colonia = parser.convertirListaColonia(list);
-        revisarColonia(colonia);
-        System.out.println(contador);
+        colonias.add(colonia);
       }
+    }
+    for(Colonia colonia : colonias){
+      revisarColonia(colonia);
     }
     System.out.println(contador);
     return true;
