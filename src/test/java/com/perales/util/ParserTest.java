@@ -13,7 +13,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
 @RunWith(SpringRunner.class)
@@ -38,18 +38,16 @@ public class ParserTest extends TestCase{
     
     @Test
     public void convertirListaColonia() throws IOException {
-        Integer count = 0;
-        for (String line; (line = br.readLine()) != null;) {
-            List<String> list = Arrays.asList(line.split("\\|"));
-            if( list.size() == 1){
-                continue;
-            }
-            Colonia colonia = parser.convertirListaColonia(list);
-            assertNotNull("Deberia tener una colonia",colonia);
-            count++;
-        }
-        
-        assertTrue("Deberia ser mayor o igual", count >= FIRST_NUMBER_OF_ITEMS );
+        AtomicInteger count = new AtomicInteger();
+        br.lines().parallel()
+                .map( line -> Arrays.asList(line.split("\\|")) )
+                .filter( list -> !list.get(0).contains(TEXT_FOR_DETECT_FIRST_LINE) )
+                .forEach( list -> {
+                    Colonia colonia = parser.convertirListaColonia(list);
+                    assertNotNull("Deberia tener una colonia",colonia);
+                    count.incrementAndGet();
+                });
+        assertTrue("Deberia ser mayor o igual", count.get() >= FIRST_NUMBER_OF_ITEMS );
         logger.info(count.toString());
     }
 
