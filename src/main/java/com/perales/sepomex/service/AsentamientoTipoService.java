@@ -6,7 +6,6 @@ import com.perales.sepomex.repository.AsentamientoTipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -23,7 +22,6 @@ public class AsentamientoTipoService implements ServiceGeneric<AsentamientoTipo,
         return null;
     }
 
-    @Transactional
     public AsentamientoTipo guardar(AsentamientoTipo entity) {
         return asentamientoTipoRepository.save(entity);
     }
@@ -36,7 +34,6 @@ public class AsentamientoTipoService implements ServiceGeneric<AsentamientoTipo,
         return null;
     }
 
-    @Transactional
     public AsentamientoTipo findBySepomexClave(String sepomexClave) {
         return asentamientoTipoRepository.findFirstBySepomexClave(sepomexClave);
     }

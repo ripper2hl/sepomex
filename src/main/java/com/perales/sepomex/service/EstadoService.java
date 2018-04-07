@@ -6,7 +6,6 @@ import com.perales.sepomex.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -23,7 +22,6 @@ public class EstadoService implements ServiceGeneric<Estado, Integer> {
         return null;
     }
 
-    @Transactional
     public Estado guardar(Estado entity) {
         return estadoRepository.save(entity);
     }
@@ -36,7 +34,6 @@ public class EstadoService implements ServiceGeneric<Estado, Integer> {
         return null;
     }
 
-    @Transactional
     public Estado findByInegiClave(String inegiClave) {
         return estadoRepository.findFirstByInegiClave(inegiClave);
     }

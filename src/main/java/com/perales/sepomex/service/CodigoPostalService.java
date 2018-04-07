@@ -6,7 +6,6 @@ import com.perales.sepomex.repository.CodigoPostalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -23,7 +22,6 @@ public class CodigoPostalService implements ServiceGeneric<CodigoPostal, Integer
         return null;
     }
 
-    @Transactional
     public CodigoPostal guardar(CodigoPostal entity) {
         return codigoPostalRepository.save(entity);
     }
@@ -36,7 +34,6 @@ public class CodigoPostalService implements ServiceGeneric<CodigoPostal, Integer
         return null;
     }
 
-    @Transactional
     public CodigoPostal findByNombre(String nombre) {
         return codigoPostalRepository.findFirstByNombre(nombre);
     }

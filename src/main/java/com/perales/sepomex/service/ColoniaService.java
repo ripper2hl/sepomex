@@ -7,7 +7,8 @@ import com.perales.util.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Transactional
 @Service
 public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
 
@@ -46,6 +46,9 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
 
   @Autowired
   private InegiClaveMunicipioService inegiClaveMunicipioService;
+
+    @Autowired
+    private EntityManagerFactory emf;
 
   private static final String FILE_NAME = "/tmp/sepomex.txt";
   private static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
@@ -83,10 +86,23 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
         colonias.add(colonia);
       }
     }
+
+    EntityManager entityManager = emf.createEntityManager();
+    entityManager.getTransaction().begin();
+      System.out.println("Comenzando transaccion");
+    int contadorTransacciones = 0;
     for(Colonia colonia : colonias){
       revisarColonia(colonia);
+      contadorTransacciones++;
+      System.out.println(contadorTransacciones);
+      if(contadorTransacciones == 5000){
+          System.out.println("Cerrando transaccion");
+        entityManager.getTransaction().commit();
+          System.out.println("Comenzando transaccion");
+        entityManager.getTransaction().begin();
+      }
     }
-    System.out.println(contador);
+    entityManager.getTransaction().commit();
     return true;
   }
 

@@ -6,7 +6,6 @@ import com.perales.sepomex.repository.ZonaTipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -23,7 +22,6 @@ public class ZonaTipoService implements ServiceGeneric<ZonaTipo, Integer> {
         return null;
     }
 
-    @Transactional
     public ZonaTipo guardar(ZonaTipo entity) {
         return zonaTipoRepository.save(entity);
     }
@@ -36,7 +34,6 @@ public class ZonaTipoService implements ServiceGeneric<ZonaTipo, Integer> {
         return null;
     }
 
-    @Transactional
     public ZonaTipo findByNombre(String nombre) {
         return zonaTipoRepository.findFirstByNombre(nombre);
     }

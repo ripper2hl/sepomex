@@ -6,7 +6,6 @@ import com.perales.sepomex.repository.CiudadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -23,7 +22,6 @@ public class CiudadService  implements ServiceGeneric<Ciudad, Integer> {
         return null;
     }
 
-    @Transactional
     public Ciudad guardar(Ciudad entity) {
         return ciudadRepository.save(entity);
     }
@@ -36,7 +34,6 @@ public class CiudadService  implements ServiceGeneric<Ciudad, Integer> {
         return null;
     }
 
-    @Transactional
     public Ciudad findFirstByNombreAndEstadoId(String nombre, Integer estadoId) {
         return ciudadRepository.findFirstByNombreAndEstadoId(nombre, estadoId);
     }

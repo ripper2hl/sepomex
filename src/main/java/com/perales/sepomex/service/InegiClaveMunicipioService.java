@@ -6,7 +6,6 @@ import com.perales.sepomex.repository.InegiClaveMunicipioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -23,7 +22,6 @@ public class InegiClaveMunicipioService implements ServiceGeneric<InegiClaveMuni
         return null;
     }
 
-    @Transactional
     public InegiClaveMunicipio guardar(InegiClaveMunicipio entity) {
         return inegiClaveMunicipioRepository.save(entity);
     }
@@ -36,7 +34,6 @@ public class InegiClaveMunicipioService implements ServiceGeneric<InegiClaveMuni
         return null;
     }
 
-    @Transactional
     public InegiClaveMunicipio findFirstByNombre(String nombre) {
         return inegiClaveMunicipioRepository.findFirstByNombre(nombre);
     }
