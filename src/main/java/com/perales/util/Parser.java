@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
  */
 @Component
 public class Parser {
-
     private final Logger logger = Logger.getGlobal();
 
     private static final int CODIGO_POSTAL_POSICION = 0;
@@ -36,6 +35,7 @@ public class Parser {
     public static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
     
     public static final String TEXT_FOR_DETECT_FIRST_LINE = "es elaborado por Correos de";
+    public static final String TEXT_FOR_DETECT_FIELD_DESCRIPTION = "d_codigo";
 
     public Colonia convertirListaColonia(List<String> lista) {
         Colonia colonia = null;
@@ -117,8 +117,9 @@ public class Parser {
             try(FileOutputStream fos = new FileOutputStream( archivoParseadoNombre, true ) ){
                 try(ObjectOutputStream oos = new ObjectOutputStream( fos ) ){
                     List<Colonia> colonias = br.lines().parallel()
+                            .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
+                            .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION) )
                             .map( line -> Arrays.asList(line.split("\\|")) )
-                            .filter( list -> !list.get(0).contains(TEXT_FOR_DETECT_FIRST_LINE) )
                             .map( list -> {
                                 Colonia colonia = convertirListaColonia(list);
                                 return colonia;
