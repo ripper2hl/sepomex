@@ -1,4 +1,4 @@
-package com.perales.util;
+package com.perales.sepomex.util;
 
 import com.perales.sepomex.model.*;
 import org.springframework.stereotype.Component;

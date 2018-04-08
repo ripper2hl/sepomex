@@ -1,5 +1,6 @@
-package com.perales.util;
+package com.perales.sepomex.util;
 
+import com.perales.sepomex.configuration.AppTestConfig;
 import com.perales.sepomex.model.*;
 import junit.framework.TestCase;
 import org.junit.Before;
@@ -8,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.*;
 import java.util.Arrays;
@@ -17,7 +19,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = Parser.class)
+@WebAppConfiguration
+@ContextConfiguration(classes = AppTestConfig.class)
 public class ParserTest extends TestCase{
 
     private final Logger logger = Logger.getGlobal();
