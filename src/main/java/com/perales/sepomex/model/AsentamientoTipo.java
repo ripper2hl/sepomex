@@ -4,11 +4,12 @@ package com.perales.sepomex.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Entity(name = "asentamiento_tipo")
-public class AsentamientoTipo {
+public class AsentamientoTipo implements Serializable {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)

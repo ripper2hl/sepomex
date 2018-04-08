@@ -5,13 +5,14 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Data
 @EqualsAndHashCode(exclude = {"asentamientoTipo","municipio", "estado", "ciudad", "zonaTipo"})
 @ToString(exclude = {"asentamientoTipo","municipio", "estado", "ciudad", "zonaTipo"})
 @Entity(name = "colonia")
-public class Colonia {
+public class Colonia implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

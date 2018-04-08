@@ -5,11 +5,12 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Entity(name = "codigo_postal")
-public class CodigoPostal {
+public class CodigoPostal implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

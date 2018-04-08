@@ -9,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Parser.class)
@@ -24,7 +24,6 @@ public class ParserTest extends TestCase{
 
     private static final String FILE_NAME = "sepomex.txt";
     private static final int FIRST_NUMBER_OF_ITEMS= 145251;
-    private static final String TEXT_FOR_DETECT_FIRST_LINE = "es elaborado por Correos de";
     BufferedReader br = null;
 
     @Autowired
@@ -41,7 +40,7 @@ public class ParserTest extends TestCase{
         AtomicInteger count = new AtomicInteger();
         br.lines().parallel()
                 .map( line -> Arrays.asList(line.split("\\|")) )
-                .filter( list -> !list.get(0).contains(TEXT_FOR_DETECT_FIRST_LINE) )
+                .filter( list -> !list.get(0).contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
                 .forEach( list -> {
                     Colonia colonia = parser.convertirListaColonia(list);
                     assertNotNull("Deberia tener una colonia",colonia);
@@ -55,7 +54,7 @@ public class ParserTest extends TestCase{
     public void obtenerAsentamientoTipo() {
         br.lines().parallel()
                 .map( line -> Arrays.asList(line.split("\\|")) )
-                .filter( list -> !list.get(0).contains(TEXT_FOR_DETECT_FIRST_LINE) )
+                .filter( list -> !list.get(0).contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
                 .forEach( list -> {
                     AsentamientoTipo asentamientoTipo = parser.obtenerAsentamientoTipo(list);
                     assertNotNull("Deberia obtener un tipo de asentamineto", asentamientoTipo);
@@ -66,7 +65,7 @@ public class ParserTest extends TestCase{
     public void obtenerCiudad() {
         br.lines().parallel()
                 .map( line -> Arrays.asList(line.split("\\|")) )
-                .filter( list -> !list.get(0).contains(TEXT_FOR_DETECT_FIRST_LINE) )
+                .filter( list -> !list.get(0).contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
                 .forEach( list -> {
                     Ciudad ciudad = parser.obtenerCiudad(list);
                     assertNotNull("Deberia obtener una ciudad", ciudad);
@@ -78,7 +77,7 @@ public class ParserTest extends TestCase{
     public void obtenerMunicipio() {
         br.lines().parallel()
                 .map( line -> Arrays.asList(line.split("\\|")) )
-                .filter( list -> !list.get(0).contains(TEXT_FOR_DETECT_FIRST_LINE) )
+                .filter( list -> !list.get(0).contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
                 .forEach( list -> {
                     Municipio municipio = parser.obtenerMunicipio(list);
                     assertNotNull("Deberia obtener un municipio", municipio);
@@ -90,7 +89,7 @@ public class ParserTest extends TestCase{
     public void obtenerEstado() {
         br.lines().parallel()
                 .map( line -> Arrays.asList(line.split("\\|")) )
-                .filter( list -> !list.get(0).contains(TEXT_FOR_DETECT_FIRST_LINE) )
+                .filter( list -> !list.get(0).contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
                 .forEach( list -> {
                     Estado estado = parser.obtenerEstado(list);
                     assertNotNull("Deberia obtener un estado", estado);
@@ -102,11 +101,34 @@ public class ParserTest extends TestCase{
     public void obtenerZonaTipo() {
         br.lines().parallel()
                 .map( line -> Arrays.asList(line.split("\\|")) )
-                .filter( list -> !list.get(0).contains(TEXT_FOR_DETECT_FIRST_LINE) )
+                .filter( list -> !list.get(0).contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
                 .forEach( list -> {
                     ZonaTipo zonaTipo = parser.obtenerZonaTipo(list);
                     assertNotNull("Deberia obtener un tipo de zona", zonaTipo);
                     assertNotNull("El tipo de zona deberia tener un nombre", zonaTipo.getNombre());
                 });
+    }
+    
+    @Test
+    public void guardarArchivoEntidadesParseadas() throws IOException, ClassNotFoundException {
+        String archivoSepomexNombre = "src/test/resources/" + FILE_NAME;
+        String archivoParseadoNombre = "/home/perales/sepomex-parseado.ser";
+        parser.guardarArchivoEntidadesParseadas(archivoSepomexNombre, archivoParseadoNombre);
+        File archivoParseadoComprobacion = new File(archivoParseadoNombre);
+        assertTrue("Deberia existir el archivo parseado", archivoParseadoComprobacion.exists());
+        FileInputStream fileInputStream = new FileInputStream(archivoParseadoNombre);
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        List<Colonia> colonias = (List<Colonia>) objectInputStream.readObject();
+        List<Colonia> coloniasComparar = br.lines().parallel()
+                .map( line -> Arrays.asList(line.split("\\|")) )
+                .filter( list -> !list.get(0).contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
+                .map( list -> {
+                    Colonia colonia = parser.convertirListaColonia(list);
+                    return colonia;
+                }).collect( Collectors.toList() );
+        for(int i = 0; i < colonias.size(); i++){
+            assertEquals("Deberian ser la misma colonia", coloniasComparar.get(i), colonias.get(i));
+        }
+        archivoParseadoComprobacion.delete();
     }
 }

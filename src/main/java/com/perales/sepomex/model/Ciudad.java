@@ -3,11 +3,12 @@ package com.perales.sepomex.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @Entity(name = "ciudad")
-public class Ciudad {
+public class Ciudad implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

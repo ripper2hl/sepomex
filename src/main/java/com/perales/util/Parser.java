@@ -3,8 +3,11 @@ package com.perales.util;
 import com.perales.sepomex.model.*;
 import org.springframework.stereotype.Component;
 
+import java.io.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * Created by perales on 21/04/17.
@@ -31,6 +34,8 @@ public class Parser {
     private static final int CIUDAD_CLAVE_POSICION = 14;
 
     public static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
+    
+    public static final String TEXT_FOR_DETECT_FIRST_LINE = "es elaborado por Correos de";
 
     public Colonia convertirListaColonia(List<String> lista) {
         Colonia colonia = null;
@@ -105,5 +110,29 @@ public class Parser {
         ZonaTipo zonaTipo = new ZonaTipo();
         zonaTipo.setNombre(lista.get(ZONA_UBICACION_ASENTAMIENTO_POSICION));
         return zonaTipo;
+    }
+    
+    public void guardarArchivoEntidadesParseadas(String archivoSepomexNombre, String archivoParseadoNombre) throws FileNotFoundException {
+        try( BufferedReader br = new BufferedReader( new FileReader( archivoSepomexNombre ) ) ){
+            try(FileOutputStream fos = new FileOutputStream( archivoParseadoNombre, true ) ){
+                try(ObjectOutputStream oos = new ObjectOutputStream( fos ) ){
+                    List<Colonia> colonias = br.lines().parallel()
+                            .map( line -> Arrays.asList(line.split("\\|")) )
+                            .filter( list -> !list.get(0).contains(TEXT_FOR_DETECT_FIRST_LINE) )
+                            .map( list -> {
+                                Colonia colonia = convertirListaColonia(list);
+                                return colonia;
+                            }).collect(Collectors.toList());
+                    logger.info(colonias.toString());
+                    oos.writeObject(colonias);
+                }catch (IOException e){
+                    throw e;
+                }
+            }catch (IOException e){
+                throw e;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
