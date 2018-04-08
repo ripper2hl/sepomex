@@ -11,15 +11,19 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <servlet.version>3.0.1</servlet.version>
-        <spring.version>5.0.1.RELEASE</spring.version>
-        <spring.data.version>2.0.1.RELEASE</spring.data.version>
+        <servlet.version>4.0.0</servlet.version>
+        <spring.version>5.0.2.RELEASE</spring.version>
+        <spring.data.version>2.0.2.RELEASE</spring.data.version>
         <hibernate.version>5.2.12.Final</hibernate.version>
         <maven.war.plugin.version>3.0.0</maven.war.plugin.version>
-        <jackson.version>2.9.2</jackson.version>
+        <jackson.version>2.9.3</jackson.version>
         <mysql.jdbc.version>6.0.6</mysql.jdbc.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <spring.batch>3.0.6.RELEASE</spring.batch>
+        <spring.batch>4.0.0.RELEASE</spring.batch>
+        <lombok.version>1.16.18</lombok.version>
+        <logforj.version>2.10.0</logforj.version>
+        <jsonpath.version>2.4.0</jsonpath.version>
+        <maven.war.plugin.version>3.2.0</maven.war.plugin.version>
     </properties>
 
     <dependencies>
@@ -36,7 +40,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.16</version>
+            <version>${lombok.version}</version>
         </dependency>
 
         <dependency>
@@ -159,7 +163,7 @@
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
-            <version>2.2.0</version>
+            <version>${jsonpath.version}</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -222,12 +226,12 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.5</version>
+            <version>${logforj.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.5</version>
+            <version>${logforj.version}</version>
         </dependency>
         <!-- logs -->
 
@@ -243,14 +247,6 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
                 </configuration>
             </plugin>
             <plugin>
