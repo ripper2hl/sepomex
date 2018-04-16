@@ -26,7 +26,9 @@ import static org.hamcrest.core.IsNull.notNullValue;
 @WebAppConfiguration
 @ContextConfiguration(classes = AppTestConfig.class)
 public class ColoniaServiceTest {
-
+    
+    private static final String FILE_NAME = "sepomex.txt";
+    
     private MockMvc mockMvc;
     
     @Rule
@@ -52,7 +54,8 @@ public class ColoniaServiceTest {
 
     @Test
     public void cargaMasiva() throws Exception {
-        assertThat("Deberia obtener verdadero",true,  is(coloniaService.cargaMasiva())  );
+        String archivoSepomexNombre = "src/test/resources/" + FILE_NAME;
+        assertThat("Deberia obtener verdadero",true,  is(coloniaService.cargaMasiva(archivoSepomexNombre))  );
     }
 
     @Test

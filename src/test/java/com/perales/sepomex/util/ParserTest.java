@@ -26,7 +26,7 @@ public class ParserTest extends TestCase{
     private final Logger logger = Logger.getGlobal();
 
     private static final String FILE_NAME = "sepomex.txt";
-    private static final int FIRST_NUMBER_OF_ITEMS= 145250;
+    private static final int FIRST_NUMBER_OF_ITEMS= 73;
     BufferedReader br = null;
 
     @Autowired

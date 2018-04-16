@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.List;
 
 
@@ -21,12 +20,7 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
 
     @GetMapping("/")
     public Colonia buscarPorId(Integer id) {
-        try {
-            coloniaService.cargaMasiva();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return coloniaService.buscarPorId(id);
     }
 
     public List<Colonia> buscarTodos(int page, int size) {

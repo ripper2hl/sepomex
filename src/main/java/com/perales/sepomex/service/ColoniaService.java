@@ -1,5 +1,6 @@
 package com.perales.sepomex.service;
 
+import com.google.common.collect.Iterables;
 import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.*;
 import com.perales.sepomex.repository.ColoniaRepository;
@@ -10,18 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     
-    private static final String FILE_NAME = "/tmp/sepomex.txt";
     private static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
     @Autowired
     private ColoniaRepository coloniaRepository;
@@ -75,34 +74,26 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
         return colonia;
     }
     
-    public Boolean cargaMasiva() throws IOException {
-        List<String> strings = Files.readAllLines(Paths.get(FILE_NAME), Charset.forName("UTF-8"));
-        Integer contador = 0;
-        List<Colonia> colonias = new ArrayList<>(strings.size());
-        for (String s : strings) {
-            contador++;
-            List<String> list = Arrays.asList(s.split("\\|"));
-            if (list.size() == POSICIONES_MAXIMAS_SEPARADOR) {
-                Colonia colonia = parser.convertirListaColonia(list);
-                colonias.add(colonia);
-            }
-        }
-        EntityManager entityManager = emf.createEntityManager();
-        entityManager.getTransaction().begin();
-        System.out.println("Comenzando transaccion");
-        int contadorTransacciones = 0;
-        for (Colonia colonia : colonias) {
-            revisarColonia(colonia);
-            contadorTransacciones++;
-            System.out.println(contadorTransacciones);
-            if (contadorTransacciones == 5000) {
-                System.out.println("Cerrando transaccion");
-                entityManager.getTransaction().commit();
-                System.out.println("Comenzando transaccion");
+    public Boolean cargaMasiva(String fileName) throws IOException {
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            List<Colonia> colonias = br.lines().parallel()
+                    .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
+                    .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION) )
+                    .map( line -> Arrays.asList(line.split("\\|")) )
+                    .map( list -> {
+                        Colonia colonia = parser.convertirListaColonia(list);
+                        return colonia;
+                    }).collect( Collectors.toList() );
+    
+            Iterables.partition(colonias, 50000).forEach( coloniasBatch -> {
+                EntityManager entityManager = emf.createEntityManager();
                 entityManager.getTransaction().begin();
-            }
+                for(Colonia colonia : coloniasBatch){
+                    revisarColonia(colonia);
+                }
+                entityManager.getTransaction().commit();
+            });
         }
-        entityManager.getTransaction().commit();
         return true;
     }
     
@@ -127,11 +118,15 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
         }
         colonia.setCodigoPostalAdministracionAsentamientoOficina(codigoPostalAdministracionAsentamientoOficina);
         
-        InegiClaveCiudad inegiClaveCiudad = inegiClaveCiudadService.findFirstByNombre(colonia.getInegiClaveCiudad().getNombre());
-        if (inegiClaveCiudad == null) {
-            inegiClaveCiudad = inegiClaveCiudadService.guardar(colonia.getInegiClaveCiudad());
+        if(colonia.getInegiClaveCiudad() != null){
+            InegiClaveCiudad inegiClaveCiudad = inegiClaveCiudadService.findFirstByNombre(colonia.getInegiClaveCiudad().getNombre());
+            if (inegiClaveCiudad == null) {
+                inegiClaveCiudad = inegiClaveCiudadService.guardar(colonia.getInegiClaveCiudad());
+            }
+            colonia.setInegiClaveCiudad(inegiClaveCiudad);
         }
-        colonia.setInegiClaveCiudad(inegiClaveCiudad);
+
+
         
         InegiClaveMunicipio inegiClaveMunicipio = inegiClaveMunicipioService.findFirstByNombre(colonia.getInegiClaveMunicipio().getNombre());
         if (inegiClaveMunicipio == null) {
