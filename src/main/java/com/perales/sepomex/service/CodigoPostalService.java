@@ -4,9 +4,8 @@ import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.CodigoPostal;
 import com.perales.sepomex.repository.CodigoPostalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CodigoPostalService implements ServiceGeneric<CodigoPostal, Integer> {
@@ -18,7 +17,7 @@ public class CodigoPostalService implements ServiceGeneric<CodigoPostal, Integer
         return codigoPostalRepository.getOne(id);
     }
 
-    public List<CodigoPostal> buscarTodos(int page, int size) {
+    public Page<CodigoPostal> buscarTodos(int page, int size) {
         return null;
     }
 

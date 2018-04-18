@@ -4,9 +4,8 @@ import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.Estado;
 import com.perales.sepomex.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class EstadoService implements ServiceGeneric<Estado, Integer> {
@@ -18,7 +17,7 @@ public class EstadoService implements ServiceGeneric<Estado, Integer> {
         return null;
     }
 
-    public List<Estado> buscarTodos(int page, int size) {
+    public Page<Estado> buscarTodos(int page, int size) {
         return null;
     }
 

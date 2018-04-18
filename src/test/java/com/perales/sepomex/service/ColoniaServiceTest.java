@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -18,8 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 @RunWith(SpringRunner.class)
@@ -60,6 +60,15 @@ public class ColoniaServiceTest {
 
     @Test
     public void buscarTodos() {
+        Colonia colonia = new Colonia();
+        colonia.setNombre("Cañada blanca");
+        Colonia coloniaGuardada = coloniaService.guardar(colonia);
+        int page = 0;
+        int size = 20;
+        Page<Colonia> colonias = coloniaService.buscarTodos(page, size);
+        assertThat("Tener colonias igual o  menos de 20 colonias", colonias.getContent().size(), is(  lessThanOrEqualTo( size ) ) );
+        assertThat("Tener colonias", colonias.getContent().size(), is(  greaterThan( 0 ) ) );
+        coloniaService.borrar(coloniaGuardada.getId());
     }
 
     @Test

@@ -4,9 +4,8 @@ import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.ZonaTipo;
 import com.perales.sepomex.repository.ZonaTipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ZonaTipoService implements ServiceGeneric<ZonaTipo, Integer> {
@@ -18,7 +17,7 @@ public class ZonaTipoService implements ServiceGeneric<ZonaTipo, Integer> {
         return null;
     }
 
-    public List<ZonaTipo> buscarTodos(int page, int size) {
+    public Page<ZonaTipo> buscarTodos(int page, int size) {
         return null;
     }
 

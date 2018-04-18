@@ -26,7 +26,6 @@ public class ParserTest extends TestCase{
     private final Logger logger = Logger.getGlobal();
 
     private static final String FILE_NAME = "sepomex.txt";
-    private static final int FIRST_NUMBER_OF_ITEMS= 73;
     BufferedReader br = null;
 
     @Autowired
@@ -50,7 +49,6 @@ public class ParserTest extends TestCase{
                     assertNotNull("Deberia tener una colonia",colonia);
                     count.incrementAndGet();
                 });
-        assertTrue("Deberia ser mayor o igual", count.get() >= FIRST_NUMBER_OF_ITEMS );
         logger.info(count.toString());
     }
 

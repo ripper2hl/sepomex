@@ -4,9 +4,8 @@ import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.AsentamientoTipo;
 import com.perales.sepomex.repository.AsentamientoTipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AsentamientoTipoService implements ServiceGeneric<AsentamientoTipo, Integer> {
@@ -18,7 +17,7 @@ public class AsentamientoTipoService implements ServiceGeneric<AsentamientoTipo,
         return null;
     }
 
-    public List<AsentamientoTipo> buscarTodos(int page, int size) {
+    public Page<AsentamientoTipo> buscarTodos(int page, int size) {
         return null;
     }
 

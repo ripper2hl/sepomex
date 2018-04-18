@@ -6,6 +6,8 @@ import com.perales.sepomex.model.*;
 import com.perales.sepomex.repository.ColoniaRepository;
 import com.perales.sepomex.util.Parser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,8 +53,9 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     }
     
     @Transactional(readOnly = true)
-    public List<Colonia> buscarTodos(int page, int size) {
-        return coloniaRepository.findAll();
+    public Page<Colonia> buscarTodos(int page, int size) {
+        int firstResult = page * size;
+        return coloniaRepository.findAll( PageRequest.of(firstResult, size ) );
     }
     
     @Transactional
@@ -85,7 +88,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
                         return colonia;
                     }).collect( Collectors.toList() );
     
-            Iterables.partition(colonias, 50000).forEach( coloniasBatch -> {
+            Iterables.partition(colonias, 100000).forEach( coloniasBatch -> {
                 EntityManager entityManager = emf.createEntityManager();
                 entityManager.getTransaction().begin();
                 for(Colonia colonia : coloniasBatch){

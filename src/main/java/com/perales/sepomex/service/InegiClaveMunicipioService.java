@@ -4,9 +4,8 @@ import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.InegiClaveMunicipio;
 import com.perales.sepomex.repository.InegiClaveMunicipioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class InegiClaveMunicipioService implements ServiceGeneric<InegiClaveMunicipio, Integer> {
@@ -18,7 +17,7 @@ public class InegiClaveMunicipioService implements ServiceGeneric<InegiClaveMuni
         return null;
     }
 
-    public List<InegiClaveMunicipio> buscarTodos(int page, int size) {
+    public Page<InegiClaveMunicipio> buscarTodos(int page, int size) {
         return null;
     }
 
