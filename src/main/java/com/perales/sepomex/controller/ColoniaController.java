@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -37,5 +38,10 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
 
     public Colonia borrar(Integer id) {
         return null;
+    }
+    
+    @GetMapping("/carga")
+    public boolean cargaMasiva() throws IOException {
+        return coloniaService.cargaMasiva("/tmp/sepomex.txt");
     }
 }
