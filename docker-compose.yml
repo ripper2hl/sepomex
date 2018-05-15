@@ -10,7 +10,7 @@ services :
   db:
     image: mysql:5.7
     volumes:
-           - db-data:/var/lib/mysql/data
+           - db-data:/var/lib/mysql
     ports:
       - "3306:3306"
 
@@ -21,6 +21,8 @@ services :
            MYSQL_PASSWORD: sepomex
 
   app:
+    ports:
+      - "8080:8080"
     depends_on:
       - web
       - db
