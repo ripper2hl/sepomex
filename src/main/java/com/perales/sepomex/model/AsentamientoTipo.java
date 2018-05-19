@@ -20,12 +20,12 @@ public class AsentamientoTipo implements Serializable {
     
     @NotNull
     @NotBlank
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false)
     private String nombre;
     
     @NotNull
     @NotBlank
-    @Column(name = "sepomex_clave")
+    @Column(name = "sepomex_clave", nullable = false)
     private String sepomexClave;
     
     @NotNull

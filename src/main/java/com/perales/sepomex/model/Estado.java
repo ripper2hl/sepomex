@@ -18,12 +18,12 @@ public class Estado implements Serializable {
     
     @NotNull
     @NotBlank
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false)
     private String nombre;
     
     @NotNull
     @NotBlank
-    @Column(name = "inegi_clave")
+    @Column(name = "inegi_clave", nullable = false)
     private String inegiClave;
     
     @NotNull

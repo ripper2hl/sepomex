@@ -18,12 +18,12 @@ public class Municipio implements Serializable {
     
     @NotNull
     @NotBlank
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false)
     private String nombre;
     
     @NotNull
     @NotBlank
-    @Column(name = "identificador_municipal")
+    @Column(name = "identificador_municipal", nullable = false)
     private String identificadorMunicipal;
     
     @NotNull

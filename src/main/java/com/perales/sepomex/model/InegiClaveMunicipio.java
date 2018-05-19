@@ -19,7 +19,7 @@ public class InegiClaveMunicipio implements Serializable {
     
     @NotNull
     @NotBlank
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false)
     private String nombre;
     
     @NotNull
