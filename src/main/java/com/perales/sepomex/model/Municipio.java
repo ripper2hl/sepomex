@@ -23,6 +23,10 @@ public class Municipio implements Serializable {
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private Estado estado;
+    
+    @ManyToOne
+    @JoinColumn(name = "ciudad_id")
+    private Ciudad ciudad;
 
     @OneToMany(mappedBy = "municipio")
     private List<Colonia> colonias;

@@ -23,6 +23,9 @@ public class Ciudad implements Serializable {
 
     @OneToMany(mappedBy = "ciudad")
     private List<Colonia> colonias;
+    
+    @OneToMany(mappedBy = "ciudad")
+    private List<Municipio> municipios;
 
     public Ciudad() {
         super();
