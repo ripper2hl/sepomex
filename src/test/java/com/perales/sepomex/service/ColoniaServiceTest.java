@@ -47,7 +47,9 @@ public class ColoniaServiceTest {
 
     @Test
     public void buscarPorId() {
-        Colonia colonia = coloniaService.guardar(new Colonia());
+        Colonia coloniaGuardar = new Colonia();
+        coloniaGuardar.setNombre("Hola");
+        Colonia colonia = coloniaService.guardar(coloniaGuardar);
         Colonia coloniaEncontrada = coloniaService.buscarPorId(colonia.getId());
         assertThat("Deberian ser las mismas",colonia.getId() , is( coloniaEncontrada.getId() ) );
     }
