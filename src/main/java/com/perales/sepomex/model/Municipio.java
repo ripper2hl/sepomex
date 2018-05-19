@@ -3,6 +3,8 @@ package com.perales.sepomex.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,21 +15,32 @@ public class Municipio implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-
+    
+    @NotNull
+    @NotBlank
     @Column(name = "nombre")
     private String nombre;
-
+    
+    @NotNull
+    @NotBlank
     @Column(name = "identificador_municipal")
     private String identificadorMunicipal;
-
+    
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private Estado estado;
     
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "ciudad_id")
     private Ciudad ciudad;
-
+    
+    @NotNull
+    @OneToMany(mappedBy = "municipio")
+    private List<CodigoPostal> codigosPostales;
+    
+    @NotNull
     @OneToMany(mappedBy = "municipio")
     private List<Colonia> colonias;
 

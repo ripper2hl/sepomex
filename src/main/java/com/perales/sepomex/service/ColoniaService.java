@@ -172,7 +172,9 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
             colonia.setZonaTipo(zonaTipo);
         }
         colonia.setZonaTipo(zonaTipo);
-        
+        codigoPostal.setEstado(estado);
+        codigoPostal.setCiudad(ciudad);
+        codigoPostal.setMunicipio(municipio);
         guardar(colonia);
     }
     
