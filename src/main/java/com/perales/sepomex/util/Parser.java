@@ -113,7 +113,7 @@ public class Parser {
     }
     
     public void guardarArchivoEntidadesParseadas(String archivoSepomexNombre, String archivoParseadoNombre) throws FileNotFoundException {
-        try( BufferedReader br = new BufferedReader( new FileReader( archivoSepomexNombre ) ) ){
+        try (BufferedReader br = new BufferedReader( new InputStreamReader(new FileInputStream( archivoSepomexNombre ), "ISO-8859-1") )) {
             try(FileOutputStream fos = new FileOutputStream( archivoParseadoNombre, true ) ){
                 try(ObjectOutputStream oos = new ObjectOutputStream( fos ) ){
                     List<Colonia> colonias = br.lines().parallel()

@@ -14,14 +14,18 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
 public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
+    
+    private final Logger logger = Logger.getGlobal();
     
     private static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
     @Autowired
@@ -78,13 +82,14 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     }
     
     public Boolean cargaMasiva(String fileName) throws IOException {
-        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+        try (BufferedReader br = new BufferedReader( new InputStreamReader(new FileInputStream( fileName ), "ISO-8859-1") )) {
             List<Colonia> colonias = br.lines().parallel()
                     .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
                     .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION) )
                     .map( line -> Arrays.asList(line.split("\\|")) )
                     .map( list -> {
                         Colonia colonia = parser.convertirListaColonia(list);
+                        logger.info( colonia.toString() );
                         return colonia;
                     }).collect( Collectors.toList() );
     
@@ -128,8 +133,6 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
             }
             colonia.setInegiClaveCiudad(inegiClaveCiudad);
         }
-
-
         
         InegiClaveMunicipio inegiClaveMunicipio = inegiClaveMunicipioService.findFirstByNombre(colonia.getInegiClaveMunicipio().getNombre());
         if (inegiClaveMunicipio == null) {
@@ -148,7 +151,6 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
         if (estado == null) {
             estado = estadoService.guardar(colonia.getEstado());
             colonia.setEstado(estado);
-            System.out.println(estado);
         }
         colonia.setEstado(estado);
         
