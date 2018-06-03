@@ -1,4 +1,4 @@
-FROM jboss/wildfly
+FROM jboss/wildfly:13.0.0.Final
 MAINTAINER perales/sepomex
 USER root
 COPY sepomex.txt /tmp/sepomex.txt

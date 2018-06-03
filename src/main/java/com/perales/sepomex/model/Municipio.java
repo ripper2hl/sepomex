@@ -26,21 +26,17 @@ public class Municipio implements Serializable {
     @Column(name = "identificador_municipal", nullable = false)
     private String identificadorMunicipal;
     
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private Estado estado;
     
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "ciudad_id")
     private Ciudad ciudad;
     
-    @NotNull
     @OneToMany(mappedBy = "municipio")
     private List<CodigoPostal> codigosPostales;
     
-    @NotNull
     @OneToMany(mappedBy = "municipio")
     private List<Colonia> colonias;
 

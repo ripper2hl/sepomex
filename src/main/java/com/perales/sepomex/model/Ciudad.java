@@ -22,20 +22,16 @@ public class Ciudad implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
     
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private Estado estado;
     
-    @NotNull
     @OneToMany(mappedBy = "ciudad")
     private List<Colonia> colonias;
     
-    @NotNull
     @OneToMany(mappedBy = "ciudad")
     private List<Municipio> municipios;
     
-    @NotNull
     @OneToMany(mappedBy = "ciudad")
     private List<CodigoPostal> codigosPostales;
 

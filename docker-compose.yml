@@ -26,7 +26,7 @@ services :
     depends_on:
       - web
       - db
-    image: sepomex
+    image: sepomex:latest
 
     environment:
            JAVA_OPTS : -server -Xms2048m -Xmx6144m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true

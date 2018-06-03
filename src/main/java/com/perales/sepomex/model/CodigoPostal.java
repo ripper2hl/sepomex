@@ -24,30 +24,24 @@ public class CodigoPostal implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
     
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "municipio_id")
     private Municipio municipio;
     
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private Estado estado;
     
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "ciudad_id")
     private Ciudad ciudad;
     
-    @NotNull
     @OneToMany(mappedBy = "codigoPostal")
     private List<Colonia> colonias;
     
-    @NotNull
     @OneToMany(mappedBy = "codigoPostalAdministracionAsentamiento")
     private List<Colonia> coloniasCodigoPostalAdministracionAsentamiento;
     
-    @NotNull
     @OneToMany(mappedBy = "codigoPostalAdministracionAsentamientoOficina")
     private List<Colonia> coloniasCodigoPostalAdministracionAsentamientoOficina;
 

@@ -1,5 +1,9 @@
 package com.perales.sepomex.service;
 
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.DatabaseSetups;
 import com.perales.sepomex.configuration.AppTestConfig;
 import com.perales.sepomex.model.Colonia;
 import org.junit.Before;
@@ -10,7 +14,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -25,6 +31,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = AppTestConfig.class)
+@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,DbUnitTestExecutionListener.class })
 public class ColoniaServiceTest {
     
     private static final String FILE_NAME = "sepomex.txt";
@@ -46,12 +53,37 @@ public class ColoniaServiceTest {
     }
 
     @Test
+    @DatabaseSetups({
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/codigo-postal.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/asentamiento-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/estado.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/colonia.xml",
+                    type = DatabaseOperation.REFRESH)
+            
+    })
     public void buscarPorId() {
-        Colonia coloniaGuardar = new Colonia();
-        coloniaGuardar.setNombre("Hola");
-        Colonia colonia = coloniaService.guardar(coloniaGuardar);
-        Colonia coloniaEncontrada = coloniaService.buscarPorId(colonia.getId());
-        assertThat("Deberian ser las mismas",colonia.getId() , is( coloniaEncontrada.getId() ) );
+        int coloniaId = 1;
+        Colonia coloniaEncontrada = coloniaService.buscarPorId( coloniaId );
+        assertThat("Deberian ser las mismas", coloniaId , is( coloniaEncontrada.getId() ) );
     }
 
     @Test
@@ -94,13 +126,37 @@ public class ColoniaServiceTest {
     }
     
     @Test
+    @DatabaseSetups({
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/codigo-postal.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/asentamiento-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/estado.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/colonia.xml",
+                    type = DatabaseOperation.REFRESH)
+    
+    })
     public void borrar() {
-        Colonia colonia = new Colonia();
-        colonia.setNombre("Cañada blanca");
-        Colonia coloniaGuardada = coloniaService.guardar(colonia);
-        coloniaService.borrar( coloniaGuardada.getId() );
+        coloniaService.borrar( 1 );
         exception.expect(NoSuchElementException.class);
-        Colonia coloniaEncontrada = coloniaService.buscarPorId(coloniaGuardada.getId());
+        Colonia coloniaEncontrada = coloniaService.buscarPorId( 1 );
     }
 
 }

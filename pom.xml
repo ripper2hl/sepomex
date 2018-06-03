@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.perales</groupId>
-    <artifactId>sepomex</artifactId>
+    <artifactId>sepomex-api</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>10</java.version>
+        <java.version>1.8</java.version>
         <servlet.version>4.0.0</servlet.version>
         <spring.version>5.0.2.RELEASE</spring.version>
         <spring.data.version>2.0.2.RELEASE</spring.data.version>
@@ -21,18 +21,34 @@
         <mysql.jdbc.version>6.0.6</mysql.jdbc.version>
         <slf4j.version>1.7.25</slf4j.version>
         <spring.batch>4.0.0.RELEASE</spring.batch>
-        <lombok.version>1.16.20</lombok.version>
-        <logforj.version>2.10.0</logforj.version>
+        <lombok.version>1.16.22</lombok.version>
+        <logforj.version>2.5</logforj.version>
         <jsonpath.version>2.4.0</jsonpath.version>
         <maven.war.plugin.version>3.2.0</maven.war.plugin.version>
         <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
+        <dbunit.version>2.5.0</dbunit.version>
+        <dbunit.spring.version>1.2.0</dbunit.spring.version>
     </properties>
 
     <dependencies>
         <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>${dbunit.version}</version>
+            <type>jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.springtestdbunit</groupId>
+            <artifactId>spring-test-dbunit</artifactId>
+            <version>${dbunit.spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>2.3.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -252,8 +268,6 @@
             <version>${logforj.version}</version>
         </dependency>
         <!-- logs -->
-
-
     </dependencies>
 
     <build>

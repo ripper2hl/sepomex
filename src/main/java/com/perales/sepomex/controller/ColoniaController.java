@@ -5,6 +5,7 @@ import com.perales.sepomex.model.Colonia;
 import com.perales.sepomex.service.ColoniaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,8 +20,8 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
     @Autowired
     private ColoniaService coloniaService;
 
-    @GetMapping("/")
-    public Colonia buscarPorId(Integer id) {
+    @GetMapping("/{id}")
+    public Colonia buscarPorId(@PathVariable Integer id) {
         return coloniaService.buscarPorId(id);
     }
 

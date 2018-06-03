@@ -26,19 +26,15 @@ public class Estado implements Serializable {
     @Column(name = "inegi_clave", nullable = false)
     private String inegiClave;
     
-    @NotNull
     @OneToMany(mappedBy = "estado")
     private List<Ciudad> ciudades;
     
-    @NotNull
     @OneToMany(mappedBy = "estado")
     private List<Municipio> municipios;
     
-    @NotNull
     @OneToMany(mappedBy = "estado")
     private List<Colonia> colonias;
     
-    @NotNull
     @OneToMany(mappedBy = "estado")
     private List<CodigoPostal> codigosPostales;
 

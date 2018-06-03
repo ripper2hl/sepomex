@@ -22,7 +22,6 @@ public class ZonaTipo implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
     
-    @NotNull
     @OneToMany(mappedBy = "zonaTipo")
     private List<Colonia> colonias;
     public ZonaTipo() {

@@ -28,7 +28,6 @@ public class AsentamientoTipo implements Serializable {
     @Column(name = "sepomex_clave", nullable = false)
     private String sepomexClave;
     
-    @NotNull
     @OneToMany(mappedBy = "asentamientoTipo")
     private List<Colonia> colonias;
 
