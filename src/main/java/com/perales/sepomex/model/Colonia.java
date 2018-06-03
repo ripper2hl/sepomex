@@ -2,15 +2,15 @@ package com.perales.sepomex.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-
-
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(exclude = {"asentamientoTipo","municipio", "estado", "ciudad", "zonaTipo"})
 @ToString(exclude = {"asentamientoTipo","municipio", "estado", "ciudad", "zonaTipo"})
 @Entity(name = "colonia")
@@ -65,8 +65,4 @@ public class Colonia implements Serializable {
     @ManyToOne
     @JoinColumn(name = "zona_tipo_id")
     private ZonaTipo zonaTipo;
-
-    public Colonia() {
-        super();
-    }
 }

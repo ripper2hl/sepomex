@@ -1,6 +1,7 @@
 package com.perales.sepomex.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @Entity(name = "ciudad")
 public class Ciudad implements Serializable {
 
@@ -34,8 +36,4 @@ public class Ciudad implements Serializable {
     
     @OneToMany(mappedBy = "ciudad")
     private List<CodigoPostal> codigosPostales;
-
-    public Ciudad() {
-        super();
-    }
 }

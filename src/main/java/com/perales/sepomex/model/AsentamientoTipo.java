@@ -2,6 +2,7 @@ package com.perales.sepomex.model;
 
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -10,6 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @Entity(name = "asentamiento_tipo")
 public class AsentamientoTipo implements Serializable {
 
@@ -30,8 +32,4 @@ public class AsentamientoTipo implements Serializable {
     
     @OneToMany(mappedBy = "asentamientoTipo")
     private List<Colonia> colonias;
-
-    public AsentamientoTipo() {
-        super();
-    }
 }

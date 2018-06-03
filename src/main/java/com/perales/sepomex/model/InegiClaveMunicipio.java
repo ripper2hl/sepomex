@@ -1,6 +1,7 @@
 package com.perales.sepomex.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @Entity(name = "inegi_clave_municipio")
 public class InegiClaveMunicipio implements Serializable {
 
