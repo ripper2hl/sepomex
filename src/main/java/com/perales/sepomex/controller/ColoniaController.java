@@ -4,13 +4,10 @@ import com.perales.sepomex.contract.ControllerGeneric;
 import com.perales.sepomex.model.Colonia;
 import com.perales.sepomex.service.ColoniaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
 
 
 @RestController
@@ -24,21 +21,25 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
     public Colonia buscarPorId(@PathVariable Integer id) {
         return coloniaService.buscarPorId(id);
     }
-
-    public List<Colonia> buscarTodos(int page, int size) {
-        return null;
+    
+    @GetMapping("/")
+    public Page<Colonia> buscarTodos(@RequestParam int page, @RequestParam int size) {
+        return coloniaService.buscarTodos(page, size) ;
     }
 
-    public Colonia guardar(Colonia entity) {
-        return null;
+    @PostMapping
+    public Colonia guardar(@RequestBody Colonia entity) {
+        return coloniaService.guardar(entity);
     }
 
-    public Colonia actualizar(Colonia entity) {
-        return null;
+    @PutMapping("/")
+    public Colonia actualizar(@RequestBody Colonia entity) {
+        return coloniaService.actualizar(entity);
     }
 
+    @DeleteMapping("/")
     public Colonia borrar(Integer id) {
-        return null;
+        return coloniaService.borrar(id);
     }
     
     @GetMapping("/carga")

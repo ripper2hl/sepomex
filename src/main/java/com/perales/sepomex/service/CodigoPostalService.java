@@ -5,6 +5,7 @@ import com.perales.sepomex.model.CodigoPostal;
 import com.perales.sepomex.repository.CodigoPostalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +19,8 @@ public class CodigoPostalService implements ServiceGeneric<CodigoPostal, Integer
     }
 
     public Page<CodigoPostal> buscarTodos(int page, int size) {
-        return null;
+        int firstResult = page * size;
+        return codigoPostalRepository.findAll( PageRequest.of(firstResult, size ) );
     }
 
     public CodigoPostal guardar(CodigoPostal entity) {
@@ -26,11 +28,13 @@ public class CodigoPostalService implements ServiceGeneric<CodigoPostal, Integer
     }
 
     public CodigoPostal actualizar(CodigoPostal entity) {
-        return null;
+        return codigoPostalRepository.saveAndFlush(entity);
     }
 
     public CodigoPostal borrar(Integer id) {
-        return null;
+        CodigoPostal codigoPostal = codigoPostalRepository.findById(id).get();
+        codigoPostalRepository.delete(codigoPostal);
+        return codigoPostal;
     }
 
     public CodigoPostal findByNombre(String nombre) {

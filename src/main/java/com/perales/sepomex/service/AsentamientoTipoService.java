@@ -5,6 +5,8 @@ import com.perales.sepomex.model.AsentamientoTipo;
 import com.perales.sepomex.repository.AsentamientoTipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,11 +16,12 @@ public class AsentamientoTipoService implements ServiceGeneric<AsentamientoTipo,
     private AsentamientoTipoRepository asentamientoTipoRepository;
 
     public AsentamientoTipo buscarPorId(Integer id) {
-        return null;
+        return asentamientoTipoRepository.findById(id).get();
     }
 
     public Page<AsentamientoTipo> buscarTodos(int page, int size) {
-        return null;
+        Pageable pageable = new PageRequest(page, size);
+        return asentamientoTipoRepository.findAll(pageable);
     }
 
     public AsentamientoTipo guardar(AsentamientoTipo entity) {
@@ -26,11 +29,13 @@ public class AsentamientoTipoService implements ServiceGeneric<AsentamientoTipo,
     }
 
     public AsentamientoTipo actualizar(AsentamientoTipo entity) {
-        return null;
+        return asentamientoTipoRepository.saveAndFlush(entity);
     }
 
     public AsentamientoTipo borrar(Integer id) {
-        return null;
+        AsentamientoTipo asentamientoTipo = asentamientoTipoRepository.findById(id).get();
+            asentamientoTipoRepository.deleteById(id);
+        return asentamientoTipo;
     }
 
     public AsentamientoTipo findBySepomexClave(String sepomexClave) {

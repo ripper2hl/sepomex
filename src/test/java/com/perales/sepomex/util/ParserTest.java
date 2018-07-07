@@ -34,7 +34,7 @@ public class ParserTest extends TestCase{
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        br = new BufferedReader(new FileReader("src/test/resources/" + FILE_NAME));
+        br = new BufferedReader( new InputStreamReader(new FileInputStream( "src/test/resources/" + FILE_NAME ), "ISO-8859-1") );
     }
     
     @Test
@@ -126,15 +126,15 @@ public class ParserTest extends TestCase{
         FileInputStream fileInputStream = new FileInputStream(archivoParseadoNombre);
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
         List<Colonia> colonias = (List<Colonia>) objectInputStream.readObject();
-        List<Colonia> coloniasComparar = br.lines().parallel()
-                .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
-                .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION) )
-                .map( line -> Arrays.asList(line.split("\\|")) )
-                .map( list -> {
-                    Colonia colonia = parser.convertirListaColonia(list);
-                    return colonia;
-                }).collect( Collectors.toList() );
         for(int i = 0; i < colonias.size(); i++){
+            List<Colonia> coloniasComparar = br.lines().parallel()
+                    .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
+                    .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION) )
+                    .map( line -> Arrays.asList(line.split("\\|")) )
+                    .map( list -> {
+                        Colonia colonia = parser.convertirListaColonia(list);
+                        return colonia;
+                    }).collect( Collectors.toList() );
             assertEquals("Deberian ser la misma colonia", coloniasComparar.get(i), colonias.get(i));
         }
         archivoParseadoComprobacion.delete();

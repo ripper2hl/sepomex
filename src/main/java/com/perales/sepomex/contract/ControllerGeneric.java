@@ -1,12 +1,12 @@
 package com.perales.sepomex.contract;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface ControllerGeneric<T, PK> {
 
     public T buscarPorId(PK id);
 
-    public List<T> buscarTodos(int page, int size);
+    public Page<T> buscarTodos(int page, int size);
 
     public T guardar(T entity);
 

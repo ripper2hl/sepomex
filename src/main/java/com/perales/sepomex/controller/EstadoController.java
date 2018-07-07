@@ -2,16 +2,24 @@ package com.perales.sepomex.controller;
 
 import com.perales.sepomex.contract.ControllerGeneric;
 import com.perales.sepomex.model.Estado;
+import com.perales.sepomex.service.EstadoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
-
+@RestController
+@RequestMapping("v1/estado/")
 public class EstadoController implements ControllerGeneric<Estado, Integer>{
+    
+    @Autowired
+    private EstadoService estadoService;
+    
     public Estado buscarPorId(Integer id) {
         return null;
     }
 
-    public List<Estado> buscarTodos(int page, int size) {
+    public Page<Estado> buscarTodos(int page, int size) {
         return null;
     }
 
