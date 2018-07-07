@@ -5,34 +5,45 @@ import com.perales.sepomex.model.ZonaTipo;
 import com.perales.sepomex.repository.ZonaTipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ZonaTipoService implements ServiceGeneric<ZonaTipo, Integer> {
 
     @Autowired
     private ZonaTipoRepository zonaTipoRepository;
-
+    
+    @Transactional(readOnly = true)
     public ZonaTipo buscarPorId(Integer id) {
-        return null;
+        return zonaTipoRepository.findById(id).get();
     }
-
+    
+    @Transactional(readOnly = true)
     public Page<ZonaTipo> buscarTodos(int page, int size) {
-        return null;
+        int firstResult = page * size;
+        return zonaTipoRepository.findAll(PageRequest.of(firstResult , size) );
     }
-
+    
+    @Transactional
     public ZonaTipo guardar(ZonaTipo entity) {
         return zonaTipoRepository.save(entity);
     }
-
+    
+    @Transactional
     public ZonaTipo actualizar(ZonaTipo entity) {
-        return null;
+        return zonaTipoRepository.saveAndFlush(entity);
     }
-
+    
+    @Transactional
     public ZonaTipo borrar(Integer id) {
-        return null;
+        ZonaTipo zonaTipo = zonaTipoRepository.findById(id).get();
+        zonaTipoRepository.delete(zonaTipo);
+        return zonaTipo;
     }
-
+    
+    @Transactional(readOnly = true)
     public ZonaTipo findByNombre(String nombre) {
         return zonaTipoRepository.findFirstByNombre(nombre);
     }

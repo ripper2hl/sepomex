@@ -5,34 +5,45 @@ import com.perales.sepomex.model.InegiClaveCiudad;
 import com.perales.sepomex.repository.InegiClaveCiudadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class InegiClaveCiudadService implements ServiceGeneric<InegiClaveCiudad, Integer> {
 
     @Autowired
     private InegiClaveCiudadRepository inegiClaveCiudadRepository;
-
+    
+    @Transactional(readOnly = true)
     public InegiClaveCiudad buscarPorId(Integer id) {
-        return null;
+        return inegiClaveCiudadRepository.findById(id).get();
     }
-
+    
+    @Transactional(readOnly = true)
     public Page<InegiClaveCiudad> buscarTodos(int page, int size) {
-        return null;
+        int firstResult = page * size;
+        return inegiClaveCiudadRepository.findAll( PageRequest.of(firstResult, size ) );
     }
-
+    
+    @Transactional
     public InegiClaveCiudad guardar(InegiClaveCiudad entity) {
         return inegiClaveCiudadRepository.save(entity);
     }
-
+    
+    @Transactional
     public InegiClaveCiudad actualizar(InegiClaveCiudad entity) {
-        return null;
+        return inegiClaveCiudadRepository.saveAndFlush(entity);
     }
-
+    
+    @Transactional
     public InegiClaveCiudad borrar(Integer id) {
-        return null;
+        InegiClaveCiudad inegiClaveCiudad = inegiClaveCiudadRepository.findById(id).get();
+        inegiClaveCiudadRepository.delete(inegiClaveCiudad);
+        return inegiClaveCiudad;
     }
-
+    
+    @Transactional(readOnly = true)
     public InegiClaveCiudad findFirstByNombre(String nombre) {
         return inegiClaveCiudadRepository.findFirstByNombre(nombre);
     }
