@@ -6,7 +6,6 @@ import com.perales.sepomex.repository.AsentamientoTipoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +22,8 @@ public class AsentamientoTipoService implements ServiceGeneric<AsentamientoTipo,
     
     @Transactional(readOnly = true)
     public Page<AsentamientoTipo> buscarTodos(int page, int size) {
-        Pageable pageable = new PageRequest(page, size);
-        return asentamientoTipoRepository.findAll(pageable);
+        int firstResult = page * size;
+        return asentamientoTipoRepository.findAll( PageRequest.of( firstResult, size) );
     }
     
     @Transactional
@@ -40,7 +39,8 @@ public class AsentamientoTipoService implements ServiceGeneric<AsentamientoTipo,
     @Transactional
     public AsentamientoTipo borrar(Integer id) {
         AsentamientoTipo asentamientoTipo = asentamientoTipoRepository.findById(id).get();
-            asentamientoTipoRepository.deleteById(id);
+        asentamientoTipo.getColonias().forEach( colonia -> colonia.setAsentamientoTipo(null) );
+        asentamientoTipoRepository.deleteById(id);
         return asentamientoTipo;
     }
     

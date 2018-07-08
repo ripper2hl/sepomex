@@ -27,7 +27,7 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
         return coloniaService.buscarTodos(page, size) ;
     }
 
-    @PostMapping
+    @PostMapping("/")
     public Colonia guardar(@RequestBody Colonia entity) {
         return coloniaService.guardar(entity);
     }
@@ -37,8 +37,8 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
         return coloniaService.actualizar(entity);
     }
 
-    @DeleteMapping("/")
-    public Colonia borrar(Integer id) {
+    @DeleteMapping("/{id}")
+    public Colonia borrar(@PathVariable Integer id) {
         return coloniaService.borrar(id);
     }
     

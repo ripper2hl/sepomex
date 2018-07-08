@@ -5,7 +5,7 @@ import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseSetups;
 import com.perales.sepomex.configuration.AppTestConfig;
-import com.perales.sepomex.model.Colonia;
+import com.perales.sepomex.model.AsentamientoTipo;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,32 +26,29 @@ import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.core.IsNull.notNullValue;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = AppTestConfig.class)
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,DbUnitTestExecutionListener.class })
-public class ColoniaServiceTest {
-    
-    private static final String FILE_NAME = "sepomex.txt";
+public class AsentamientoTipoServiceTest {
     
     private MockMvc mockMvc;
     
     @Rule
     public final ExpectedException exception = ExpectedException.none();
-
+    
     @Autowired
     private WebApplicationContext webApplicationContext;
-
+    
     @Autowired
-    private ColoniaService coloniaService;
-
+    AsentamientoTipoService asentamientoTipoService;
+    
     @Before
     public void setUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
-
+    
     @Test
     @DatabaseSetups({
             @DatabaseSetup(
@@ -76,53 +73,52 @@ public class ColoniaServiceTest {
                     value = "classpath:sample-data/ciudad.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
+                    value = "classpath:sample-data/zona-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
                     value = "classpath:sample-data/colonia.xml",
                     type = DatabaseOperation.REFRESH)
-            
+        
     })
     public void buscarPorId() {
-        int coloniaId = 1;
-        Colonia coloniaEncontrada = coloniaService.buscarPorId( coloniaId );
-        assertThat("Deberian ser las mismas", coloniaId , is( coloniaEncontrada.getId() ) );
+        int asentamientoTipoId = 1;
+        AsentamientoTipo asentamientoTipo = asentamientoTipoService.buscarPorId( asentamientoTipoId );
+        assertThat("Deberian ser las mismas", asentamientoTipoId , is( asentamientoTipo.getId() ) );
     }
-
-    @Test
-    public void cargaMasiva() throws Exception {
-        String archivoSepomexNombre = "src/test/resources/" + FILE_NAME;
-        assertThat("Deberia obtener verdadero",true,  is(coloniaService.cargaMasiva(archivoSepomexNombre))  );
-    }
-
+    
     @Test
     public void buscarTodos() {
-        Colonia colonia = new Colonia();
-        colonia.setNombre("Cañada blanca");
-        Colonia coloniaGuardada = coloniaService.guardar(colonia);
+        AsentamientoTipo asentamientoTipo = new AsentamientoTipo();
+        asentamientoTipo.setNombre("Tipo de asentamiento");
+        asentamientoTipo.setSepomexClave("Tipo de asentamiento");
+        AsentamientoTipo asentamientoTipoGuardada = asentamientoTipoService.guardar(asentamientoTipo);
         int page = 0;
         int size = 20;
-        Page<Colonia> colonias = coloniaService.buscarTodos(page, size);
-        assertThat("Tener colonias igual o  menos de 20 colonias", colonias.getContent().size(), is(  lessThanOrEqualTo( size ) ) );
-        assertThat("Tener colonias", colonias.getContent().size(), is(  greaterThan( 0 ) ) );
-        coloniaService.borrar(coloniaGuardada.getId());
+        Page<AsentamientoTipo> asentamientoTipos = asentamientoTipoService.buscarTodos(page, size);
+        assertThat("Tener asentamientoTipos igual o  menos de 20 asentamientoTipos", asentamientoTipos.getContent().size(), is(  lessThanOrEqualTo( size ) ) );
+        assertThat("Tener asentamientoTipos", asentamientoTipos.getContent().size(), is(  greaterThan( 0 ) ) );
+        asentamientoTipoService.borrar(asentamientoTipoGuardada.getId());
     }
-
+    
     @Test
     public void guardar() {
-        Colonia colonia = new Colonia();
-        colonia.setNombre("Cañada blanca");
-        Colonia coloniaGuardada = coloniaService.guardar(colonia);
-        assertThat("Deberia tener un id", coloniaGuardada.getId(), is( notNullValue() ) );
+        AsentamientoTipo asentamientoTipo = new AsentamientoTipo();
+        asentamientoTipo.setNombre("asentamientoTipo");
+        asentamientoTipo.setSepomexClave("sepomexClave");
+        AsentamientoTipo asentamientoTipoGuardado = asentamientoTipoService.guardar(asentamientoTipo);
     }
-
+    
     @Test
     public void actualizar() {
-        String nombreColonia = "cañada blanca";
-        Colonia colonia = new Colonia();
-        colonia.setNombre( "canada blanca" );
-        colonia = coloniaService.guardar( colonia );
-        colonia.setNombre( nombreColonia );
-        coloniaService.actualizar( colonia );
-        Colonia coloniaEncontrada = coloniaService.buscarPorId( colonia.getId() );
-        assertThat("Deberia tener el nombre corregido", nombreColonia, is( equalTo( coloniaEncontrada.getNombre() ) ) );
+        String nombreAsentamientoTipo = "cambiando nombre sepomex";
+        AsentamientoTipo asentamientoTipo = new AsentamientoTipo();
+        asentamientoTipo.setNombre("asentamientoTipo2");
+        asentamientoTipo.setSepomexClave("sepomexClave2");
+        AsentamientoTipo asentamientoTipoGuardado = asentamientoTipoService.guardar(asentamientoTipo);
+        asentamientoTipoGuardado.setNombre( nombreAsentamientoTipo );
+        asentamientoTipoService.actualizar(asentamientoTipoGuardado);
+        AsentamientoTipo asentamientoTipoEncontrado = asentamientoTipoService.buscarPorId( asentamientoTipo.getId() );
+        assertThat("Deberia tener el nombre igual", nombreAsentamientoTipo, is( equalTo( asentamientoTipoEncontrado.getNombre() ) ) );
     }
     
     @Test
@@ -149,15 +145,21 @@ public class ColoniaServiceTest {
                     value = "classpath:sample-data/ciudad.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
+                    value = "classpath:sample-data/zona-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
                     value = "classpath:sample-data/colonia.xml",
                     type = DatabaseOperation.REFRESH)
     
     })
-    
     public void borrar() {
-        coloniaService.borrar( 1 );
+        int id = 1;
+        asentamientoTipoService.borrar(id);
         exception.expect(NoSuchElementException.class);
-        Colonia coloniaEncontrada = coloniaService.buscarPorId( 1 );
+        asentamientoTipoService.buscarPorId(id);
     }
-
+    
+    @Test
+    public void findBySepomexClave() {
+    }
 }

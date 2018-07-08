@@ -5,8 +5,7 @@ import com.perales.sepomex.model.ZonaTipo;
 import com.perales.sepomex.service.ZonaTipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("v1/zonatipo/")
@@ -15,23 +14,28 @@ public class ZonaTipoController implements ControllerGeneric<ZonaTipo, Integer>{
     @Autowired
     private ZonaTipoService zonaTipoService;
     
-    public ZonaTipo buscarPorId(Integer id) {
-        return null;
+    @GetMapping("/{id}")
+    public ZonaTipo buscarPorId( @PathVariable Integer id) {
+        return zonaTipoService.buscarPorId(id);
     }
 
-    public Page<ZonaTipo> buscarTodos(int page, int size) {
-        return null;
+    @GetMapping("/")
+    public Page<ZonaTipo> buscarTodos( @RequestParam int page, @RequestParam int size) {
+        return zonaTipoService.buscarTodos(page, size);
     }
 
-    public ZonaTipo guardar(ZonaTipo entity) {
-        return null;
+    @PostMapping("/")
+    public ZonaTipo guardar( @RequestBody ZonaTipo entity) {
+        return zonaTipoService.guardar(entity);
     }
 
-    public ZonaTipo actualizar(ZonaTipo entity) {
-        return null;
+    @PutMapping("/")
+    public ZonaTipo actualizar( @RequestBody ZonaTipo entity) {
+        return zonaTipoService.actualizar(entity);
     }
 
-    public ZonaTipo borrar(Integer id) {
-        return null;
+    @DeleteMapping("/{id}")
+    public ZonaTipo borrar(@PathVariable Integer id) {
+        return zonaTipoService.borrar(id);
     }
 }

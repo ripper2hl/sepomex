@@ -14,27 +14,27 @@ public class CiudadController implements ControllerGeneric<Ciudad, Integer> {
     private CiudadService ciudadService;
     
     @GetMapping("/{id}")
-    public Ciudad buscarPorId(Integer id) {
+    public Ciudad buscarPorId(@PathVariable Integer id) {
         return ciudadService.buscarPorId(id);
     }
     
     @GetMapping("/")
-    public Page<Ciudad> buscarTodos(int page, int size) {
+    public Page<Ciudad> buscarTodos(@RequestParam int page, @RequestParam int size) {
         return ciudadService.buscarTodos(page, size);
     }
     
-    @PostMapping
-    public Ciudad guardar(Ciudad entity) {
+    @PostMapping("/")
+    public Ciudad guardar(@RequestBody Ciudad entity) {
         return ciudadService.guardar(entity);
     }
     
     @PutMapping("/")
-    public Ciudad actualizar(Ciudad entity) {
+    public Ciudad actualizar(@RequestBody Ciudad entity) {
         return ciudadService.actualizar(entity);
     }
     
-    @DeleteMapping("/")
-    public Ciudad borrar(Integer id) {
+    @DeleteMapping("/{id}")
+    public Ciudad borrar(@PathVariable Integer id) {
         return ciudadService.borrar(id);
     }
 }

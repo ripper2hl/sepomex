@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <Colonia id="1" nombre="colonia" inegi_clave_ciudad_id="1"
+             inegi_clave_municipio_id="1" codigo_postal_id="1"
+             codigo_postal_administracion_asentamiento_id="1"
+             codigo_postal_administracion_asentamiento_oficina_id="1"
+             asentamiento_tipo_id="1" municipio_id="1"
+             estado_id="1" ciudad_id="1" zona_tipo_id="1"
+    />
+</dataset>

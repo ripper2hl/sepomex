@@ -5,8 +5,7 @@ import com.perales.sepomex.model.AsentamientoTipo;
 import com.perales.sepomex.service.AsentamientoTipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("v1/asentamientotipo/")
@@ -15,23 +14,28 @@ public class AsentamientoTipoController implements ControllerGeneric<Asentamient
     @Autowired
     private AsentamientoTipoService asentamientoTipoService;
     
-    public AsentamientoTipo buscarPorId(Integer id) {
-        return null;
+    @GetMapping("/{id}")
+    public AsentamientoTipo buscarPorId(@PathVariable Integer id) {
+        return asentamientoTipoService.buscarPorId(id);
     }
 
-    public Page<AsentamientoTipo> buscarTodos(int page, int size) {
-        return null;
+    @GetMapping("/")
+    public Page<AsentamientoTipo> buscarTodos(@RequestParam int page, @RequestParam int size) {
+        return asentamientoTipoService.buscarTodos(page,size);
     }
 
-    public AsentamientoTipo guardar(AsentamientoTipo entity) {
-        return null;
+    @PostMapping("/")
+    public AsentamientoTipo guardar( @RequestBody AsentamientoTipo entity) {
+        return asentamientoTipoService.guardar(entity);
     }
 
-    public AsentamientoTipo actualizar(AsentamientoTipo entity) {
-        return null;
+    @PutMapping("/")
+    public AsentamientoTipo actualizar( @RequestBody AsentamientoTipo entity) {
+        return asentamientoTipoService.actualizar(entity);
     }
-
-    public AsentamientoTipo borrar(Integer id) {
-        return null;
+    
+    @DeleteMapping("/{id}")
+    public AsentamientoTipo borrar( @PathVariable Integer id) {
+        return asentamientoTipoService.borrar(id);
     }
 }
