@@ -21,7 +21,7 @@
         <mysql.jdbc.version>6.0.6</mysql.jdbc.version>
         <slf4j.version>1.7.25</slf4j.version>
         <spring.batch>4.0.0.RELEASE</spring.batch>
-        <lombok.version>1.16.22</lombok.version>
+        <lombok.version>1.18.0</lombok.version>
         <logforj.version>2.5</logforj.version>
         <jsonpath.version>2.4.0</jsonpath.version>
         <maven.war.plugin.version>3.2.0</maven.war.plugin.version>

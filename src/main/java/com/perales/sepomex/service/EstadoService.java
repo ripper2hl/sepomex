@@ -40,6 +40,7 @@ public class EstadoService implements ServiceGeneric<Estado, Integer> {
     public Estado borrar(Integer id) {
         Estado estado = estadoRepository.findById(id).get();
         estado.getColonias().forEach(colonia -> colonia.setEstado(null));
+        estado.getMunicipios().forEach(municipio -> municipio.setEstado(null));
         estadoRepository.delete(estado);
         return estado;
     }
