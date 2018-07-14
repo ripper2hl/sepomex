@@ -39,6 +39,7 @@ public class EstadoService implements ServiceGeneric<Estado, Integer> {
     @Transactional
     public Estado borrar(Integer id) {
         Estado estado = estadoRepository.findById(id).get();
+        estado.getColonias().forEach(colonia -> colonia.setEstado(null));
         estadoRepository.delete(estado);
         return estado;
     }

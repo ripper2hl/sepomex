@@ -39,6 +39,7 @@ public class MunicipioService implements ServiceGeneric<Municipio, Integer> {
     @Transactional
     public Municipio borrar(Integer id) {
         Municipio municipio = municipioRepository.findById(id).get();
+        municipio.getColonias().forEach(colonia -> colonia.setMunicipio(null));
         municipioRepository.delete(municipio);
         return municipio;
     }

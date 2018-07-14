@@ -39,6 +39,7 @@ public class CiudadService  implements ServiceGeneric<Ciudad, Integer> {
     @Transactional
     public Ciudad borrar(Integer id) {
         Ciudad ciudad = ciudadRepository.findById(id).get();
+        ciudad.getColonias().forEach( colonia -> colonia.setCiudad(null));
         ciudadRepository.deleteById(id);
         return ciudad;
     }

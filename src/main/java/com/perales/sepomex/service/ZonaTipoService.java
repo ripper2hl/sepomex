@@ -39,6 +39,7 @@ public class ZonaTipoService implements ServiceGeneric<ZonaTipo, Integer> {
     @Transactional
     public ZonaTipo borrar(Integer id) {
         ZonaTipo zonaTipo = zonaTipoRepository.findById(id).get();
+        zonaTipo.getColonias().forEach(colonia -> colonia.setZonaTipo(null));
         zonaTipoRepository.delete(zonaTipo);
         return zonaTipo;
     }

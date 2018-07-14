@@ -17,7 +17,7 @@ public class CodigoPostalService implements ServiceGeneric<CodigoPostal, Integer
     
     @Transactional(readOnly = true)
     public CodigoPostal buscarPorId(Integer id) {
-        return codigoPostalRepository.getOne(id);
+        return codigoPostalRepository.findById(id).get();
     }
     
     @Transactional(readOnly = true)
@@ -39,6 +39,13 @@ public class CodigoPostalService implements ServiceGeneric<CodigoPostal, Integer
     @Transactional
     public CodigoPostal borrar(Integer id) {
         CodigoPostal codigoPostal = codigoPostalRepository.findById(id).get();
+        codigoPostal.getColonias().forEach( colonia -> colonia.setCodigoPostal(null) );
+        
+        codigoPostal.getColoniasCodigoPostalAdministracionAsentamiento()
+                .forEach(colonia -> colonia.setCodigoPostalAdministracionAsentamiento(null));
+        
+        codigoPostal.getColoniasCodigoPostalAdministracionAsentamientoOficina()
+                .forEach(colonia -> colonia.setCodigoPostalAdministracionAsentamientoOficina(null));
         codigoPostalRepository.delete(codigoPostal);
         return codigoPostal;
     }

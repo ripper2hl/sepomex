@@ -39,6 +39,7 @@ public class InegiClaveMunicipioService implements ServiceGeneric<InegiClaveMuni
     @Transactional
     public InegiClaveMunicipio borrar(Integer id) {
         InegiClaveMunicipio inegiClaveMunicipio = inegiClaveMunicipioRepository.findById(id).get();
+        inegiClaveMunicipio.getColonias().forEach(colonia -> colonia.setInegiClaveMunicipio(null));
         inegiClaveMunicipioRepository.delete(inegiClaveMunicipio);
         return inegiClaveMunicipio;
     }
