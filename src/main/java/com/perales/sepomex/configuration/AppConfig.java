@@ -1,5 +1,6 @@
 package com.perales.sepomex.configuration;
 
+import org.hibernate.validator.HibernateValidator;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,6 +14,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -76,5 +79,20 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         properties.put("hibernate.cache.use_second_level_cache", "false");
         properties.put("hibernate.connection.autocommit", "false");
         return properties;
+    }
+    
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor() {
+        MethodValidationPostProcessor mvProcessor = new MethodValidationPostProcessor();
+        mvProcessor.setValidator(validator());
+        return mvProcessor;
+    }
+    
+    @Bean
+    public LocalValidatorFactoryBean validator(){
+        LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+        validator.setProviderClass(HibernateValidator.class);
+        validator.afterPropertiesSet();
+        return validator;
     }
 }

@@ -33,52 +33,52 @@ public class Colonia implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
     
-    @JsonBackReference
+    @JsonBackReference(value = "inegi_clave_ciudad_id")
     @ManyToOne
     @JoinColumn(name = "inegi_clave_ciudad_id")
     private InegiClaveCiudad inegiClaveCiudad;
     
-    @JsonBackReference
+    @JsonBackReference(value = "inegi_clave_municipio_id")
     @ManyToOne
     @JoinColumn(name = "inegi_clave_municipio_id")
     private InegiClaveMunicipio inegiClaveMunicipio;
     
-    @JsonBackReference
+    @JsonBackReference(value = "codigo_postal_id")
     @ManyToOne
     @JoinColumn(name = "codigo_postal_id")
     private CodigoPostal codigoPostal;
     
-    @JsonBackReference
+    @JsonBackReference(value = "codigo_postal_administracion_asentamiento_id")
     @ManyToOne
     @JoinColumn(name = "codigo_postal_administracion_asentamiento_id")
     private CodigoPostal codigoPostalAdministracionAsentamiento;
     
-    @JsonBackReference
+    @JsonBackReference(value = "codigo_postal_administracion_asentamiento_oficina_id")
     @ManyToOne
     @JoinColumn(name = "codigo_postal_administracion_asentamiento_oficina_id")
     private CodigoPostal codigoPostalAdministracionAsentamientoOficina;
     
-    @JsonBackReference
+    @JsonBackReference(value = "asentamiento_tipo_id")
     @ManyToOne
     @JoinColumn(name = "asentamiento_tipo_id")
     private AsentamientoTipo asentamientoTipo;
     
-    @JsonBackReference
+    @JsonBackReference(value = "municipio_id")
     @ManyToOne
     @JoinColumn(name = "municipio_id")
     private Municipio municipio;
     
-    @JsonBackReference
+    @JsonBackReference(value = "estado_id")
     @ManyToOne
     @JoinColumn(name = "estado_id")
     private Estado estado;
     
-    @JsonBackReference
+    @JsonBackReference(value = "ciudad_id")
     @ManyToOne
     @JoinColumn(name = "ciudad_id")
     private Ciudad ciudad;
     
-    @JsonBackReference
+    @JsonBackReference(value = "zona_tipo_id")
     @ManyToOne
     @JoinColumn(name = "zona_tipo_id")
     private ZonaTipo zonaTipo;

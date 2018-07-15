@@ -5,6 +5,8 @@ import com.perales.sepomex.model.Colonia;
 import com.perales.sepomex.service.ColoniaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -25,17 +27,18 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
         return coloniaService.buscarPorId(id);
     }
     
-    @GetMapping(value = "/", params = {"page", "size"})
+    @GetMapping(params = {"page", "size"})
     public Page<Colonia> buscarTodos(@RequestParam int page, @RequestParam int size) {
         return coloniaService.buscarTodos(page, size) ;
     }
 
-    @PostMapping("/")
-    public Colonia guardar(@RequestBody Colonia entity) {
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public Colonia guardar( @RequestBody @Validated Colonia entity) {
         return coloniaService.guardar(entity);
     }
 
-    @PutMapping("/")
+    @PutMapping
     public Colonia actualizar(@RequestBody Colonia entity) {
         return coloniaService.actualizar(entity);
     }

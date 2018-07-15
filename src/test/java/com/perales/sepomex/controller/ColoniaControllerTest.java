@@ -1,10 +1,13 @@
 package com.perales.sepomex.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseSetups;
 import com.perales.sepomex.configuration.AppTestConfig;
+import com.perales.sepomex.model.Colonia;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,10 +24,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.logging.Logger;
+
+import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -33,6 +37,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class ColoniaControllerTest {
     
     private static final String API_URL = "/v1/colonia/";
+    
+    private final Logger logger = Logger.getGlobal();
     
     private MockMvc mockMvc;
     
@@ -79,7 +85,7 @@ public class ColoniaControllerTest {
         StringBuilder sb = new StringBuilder(API_URL);
         sb.append(1);
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get(sb.toString()));
-        System.out.println(        response.andReturn().getResponse().getContentAsString() );
+        logger.info( response.andReturn().getResponse().getContentAsString() );
         response.andExpect( content().contentType(MediaType.APPLICATION_JSON_UTF8) )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is (  1 ) ) )
@@ -124,7 +130,16 @@ public class ColoniaControllerTest {
                 .perform(MockMvcRequestBuilders.get(sb.toString())
                         .param("page", "0")
                         .param("size", "10"));
-        System.out.println(response.andReturn().getResponse().getContentAsString() );
+        logger.info (response.andReturn().getResponse().getContentAsString() );
+        response
+                .andExpect( content().contentType(MediaType.APPLICATION_JSON_UTF8) )
+                .andExpect(status().isOk())
+                .andExpect( jsonPath("$", hasKey("content") ) )
+                .andExpect( jsonPath("$", hasKey("pageable") ) )
+                .andExpect( jsonPath("$", hasKey("totalPages") ) )
+                .andExpect( jsonPath("$", hasKey("totalElements") ) )
+                .andExpect( jsonPath("$", hasKey("numberOfElements") ) )
+                .andExpect( jsonPath("$", hasKey("size") ) );
     }
     
     @Test
@@ -158,7 +173,18 @@ public class ColoniaControllerTest {
                     type = DatabaseOperation.REFRESH)
         
     })
-    public void guardar() {
+    public void guardar() throws Exception {
+        Colonia colonia = new Colonia();
+        colonia.setNombre("Colonia");
+        StringBuilder sb = new StringBuilder(API_URL);
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString( colonia );
+        ResultActions response = mockMvc
+                .perform(MockMvcRequestBuilders.post(sb.toString())
+                        .contentType( MediaType.APPLICATION_JSON_UTF8 )
+                        .content( json ));
+        logger.info( response.andReturn().getResponse().getContentAsString() );
+        response.andExpect( status().isCreated() );
     }
     
     @Test
@@ -192,7 +218,19 @@ public class ColoniaControllerTest {
                     type = DatabaseOperation.REFRESH)
         
     })
-    public void actualizar() {
+    public void actualizar() throws Exception {
+        Colonia colonia = new Colonia();
+        colonia.setId(1);
+        colonia.setNombre("actualizar");
+        StringBuilder sb = new StringBuilder(API_URL);
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String json = ow.writeValueAsString( colonia );
+        ResultActions response = mockMvc
+                .perform(MockMvcRequestBuilders.put(sb.toString())
+                        .contentType( MediaType.APPLICATION_JSON_UTF8 )
+                        .content( json ));
+        logger.info( response.andReturn().getResponse().getContentAsString() );
+        response.andExpect( status().is2xxSuccessful() );
     }
     
     @Test
