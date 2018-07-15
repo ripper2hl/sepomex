@@ -9,20 +9,23 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
-
 @RestController
 @RequestMapping("v1/colonia/")
 public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
 
+    private final ColoniaService coloniaService;
+    
     @Autowired
-    private ColoniaService coloniaService;
-
+    public ColoniaController(ColoniaService coloniaService) {
+        this.coloniaService = coloniaService;
+    }
+    
     @GetMapping("/{id}")
     public Colonia buscarPorId(@PathVariable Integer id) {
         return coloniaService.buscarPorId(id);
     }
     
-    @GetMapping("/")
+    @GetMapping(value = "/", params = {"page", "size"})
     public Page<Colonia> buscarTodos(@RequestParam int page, @RequestParam int size) {
         return coloniaService.buscarTodos(page, size) ;
     }

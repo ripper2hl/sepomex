@@ -1,6 +1,9 @@
 package com.perales.sepomex.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +15,8 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity(name = "asentamiento_tipo")
 public class AsentamientoTipo implements Serializable {
 
