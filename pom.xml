@@ -11,37 +11,42 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <servlet.version>4.0.0</servlet.version>
+        <servlet.version>4.0.1</servlet.version>
         <spring.version>5.0.7.RELEASE</spring.version>
         <spring.data.version>2.0.8.RELEASE</spring.data.version>
+        <spring.batch>4.0.1.RELEASE</spring.batch>
         <hibernate.version>5.3.2.Final</hibernate.version>
         <hibernate.validator.version>6.0.10.Final</hibernate.validator.version>
         <maven.war.plugin.version>3.0.0</maven.war.plugin.version>
         <jackson.version>2.9.6</jackson.version>
-        <mysql.jdbc.version>6.0.6</mysql.jdbc.version>
+        <mysql.jdbc.version>8.0.11</mysql.jdbc.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <spring.batch>4.0.0.RELEASE</spring.batch>
         <lombok.version>1.18.0</lombok.version>
-        <logforj.version>2.5</logforj.version>
+        <logforj.version>2.11.0</logforj.version>
         <jsonpath.version>2.4.0</jsonpath.version>
         <maven.war.plugin.version>3.2.0</maven.war.plugin.version>
         <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
-        <dbunit.version>2.5.0</dbunit.version>
-        <dbunit.spring.version>1.2.0</dbunit.spring.version>
+        <dbunit.version>2.5.4</dbunit.version>
+        <dbunit.spring.version>1.3.0</dbunit.spring.version>
+        <google.guava.version>25.1-jre</google.guava.version>
+        <h2.version>1.4.197</h2.version>
+        <hibernate.jpa.2.1.version>1.0.2</hibernate.jpa.2.1.version>
+        <javax.el.api.version>3.0.1-b06</javax.el.api.version>
+        <javax.el.version>3.0.1-b10</javax.el.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>javax.el</groupId>
             <artifactId>javax.el-api</artifactId>
-            <version>3.0.0</version>
+            <version>${javax.el.api.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.el</artifactId>
-            <version>3.0.1-b08</version>
+            <version>${javax.el.version}</version>
         </dependency>
 
         <dependency>
@@ -66,7 +71,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>24.1-jre</version>
+            <version>${google.guava.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.batch</groupId>
@@ -93,7 +98,7 @@
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
-            <version>1.0.0.Final</version>
+            <version>${hibernate.jpa.2.1.version}</version>
         </dependency>
 
         <dependency>
@@ -227,7 +232,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.196</version>
+            <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
 
