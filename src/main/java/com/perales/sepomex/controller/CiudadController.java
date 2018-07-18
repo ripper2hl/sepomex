@@ -5,6 +5,8 @@ import com.perales.sepomex.model.Ciudad;
 import com.perales.sepomex.service.CiudadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("v1/ciudad/")
@@ -24,12 +26,13 @@ public class CiudadController implements ControllerGeneric<Ciudad, Integer> {
     }
     
     @PostMapping
-    public Ciudad guardar(@RequestBody Ciudad entity) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Ciudad guardar(@Validated @RequestBody Ciudad entity) {
         return ciudadService.guardar(entity);
     }
     
     @PutMapping
-    public Ciudad actualizar(@RequestBody Ciudad entity) {
+    public Ciudad actualizar(@Validated @RequestBody Ciudad entity) {
         return ciudadService.actualizar(entity);
     }
     

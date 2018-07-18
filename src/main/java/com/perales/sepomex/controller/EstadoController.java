@@ -5,6 +5,8 @@ import com.perales.sepomex.model.Estado;
 import com.perales.sepomex.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,22 +17,23 @@ public class EstadoController implements ControllerGeneric<Estado, Integer>{
     private EstadoService estadoService;
     
     @GetMapping("/{id}")
-    public Estado buscarPorId(Integer id) {
+    public Estado buscarPorId(@PathVariable Integer id) {
         return estadoService.buscarPorId(id);
     }
 
     @GetMapping(params = {"page", "size"})
-    public Page<Estado> buscarTodos(int page, int size) {
+    public Page<Estado> buscarTodos(@RequestParam int page, @RequestParam int size) {
         return estadoService.buscarTodos(page,size);
     }
 
     @PostMapping
-    public Estado guardar(Estado entity) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Estado guardar(@Validated @RequestBody Estado entity) {
         return estadoService.guardar(entity);
     }
 
     @PutMapping
-    public Estado actualizar(Estado entity) {
+    public Estado actualizar(@Validated @RequestBody Estado entity) {
         return estadoService.actualizar(entity);
     }
 

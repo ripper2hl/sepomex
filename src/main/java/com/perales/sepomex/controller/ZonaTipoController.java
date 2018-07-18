@@ -5,6 +5,8 @@ import com.perales.sepomex.model.ZonaTipo;
 import com.perales.sepomex.service.ZonaTipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,12 +27,13 @@ public class ZonaTipoController implements ControllerGeneric<ZonaTipo, Integer>{
     }
 
     @PostMapping
-    public ZonaTipo guardar( @RequestBody ZonaTipo entity) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ZonaTipo guardar(@Validated @RequestBody ZonaTipo entity) {
         return zonaTipoService.guardar(entity);
     }
 
     @PutMapping
-    public ZonaTipo actualizar( @RequestBody ZonaTipo entity) {
+    public ZonaTipo actualizar(@Validated @RequestBody ZonaTipo entity) {
         return zonaTipoService.actualizar(entity);
     }
 

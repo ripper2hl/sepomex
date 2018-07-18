@@ -5,6 +5,8 @@ import com.perales.sepomex.model.Municipio;
 import com.perales.sepomex.service.MunicipioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,22 +16,23 @@ public class MunicipioController implements ControllerGeneric<Municipio, Integer
     private MunicipioService municipioService;
     
     @GetMapping("/{id}")
-    public Municipio buscarPorId(Integer id) {
+    public Municipio buscarPorId( @PathVariable Integer id) {
         return municipioService.buscarPorId(id);
     }
 
     @GetMapping(params = {"page", "size"})
-    public Page<Municipio> buscarTodos(int page, int size) {
+    public Page<Municipio> buscarTodos(@RequestParam int page, @RequestParam int size) {
         return municipioService.buscarTodos(page,size);
     }
 
     @PostMapping
-    public Municipio guardar(Municipio entity) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Municipio guardar(@Validated @RequestBody Municipio entity) {
         return municipioService.guardar(entity);
     }
 
     @PutMapping
-    public Municipio actualizar(Municipio entity) {
+    public Municipio actualizar(@Validated @RequestBody Municipio entity) {
         return municipioService.actualizar(entity);
     }
 

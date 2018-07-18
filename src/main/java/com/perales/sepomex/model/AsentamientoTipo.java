@@ -1,6 +1,7 @@
 package com.perales.sepomex.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -35,6 +36,7 @@ public class AsentamientoTipo implements Serializable {
     @Column(name = "sepomex_clave", nullable = false)
     private String sepomexClave;
     
+    @JsonBackReference(value = "colonias")
     @OneToMany(mappedBy = "asentamientoTipo")
     private List<Colonia> colonias;
 }

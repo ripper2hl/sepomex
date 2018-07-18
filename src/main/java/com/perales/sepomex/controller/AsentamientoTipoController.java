@@ -5,6 +5,7 @@ import com.perales.sepomex.model.AsentamientoTipo;
 import com.perales.sepomex.service.AsentamientoTipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,6 +26,7 @@ public class AsentamientoTipoController implements ControllerGeneric<Asentamient
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public AsentamientoTipo guardar( @RequestBody AsentamientoTipo entity) {
         return asentamientoTipoService.guardar(entity);
     }

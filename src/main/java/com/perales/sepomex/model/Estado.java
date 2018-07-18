@@ -1,5 +1,6 @@
 package com.perales.sepomex.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -33,15 +34,19 @@ public class Estado implements Serializable {
     @Column(name = "inegi_clave", nullable = false)
     private String inegiClave;
     
+    @JsonBackReference(value = "ciudades")
     @OneToMany(mappedBy = "estado")
     private List<Ciudad> ciudades;
     
+    @JsonBackReference(value = "municipios")
     @OneToMany(mappedBy = "estado")
     private List<Municipio> municipios;
     
+    @JsonBackReference(value = "colonias")
     @OneToMany(mappedBy = "estado")
     private List<Colonia> colonias;
     
+    @JsonBackReference(value = "codigosPostales")
     @OneToMany(mappedBy = "estado")
     private List<CodigoPostal> codigosPostales;
 }

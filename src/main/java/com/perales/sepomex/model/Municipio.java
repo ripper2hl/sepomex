@@ -1,5 +1,6 @@
 package com.perales.sepomex.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -41,9 +42,11 @@ public class Municipio implements Serializable {
     @JoinColumn(name = "ciudad_id")
     private Ciudad ciudad;
     
+    @JsonBackReference(value = "codigosPostales")
     @OneToMany(mappedBy = "municipio")
     private List<CodigoPostal> codigosPostales;
     
+    @JsonBackReference(value = "colonias")
     @OneToMany(mappedBy = "municipio")
     private List<Colonia> colonias;
 }
