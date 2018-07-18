@@ -19,7 +19,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(exclude = {"asentamientoTipo","municipio", "estado", "ciudad", "zonaTipo"})
 @ToString(exclude = {"asentamientoTipo","municipio", "estado", "ciudad", "zonaTipo"})
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity(name = "colonia")
 public class Colonia implements Serializable {
 

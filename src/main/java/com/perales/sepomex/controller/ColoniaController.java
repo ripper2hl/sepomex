@@ -8,7 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 
 @RestController
@@ -34,12 +36,12 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public Colonia guardar( @RequestBody @Validated Colonia entity) {
+    public Colonia guardar(@Validated @RequestBody Colonia entity) {
         return coloniaService.guardar(entity);
     }
 
     @PutMapping
-    public Colonia actualizar(@RequestBody Colonia entity) {
+    public Colonia actualizar(@Validated @RequestBody Colonia entity) {
         return coloniaService.actualizar(entity);
     }
 
@@ -48,8 +50,9 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
         return coloniaService.borrar(id);
     }
     
-    @GetMapping("/carga")
-    public boolean cargaMasiva() throws IOException {
-        return coloniaService.cargaMasiva("/tmp/sepomex.txt");
+    @PostMapping("/carga")
+    public boolean cargaMasiva( @RequestParam("file") MultipartFile file ) throws IOException {
+        file.transferTo(new File("sepomex.txt") );
+        return coloniaService.cargaMasiva( "sepomex.txt" );
     }
 }

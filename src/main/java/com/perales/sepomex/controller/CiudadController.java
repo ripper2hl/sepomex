@@ -18,17 +18,17 @@ public class CiudadController implements ControllerGeneric<Ciudad, Integer> {
         return ciudadService.buscarPorId(id);
     }
     
-    @GetMapping("/")
+    @GetMapping(params = {"page", "size"})
     public Page<Ciudad> buscarTodos(@RequestParam int page, @RequestParam int size) {
         return ciudadService.buscarTodos(page, size);
     }
     
-    @PostMapping("/")
+    @PostMapping
     public Ciudad guardar(@RequestBody Ciudad entity) {
         return ciudadService.guardar(entity);
     }
     
-    @PutMapping("/")
+    @PutMapping
     public Ciudad actualizar(@RequestBody Ciudad entity) {
         return ciudadService.actualizar(entity);
     }

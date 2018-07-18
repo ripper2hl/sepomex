@@ -19,17 +19,17 @@ public class ZonaTipoController implements ControllerGeneric<ZonaTipo, Integer>{
         return zonaTipoService.buscarPorId(id);
     }
 
-    @GetMapping("/")
+    @GetMapping(params = {"page", "size"})
     public Page<ZonaTipo> buscarTodos( @RequestParam int page, @RequestParam int size) {
         return zonaTipoService.buscarTodos(page, size);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ZonaTipo guardar( @RequestBody ZonaTipo entity) {
         return zonaTipoService.guardar(entity);
     }
 
-    @PutMapping("/")
+    @PutMapping
     public ZonaTipo actualizar( @RequestBody ZonaTipo entity) {
         return zonaTipoService.actualizar(entity);
     }

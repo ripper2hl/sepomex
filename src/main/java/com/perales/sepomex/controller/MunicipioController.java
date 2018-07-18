@@ -18,17 +18,17 @@ public class MunicipioController implements ControllerGeneric<Municipio, Integer
         return municipioService.buscarPorId(id);
     }
 
-    @GetMapping("/")
+    @GetMapping(params = {"page", "size"})
     public Page<Municipio> buscarTodos(int page, int size) {
         return municipioService.buscarTodos(page,size);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public Municipio guardar(Municipio entity) {
         return municipioService.guardar(entity);
     }
 
-    @PutMapping("/")
+    @PutMapping
     public Municipio actualizar(Municipio entity) {
         return municipioService.actualizar(entity);
     }

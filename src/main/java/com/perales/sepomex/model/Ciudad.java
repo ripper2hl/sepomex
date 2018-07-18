@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity(name = "ciudad")
 public class Ciudad implements Serializable {
 

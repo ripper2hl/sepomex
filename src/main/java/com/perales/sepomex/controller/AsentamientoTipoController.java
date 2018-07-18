@@ -19,17 +19,17 @@ public class AsentamientoTipoController implements ControllerGeneric<Asentamient
         return asentamientoTipoService.buscarPorId(id);
     }
 
-    @GetMapping("/")
+    @GetMapping(params = {"page", "size"})
     public Page<AsentamientoTipo> buscarTodos(@RequestParam int page, @RequestParam int size) {
         return asentamientoTipoService.buscarTodos(page,size);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public AsentamientoTipo guardar( @RequestBody AsentamientoTipo entity) {
         return asentamientoTipoService.guardar(entity);
     }
 
-    @PutMapping("/")
+    @PutMapping
     public AsentamientoTipo actualizar( @RequestBody AsentamientoTipo entity) {
         return asentamientoTipoService.actualizar(entity);
     }

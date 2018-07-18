@@ -19,17 +19,17 @@ public class EstadoController implements ControllerGeneric<Estado, Integer>{
         return estadoService.buscarPorId(id);
     }
 
-    @GetMapping("/")
+    @GetMapping(params = {"page", "size"})
     public Page<Estado> buscarTodos(int page, int size) {
         return estadoService.buscarTodos(page,size);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public Estado guardar(Estado entity) {
         return estadoService.guardar(entity);
     }
 
-    @PutMapping("/")
+    @PutMapping
     public Estado actualizar(Estado entity) {
         return estadoService.actualizar(entity);
     }

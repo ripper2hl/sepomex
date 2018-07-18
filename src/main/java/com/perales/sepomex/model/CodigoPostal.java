@@ -1,5 +1,6 @@
 package com.perales.sepomex.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -15,7 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity(name = "codigo_postal")
 public class CodigoPostal implements Serializable {
 
@@ -41,12 +42,15 @@ public class CodigoPostal implements Serializable {
     @JoinColumn(name = "ciudad_id")
     private Ciudad ciudad;
     
+    @JsonBackReference(value = "colonias")
     @OneToMany(mappedBy = "codigoPostal")
     private List<Colonia> colonias;
     
+    @JsonBackReference(value = "coloniasCodigoPostalAdministracionAsentamiento")
     @OneToMany(mappedBy = "codigoPostalAdministracionAsentamiento")
     private List<Colonia> coloniasCodigoPostalAdministracionAsentamiento;
     
+    @JsonBackReference(value = "coloniasCodigoPostalAdministracionAsentamientoOficina")
     @OneToMany(mappedBy = "codigoPostalAdministracionAsentamientoOficina")
     private List<Colonia> coloniasCodigoPostalAdministracionAsentamientoOficina;
 }
