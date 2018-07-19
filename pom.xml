@@ -33,9 +33,20 @@
         <hibernate.jpa.2.1.version>1.0.2</hibernate.jpa.2.1.version>
         <javax.el.api.version>3.0.1-b06</javax.el.api.version>
         <javax.el.version>3.0.1-b10</javax.el.version>
+        <spring.fox.version>2.9.2</spring.fox.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${spring.fox.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${spring.fox.version}</version>
+        </dependency>
         <dependency>
             <groupId>javax.el</groupId>
             <artifactId>javax.el-api</artifactId>

@@ -17,7 +17,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -30,7 +31,7 @@ import java.util.Properties;
 @EnableJpaRepositories( basePackages = { "com.perales.sepomex.repository" })
 @ComponentScan("com.perales.sepomex")
 @EnableBatchProcessing
-public class AppConfig extends WebMvcConfigurerAdapter {
+public class AppConfig implements WebMvcConfigurer {
 
     private LocalContainerEntityManagerFactoryBean emf;
     private HibernateJpaVendorAdapter hibernateJpaVendorAdapter;
@@ -94,5 +95,15 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         validator.setProviderClass(HibernateValidator.class);
         validator.afterPropertiesSet();
         return validator;
+    }
+    
+    
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }
