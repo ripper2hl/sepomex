@@ -13,10 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -82,7 +81,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     }
     
     public Boolean cargaMasiva(String fileName) throws IOException {
-        try (BufferedReader br = new BufferedReader( new InputStreamReader(new FileInputStream( fileName ), "ISO-8859-1") )) {
+        try (BufferedReader br = new BufferedReader( new InputStreamReader(new FileInputStream( fileName ), "UTF-8") )) {
             List<Colonia> colonias = br.lines().parallel()
                     .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
                     .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION) )
