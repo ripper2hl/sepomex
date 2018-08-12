@@ -8,7 +8,7 @@ services :
       ports:
         - "80:80"
   db:
-    image: mysql:5.7
+    image: mysql:latest
     volumes:
            - db-data:/var/lib/mysql
     ports:

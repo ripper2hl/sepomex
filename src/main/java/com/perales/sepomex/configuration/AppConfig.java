@@ -1,13 +1,12 @@
 package com.perales.sepomex.configuration;
 
 import org.hibernate.validator.HibernateValidator;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -30,7 +29,6 @@ import java.util.Properties;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableJpaRepositories( basePackages = { "com.perales.sepomex.repository" })
 @ComponentScan("com.perales.sepomex")
-@EnableBatchProcessing
 public class AppConfig implements WebMvcConfigurer {
 
     private LocalContainerEntityManagerFactoryBean emf;
@@ -39,8 +37,11 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Bean
     public DataSource dataSource() {
-        final JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
-        dataSource = dsLookup.getDataSource("java:jboss/datasources/sepomex");
+        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+        dataSource.setDriverClass( com.mysql.jdbc.Driver.class );
+        dataSource.setUrl("jdbc:mysql://localhost/sepomex");
+        dataSource.setUsername("sepomex");
+        dataSource.setPassword("sepomex");
         return dataSource;
     }
 
