@@ -1,6 +1,7 @@
 package com.perales.sepomex.configuration;
 
 import org.hibernate.validator.HibernateValidator;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -74,12 +76,9 @@ public class AppConfig implements WebMvcConfigurer {
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.hbm2ddl.auto", "create-drop");
-        properties.put("hibernate.jdbc.batch_size", "1000");
-        properties.put("hibernate.jdbc.batch_versioned_data", "true");
+        properties.put("hibernate.jdbc.batch_size", "25");
         properties.put("hibernate.order_inserts", "true");
         properties.put("hibernate.order_updates", "true");
-        properties.put("hibernate.cache.use_second_level_cache", "false");
-        properties.put("hibernate.connection.autocommit", "false");
         return properties;
     }
     
@@ -98,6 +97,15 @@ public class AppConfig implements WebMvcConfigurer {
         return validator;
     }
     
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+        characterEncodingFilter.setForceEncoding(true);
+        characterEncodingFilter.setEncoding("UTF-8");
+        registrationBean.setFilter(characterEncodingFilter);
+        return registrationBean;
+    }
     
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

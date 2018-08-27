@@ -20,7 +20,7 @@ import java.util.List;
 @Entity(name = "municipio")
 public class Municipio implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Integer id;
     

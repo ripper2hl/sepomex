@@ -10,7 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 
 @RestController
@@ -50,9 +49,8 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
         return coloniaService.borrar(id);
     }
     
-    @PostMapping("/carga")
+    @PostMapping(value = "/carga", produces = "application/json; charset=UTF-8", consumes = "multipart/form-data;charset=UTF-8")
     public boolean cargaMasiva( @RequestParam("file") MultipartFile file ) throws IOException {
-        file.transferTo(new File("sepomex.txt") );
-        return coloniaService.cargaMasiva( "sepomex.txt" );
+        return coloniaService.cargaMasiva( file );
     }
 }
