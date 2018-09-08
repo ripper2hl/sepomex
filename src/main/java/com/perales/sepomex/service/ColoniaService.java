@@ -32,6 +32,10 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     private List<Ciudad> ciudades = new ArrayList<>();
     private List<Municipio> municipios = new ArrayList<>();
     private List<CodigoPostal> codigosPostales = new ArrayList<>();
+    private List<InegiClaveCiudad> inegiClaveCiudades = new ArrayList<>();
+    private List<InegiClaveMunicipio> inegiClavesMunicipios = new ArrayList<>();
+    private List<AsentamientoTipo> asentamientosTipos = new ArrayList<>();
+    private List<ZonaTipo> zonaTipos = new ArrayList<>();
     
     private static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
     @Autowired
@@ -147,30 +151,30 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
         }
         
         if(colonia.getInegiClaveCiudad() != null){
-            InegiClaveCiudad inegiClaveCiudad = inegiClaveCiudadService.findFirstByNombre(colonia.getInegiClaveCiudad().getNombre());
-            if (inegiClaveCiudad != null) {
-                colonia.setInegiClaveCiudad(inegiClaveCiudad);
+            InegiClaveCiudad inegiClaveCiudad = colonia.getInegiClaveCiudad();
+            if ( inegiClaveCiudades.contains( inegiClaveCiudad ) ) {
+                colonia.setInegiClaveCiudad( inegiClaveCiudades.get( inegiClaveCiudades.indexOf(inegiClaveCiudad) ) );
             }else{
                 em.persist(colonia.getInegiClaveCiudad() );
-                inegiClaveCiudad = colonia.getInegiClaveCiudad();
+                inegiClaveCiudades.add( colonia.getInegiClaveCiudad() );
             }
         }
         
-        InegiClaveMunicipio inegiClaveMunicipio = inegiClaveMunicipioService.findFirstByNombre(colonia.getInegiClaveMunicipio().getNombre());
-        if (inegiClaveMunicipio != null) {
-            colonia.setInegiClaveMunicipio(inegiClaveMunicipio);
+        InegiClaveMunicipio inegiClaveMunicipio = colonia.getInegiClaveMunicipio();
+        if ( inegiClavesMunicipios.contains( inegiClaveMunicipio ) ) {
+            colonia.setInegiClaveMunicipio( inegiClavesMunicipios.get( inegiClavesMunicipios.indexOf(inegiClaveMunicipio) ) );
         }else{
             em.persist( colonia.getInegiClaveMunicipio() );
-            inegiClaveMunicipio = colonia.getInegiClaveMunicipio();
+            inegiClavesMunicipios.add(colonia.getInegiClaveMunicipio());
         }
         
-        AsentamientoTipo asentamientoTipo = asentamientoTipoService
-                .findBySepomexClave(colonia.getAsentamientoTipo().getSepomexClave());
-        if (asentamientoTipo != null) {
+        AsentamientoTipo asentamientoTipo = colonia.getAsentamientoTipo();
+        if ( asentamientosTipos.contains( asentamientoTipo ) ) {
+            asentamientoTipo = asentamientosTipos.get( asentamientosTipos.indexOf( asentamientoTipo ) );
             colonia.setAsentamientoTipo(asentamientoTipo);
         }else{
             em.persist(colonia.getAsentamientoTipo());
-            asentamientoTipo = colonia.getAsentamientoTipo();
+            asentamientosTipos.add( colonia.getAsentamientoTipo() );
         }
         
         Estado estado = colonia.getEstado();
@@ -178,12 +182,10 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
             estado = estados.get( estados.indexOf( estado ) );
             colonia.setEstado(estado);
         }else{
-            estado = estadoService.guardar(colonia.getEstado());
-            estado = colonia.getEstado();
-            estados.add(estado);
+            em.persist( colonia.getEstado() );
+            estados.add( colonia.getEstado() );
         }
 
-        
         if(colonia.getCiudad() != null && estado != null){
             Ciudad ciudad = colonia.getCiudad();
             if( ciudades.contains( ciudad ) ) {
@@ -192,8 +194,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
             }else {
                 colonia.getCiudad().setEstado(estado);
                 em.persist(colonia.getCiudad());
-                ciudad = colonia.getCiudad();
-                ciudades.add(ciudad);
+                ciudades.add( colonia.getCiudad() );
             }
         }
         
@@ -204,16 +205,15 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
         }else {
             colonia.getMunicipio().setEstado(estado);
             em.persist(colonia.getMunicipio());
-            municipio = colonia.getMunicipio();
-            municipios.add(municipio);
+            municipios.add( colonia.getMunicipio() );
         }
         
-        ZonaTipo zonaTipo = zonaTipoService.findByNombre(colonia.getZonaTipo().getNombre());
-        if (zonaTipo != null) {
-            colonia.setZonaTipo(zonaTipo);
+        ZonaTipo zonaTipo = colonia.getZonaTipo();
+        if (zonaTipos.contains( zonaTipo ) ) {
+            colonia.setZonaTipo( zonaTipos.get( zonaTipos.indexOf( zonaTipo ) ) );
         }else{
             em.persist(colonia.getZonaTipo());
-            zonaTipo = colonia.getZonaTipo();
+            zonaTipos.add( colonia.getZonaTipo() );
         }
         em.persist(colonia);
     }
