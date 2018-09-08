@@ -16,7 +16,12 @@ import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"asentamientoTipo","municipio", "estado", "ciudad", "zonaTipo"})
+@EqualsAndHashCode(exclude = {
+        "id","inegiClaveCiudad","asentamientoTipo",
+        "inegiClaveMunicipio","codigoPostal",
+        "codigoPostalAdministracionAsentamiento",
+        "codigoPostalAdministracionAsentamientoOficina",
+        "municipio", "estado", "ciudad", "zonaTipo"})
 @ToString(exclude = {"asentamientoTipo","municipio", "estado", "ciudad", "zonaTipo"})
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})

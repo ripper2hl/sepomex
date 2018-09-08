@@ -116,10 +116,9 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     }
     
     private void revisarColonia(Colonia colonia, EntityManager em) {
-        CodigoPostal codigoPostal = codigoPostalService.findByNombre(colonia.getCodigoPostal().getNombre());
-        if (codigoPostal != null) {
-            colonia.setCodigoPostal(codigoPostal);
-        }else if( codigosPostales.contains( codigoPostal ) ) {
+        CodigoPostal codigoPostal = colonia.getCodigoPostal();
+        if( codigosPostales.contains( codigoPostal ) ) {
+            codigoPostal =  codigosPostales.get( codigosPostales.indexOf(codigoPostal) ) ;
             colonia.setCodigoPostal(codigoPostal);
         }else{
             em.persist( colonia.getCodigoPostal() );
@@ -127,28 +126,24 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
             codigosPostales.add(codigoPostal);
         }
         
-        CodigoPostal codigoPostalAdministracionAsentamiento = codigoPostalService
-                .findByNombre(colonia.getCodigoPostalAdministracionAsentamiento().getNombre());
-        if (codigoPostalAdministracionAsentamiento != null) {
-            colonia.setCodigoPostalAdministracionAsentamiento(codigoPostalAdministracionAsentamiento);
-        }else if( codigosPostales.contains( codigoPostalAdministracionAsentamiento ) ){
+        CodigoPostal codigoPostalAdministracionAsentamiento = colonia.getCodigoPostalAdministracionAsentamiento();
+        if( codigosPostales.contains( codigoPostalAdministracionAsentamiento ) ){
+            codigoPostalAdministracionAsentamiento = codigosPostales.get( codigosPostales.indexOf( codigoPostalAdministracionAsentamiento ) );
             colonia.setCodigoPostalAdministracionAsentamiento(codigoPostalAdministracionAsentamiento);
         } else {
             em.persist(colonia.getCodigoPostalAdministracionAsentamiento());
             codigoPostalAdministracionAsentamiento = colonia.getCodigoPostalAdministracionAsentamiento();
-            codigosPostales.add(codigoPostal);
+            codigosPostales.add( codigoPostalAdministracionAsentamiento );
         }
-        
-        CodigoPostal codigoPostalAdministracionAsentamientoOficina = codigoPostalService
-                .findByNombre(colonia.getCodigoPostalAdministracionAsentamientoOficina().getNombre());
-        if (codigoPostalAdministracionAsentamientoOficina != null) {
-            colonia.setCodigoPostalAdministracionAsentamientoOficina(codigoPostalAdministracionAsentamientoOficina);
-        }else if ( codigosPostales.contains(codigoPostalAdministracionAsentamientoOficina) ){
+    
+        CodigoPostal codigoPostalAdministracionAsentamientoOficina = colonia.getCodigoPostalAdministracionAsentamientoOficina();
+        if ( codigosPostales.contains(codigoPostalAdministracionAsentamientoOficina) ){
+            codigoPostalAdministracionAsentamientoOficina = codigosPostales.get( codigosPostales.indexOf( codigoPostalAdministracionAsentamientoOficina ) );
             colonia.setCodigoPostalAdministracionAsentamientoOficina(codigoPostalAdministracionAsentamientoOficina);
         }else{
             em.persist(colonia.getCodigoPostalAdministracionAsentamientoOficina());
             codigoPostalAdministracionAsentamientoOficina = colonia.getCodigoPostalAdministracionAsentamientoOficina();
-            codigosPostales.add(codigoPostal);
+            codigosPostales.add(codigoPostalAdministracionAsentamientoOficina);
         }
         
         if(colonia.getInegiClaveCiudad() != null){
@@ -178,10 +173,9 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
             asentamientoTipo = colonia.getAsentamientoTipo();
         }
         
-        Estado estado = estadoService.findByInegiClave(colonia.getEstado().getInegiClave());
-        if (estado != null) {
-            colonia.setEstado(estado);
-        }else if ( estados.contains( estado ) ){
+        Estado estado = colonia.getEstado();
+        if ( estados.contains( estado ) ){
+            estado = estados.get( estados.indexOf( estado ) );
             colonia.setEstado(estado);
         }else{
             estado = estadoService.guardar(colonia.getEstado());
@@ -191,10 +185,9 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
 
         
         if(colonia.getCiudad() != null && estado != null){
-            Ciudad ciudad = ciudadService.findFirstByNombreAndEstadoId(colonia.getCiudad().getNombre(), estado.getId());
-            if (ciudad != null) {
-                colonia.setCiudad(ciudad);
-            }else if( ciudades.contains( ciudad ) ) {
+            Ciudad ciudad = colonia.getCiudad();
+            if( ciudades.contains( ciudad ) ) {
+                ciudad = ciudades.get( ciudades.indexOf( ciudad ) );
                 colonia.setCiudad(ciudad);
             }else {
                 colonia.getCiudad().setEstado(estado);
@@ -204,10 +197,9 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
             }
         }
         
-        Municipio municipio = municipioService.findFirstByNombreAndEstadoId(colonia.getMunicipio().getNombre(), estado.getId());
-        if (municipio != null) {
-            colonia.setMunicipio(municipio);
-        }else if( municipios.contains( municipio ) ){
+        Municipio municipio = colonia.getMunicipio();
+        if( municipios.contains( municipio ) ){
+            municipio = municipios.get( municipios.indexOf( municipio ) );
             colonia.setMunicipio(municipio);
         }else {
             colonia.getMunicipio().setEstado(estado);
