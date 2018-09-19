@@ -40,8 +40,8 @@ public class AppConfig implements WebMvcConfigurer {
     @Bean
     public DataSource dataSource() {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        dataSource.setDriverClass( com.mysql.jdbc.Driver.class );
-        dataSource.setUrl("jdbc:mysql://localhost/sepomex");
+        dataSource.setDriverClass( org.postgresql.Driver.class);
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/sepomex");
         dataSource.setUsername("sepomex");
         dataSource.setPassword("sepomex");
         return dataSource;
@@ -62,7 +62,7 @@ public class AppConfig implements WebMvcConfigurer {
         hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
         hibernateJpaVendorAdapter.setShowSql( false );
         hibernateJpaVendorAdapter.setGenerateDdl(true);
-        hibernateJpaVendorAdapter.setDatabase(Database.MYSQL);
+        hibernateJpaVendorAdapter.setDatabase(Database.POSTGRESQL);
         return hibernateJpaVendorAdapter;
     }
 

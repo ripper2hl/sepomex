@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -21,9 +22,16 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity(name = "inegi_clave_municipio")
 public class InegiClaveMunicipio implements Serializable {
-
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(
+            generator = "sequence_inegi_clave_municipio",
+            strategy = GenerationType.SEQUENCE
+    )
+    @SequenceGenerator(
+            name = "sequence_inegi_clave_municipio",
+            allocationSize = 10
+    )
     @Column(name = "id")
     private Integer id;
     

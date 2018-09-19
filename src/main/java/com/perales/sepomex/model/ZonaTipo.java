@@ -21,9 +21,16 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity(name = "zona_tipo")
 public class ZonaTipo implements Serializable {
-
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(
+            generator = "sequence_zona_tipo",
+            strategy = GenerationType.SEQUENCE
+    )
+    @SequenceGenerator(
+            name = "sequence_zona_tipo",
+            allocationSize = 10
+    )
     @Column(name = "id")
     private Integer id;
     

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -22,7 +23,14 @@ import java.util.List;
 @Entity(name = "estado")
 public class Estado implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(
+            generator = "sequence_estado",
+            strategy = GenerationType.SEQUENCE
+    )
+    @SequenceGenerator(
+            name = "sequence_estado",
+            allocationSize = 10
+    )
     @Column(name = "id")
     private Integer id;
     

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -27,9 +28,16 @@ import java.io.Serializable;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity(name = "colonia")
 public class Colonia implements Serializable {
-
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(
+            generator = "sequence_colonia",
+            strategy = GenerationType.SEQUENCE
+    )
+    @SequenceGenerator(
+            name = "sequence_colonia",
+            allocationSize = 10
+    )
     @Column(name = "id")
     private Integer id;
     

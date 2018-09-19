@@ -8,17 +8,14 @@ services :
       ports:
         - "80:80"
   db:
-    image: mysql:8.0.3
-    volumes:
-           - db-data:/var/lib/mysql
+    image: postgres:latest
     ports:
-      - "3306:3306"
+      - "5432:5432"
 
     environment:
-           MYSQL_ROOT_PASSWORD: sepomex
-           MYSQL_DATABASE: sepomex
-           MYSQL_USER: sepomex
-           MYSQL_PASSWORD: sepomex
+           POSTGRES_DB: sepomex
+           POSTGRES_USER: sepomex
+           POSTGRES_PASSWORD: sepomex
 
   app:
     ports:
