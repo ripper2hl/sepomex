@@ -1,12 +1,13 @@
-El Catálogo Nacional de Códigos Postales, es elaborado por Correos de México y se proporciona en forma gratuita para uso particular, no estando permitida su comercialización, total o parcial, ni su distribución a terceros bajo ningún concepto.
+El Catï¿½logo Nacional de Cï¿½digos Postales, es elaborado por Correos de Mï¿½xico y se proporciona en forma gratuita para uso particular, no estando permitida su comercializaciï¿½n, total o parcial, ni su distribuciï¿½n a terceros bajo ningï¿½n concepto.
 d_codigo|d_asenta|d_tipo_asenta|D_mnpio|d_estado|d_ciudad|d_CP|c_estado|c_oficina|c_CP|c_tipo_asenta|c_mnpio|id_asenta_cpcons|d_zona|c_cve_ciudad
-01000|San Ángel|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0001|Urbano|01
-01010|Los Alpes|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0005|Urbano|01
-01020|Guadalupe Inn|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0006|Urbano|01
-01030|Axotla|Pueblo|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||28|010|0009|Urbano|01
-01030|Florida|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0010|Urbano|01
-01040|Campestre|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0012|Urbano|01
-01048|Las Águilas|Unidad habitacional|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||31|010|0013|Urbano|01
-01049|Tlacopac|Pueblo|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||28|010|0014|Urbano|01
-01050|Ex-Hacienda de Guadalupe Chimalistac|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0016|Urbano|01
-01060|Altavista|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0017|Urbano|01
+01000|San ï¿½ngel|Colonia|ï¿½lvaro Obregï¿½n|Ciudad de Mï¿½xico|Ciudad de Mï¿½xico|01001|09|01001||09|010|0001|Urbano|01
+01010|Los Alpes|Colonia|ï¿½lvaro Obregï¿½n|Ciudad de Mï¿½xico|Ciudad de Mï¿½xico|01001|09|01001||09|010|0005|Urbano|01
+01020|Guadalupe Inn|Colonia|ï¿½lvaro Obregï¿½n|Ciudad de Mï¿½xico|Ciudad de Mï¿½xico|01001|09|01001||09|010|0006|Urbano|01
+01030|Axotla|Pueblo|ï¿½lvaro Obregï¿½n|Ciudad de Mï¿½xico|Ciudad de Mï¿½xico|01001|09|01001||28|010|0009|Urbano|01
+01030|Florida|Colonia|ï¿½lvaro Obregï¿½n|Ciudad de Mï¿½xico|Ciudad de Mï¿½xico|01001|09|01001||09|010|0010|Urbano|01
+01040|Campestre|Colonia|ï¿½lvaro Obregï¿½n|Ciudad de Mï¿½xico|Ciudad de Mï¿½xico|01001|09|01001||09|010|0012|Urbano|01
+01048|Las ï¿½guilas|Unidad habitacional|ï¿½lvaro Obregï¿½n|Ciudad de Mï¿½xico|Ciudad de Mï¿½xico|01001|09|01001||31|010|0013|Urbano|01
+01049|Tlacopac|Pueblo|ï¿½lvaro Obregï¿½n|Ciudad de Mï¿½xico|Ciudad de Mï¿½xico|01001|09|01001||28|010|0014|Urbano|01
+01050|Ex-Hacienda de Guadalupe Chimalistac|Colonia|ï¿½lvaro Obregï¿½n|Ciudad de Mï¿½xico|Ciudad de Mï¿½xico|01001|09|01001||09|010|0016|Urbano|01
+01060|Altavista|Colonia|ï¿½lvaro Obregï¿½n|Ciudad de Mï¿½xico|Ciudad de Mï¿½xico|01001|09|01001||09|010|0017|Urbano|01
+01060|||||Ciudad de Mï¿½xico|01001|09|01001||09|010|0017|Urbano|01

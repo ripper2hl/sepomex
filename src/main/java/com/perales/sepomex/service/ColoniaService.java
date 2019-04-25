@@ -103,15 +103,24 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
                     .map( line -> Arrays.asList(line.split("\\|")) )
                     .map( list -> {
                         Colonia colonia = parser.convertirListaColonia(list);
-                        logger.info( colonia.toString() );
+                        if(colonia != null){
+                            logger.info( colonia.toString() );
+                        }else{
+                            logger.severe("No fue posible guardar el siguiente registro: " + list);
+                        }
                         return colonia;
-                    }).collect( Collectors.toList() );
+                    }).filter( colonia -> colonia != null )
+                    .collect( Collectors.toList() );
     
             Iterables.partition(colonias, 1000).forEach( coloniasBatch -> {
                 EntityManager em = emf.createEntityManager();
                 em.getTransaction().begin();
                 for(Colonia colonia : coloniasBatch){
-                    revisarColonia(colonia, em);
+                    try {
+                        revisarColonia(colonia, em);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
                 em.getTransaction().commit();
             });

@@ -36,7 +36,6 @@ public class Ciudad implements Serializable {
     private Integer id;
     
     @NotNull
-    @NotBlank
     @Column(name = "nombre", nullable = false)
     private String nombre;
     

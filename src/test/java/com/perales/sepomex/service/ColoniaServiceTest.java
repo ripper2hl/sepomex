@@ -38,7 +38,7 @@ public class ColoniaServiceTest {
     private static final String FILE_NAME = "sepomex.txt";
     private  static final String SEPOMEX_TEXT = "El Catálogo Nacional de Códigos Postales, es elaborado por Correos de México y se proporciona en forma gratuita para uso particular, no estando permitida su comercialización, total o parcial, ni su distribución a terceros bajo ningún concepto.\n" +
             "d_codigo|d_asenta|d_tipo_asenta|D_mnpio|d_estado|d_ciudad|d_CP|c_estado|c_oficina|c_CP|c_tipo_asenta|c_mnpio|id_asenta_cpcons|d_zona|c_cve_ciudad\n" +
-            "01000|San Ángel|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0001|Urbano|01\n" +
+            "||||||||||||||\n" +
             "01010|Los Alpes|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0005|Urbano|01\n" +
             "01020|Guadalupe Inn|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0006|Urbano|01\n" +
             "01030|Axotla|Pueblo|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||28|010|0009|Urbano|01\n" +
@@ -106,6 +106,8 @@ public class ColoniaServiceTest {
                 "filename.txt",
                 "text/plain", SEPOMEX_TEXT.getBytes());
         assertThat("Deberia obtener verdadero",true,  is(coloniaService.cargaMasiva( file ) )  );
+        Page<Colonia> colonias = coloniaService.buscarTodos(0, 100);
+        assertThat( "Debe ser un numero total de ", 9L, is( colonias.getTotalElements() )  );
     }
 
     @Test
