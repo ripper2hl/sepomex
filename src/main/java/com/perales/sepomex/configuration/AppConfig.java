@@ -41,7 +41,7 @@ public class AppConfig implements WebMvcConfigurer {
     public DataSource dataSource() {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setDriverClass( org.postgresql.Driver.class);
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/sepomex");
+        dataSource.setUrl("jdbc:postgresql://db:5432/sepomex");
         dataSource.setUsername("sepomex");
         dataSource.setPassword("sepomex");
         return dataSource;

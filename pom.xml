@@ -170,6 +170,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -220,31 +221,29 @@
     </dependencies>
 
     <build>
-        <finalName>sepomex</finalName>
         <plugins>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <finalName>app</finalName>
                 </configuration>
             </plugin>
+
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${maven.war.plugin.version}</version>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.13</version>
                 <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <webResources>
+                    <imageName>perales/sepomex</imageName>
+                    <dockerDirectory>docker</dockerDirectory>
+                    <resources>
                         <resource>
-                            <directory>src/main/resources/</directory>
-                            <includes>
-                                <include>web.xml</include>
-                            </includes>
-                            <targetPath>WEB-INF/</targetPath>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>app.jar</include>
                         </resource>
-                    </webResources>
+                    </resources>
                 </configuration>
             </plugin>
         </plugins>
