@@ -7,7 +7,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -39,11 +38,6 @@ public class Municipio implements Serializable {
     @NotBlank
     @Column(name = "nombre", nullable = false)
     private String nombre;
-    
-    @NotNull
-    @NotBlank
-    @Column(name = "identificador_municipal", nullable = false)
-    private String identificadorMunicipal;
     
     @ManyToOne
     @JoinColumn(name = "estado_id")

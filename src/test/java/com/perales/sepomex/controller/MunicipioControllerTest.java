@@ -176,7 +176,6 @@ public class MunicipioControllerTest {
     public void guardar() throws Exception {
         Municipio municipio = new Municipio();
         municipio.setNombre("municipio");
-        municipio.setIdentificadorMunicipal("identificadorMunicipal");
         StringBuilder sb = new StringBuilder(API_URL);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString( municipio );
@@ -223,7 +222,6 @@ public class MunicipioControllerTest {
         Municipio municipio = new Municipio();
         municipio.setId(1);
         municipio.setNombre("actualizar");
-        municipio.setIdentificadorMunicipal("identificadorMunicipal");
         StringBuilder sb = new StringBuilder(API_URL);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString( municipio );

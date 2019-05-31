@@ -123,6 +123,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
                     }
                 }
                 em.getTransaction().commit();
+                em.close();
             });
         }
         return true;
@@ -130,6 +131,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     
     private void revisarColonia(Colonia colonia, EntityManager em) {
         CodigoPostal codigoPostal = colonia.getCodigoPostal();
+        
         if( codigosPostales.contains( codigoPostal ) ) {
             codigoPostal =  codigosPostales.get( codigosPostales.indexOf(codigoPostal) ) ;
             colonia.setCodigoPostal(codigoPostal);

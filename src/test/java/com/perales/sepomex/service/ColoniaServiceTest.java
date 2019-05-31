@@ -127,6 +127,7 @@ public class ColoniaServiceTest {
     public void guardar() {
         Colonia colonia = new Colonia();
         colonia.setNombre("Cañada blanca");
+        colonia.setIdentificadorMunicipal("identificadorMunicipal");
         Colonia coloniaGuardada = coloniaService.guardar(colonia);
         assertThat("Deberia tener un id", coloniaGuardada.getId(), is( notNullValue() ) );
     }

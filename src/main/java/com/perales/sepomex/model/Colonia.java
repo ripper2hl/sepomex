@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -95,4 +94,9 @@ public class Colonia implements Serializable {
     @ManyToOne
     @JoinColumn(name = "zona_tipo_id")
     private ZonaTipo zonaTipo;
+    
+    @NotNull
+    @NotBlank
+    @Column(name = "identificador_municipal", nullable = false)
+    private String identificadorMunicipal;
 }

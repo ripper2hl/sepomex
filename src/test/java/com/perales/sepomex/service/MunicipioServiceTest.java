@@ -90,7 +90,6 @@ public class MunicipioServiceTest {
     public void buscarTodos() {
         Municipio municipio = new Municipio();
         municipio.setNombre("Municipio");
-        municipio.setIdentificadorMunicipal("identificadorMunicipal");
         Municipio municipioGuardada = municipioService.guardar(municipio);
         int page = 0;
         int size = 20;
@@ -104,7 +103,6 @@ public class MunicipioServiceTest {
     public void guardar() {
         Municipio municipio = new Municipio();
         municipio.setNombre("municipio");
-        municipio.setIdentificadorMunicipal("identificadorMunicipal");
         Municipio municipioGuardado = municipioService.guardar(municipio);
     }
     
@@ -113,7 +111,6 @@ public class MunicipioServiceTest {
         String nombreMunicipio = "cambiando nombre sepomex";
         Municipio municipio = new Municipio();
         municipio.setNombre("municipio2");
-        municipio.setIdentificadorMunicipal("identificadorMunicipal");
         Municipio municipioGuardado = municipioService.guardar(municipio);
         municipioGuardado.setNombre( nombreMunicipio );
         municipioService.actualizar(municipioGuardado);
