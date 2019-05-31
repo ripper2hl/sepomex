@@ -177,5 +177,42 @@ public class ColoniaServiceTest {
         exception.expect(NoSuchElementException.class);
         Colonia coloniaEncontrada = coloniaService.buscarPorId( 1 );
     }
+    
+    @Test
+    @DatabaseSetups({
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/codigo-postal.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/asentamiento-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/estado.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/zona-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/colonia.xml",
+                    type = DatabaseOperation.REFRESH)
+        
+    })
+    public void findByMunicipioId() {
+        int id = 1;
+        Page<Colonia> colonias = coloniaService.findByMunicipioId( id , 0, 10);
+        assertThat("Deberia encontrar colonias por municipio", colonias , is( notNullValue() ) );
+    }
 
 }

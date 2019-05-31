@@ -227,4 +227,9 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
         em.persist(colonia);
     }
     
+    public Page<Colonia> findByMunicipioId( Integer id, Integer page , Integer size ){
+        int firstResult = page * size;
+        return coloniaRepository.findByMunicipioId(id, PageRequest.of(firstResult, size ));
+    }
+    
 }
