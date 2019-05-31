@@ -40,4 +40,9 @@ public class MunicipioController implements ControllerGeneric<Municipio, Integer
     public Municipio borrar( @PathVariable Integer id) {
         return municipioService.borrar(id);
     }
+    
+    @GetMapping(value = "/estado/{id}", params = {"page", "size"})
+    public Page<Municipio> findByEstadoId( @PathVariable Integer id, @RequestParam int page, @RequestParam int size) {
+        return municipioService.findByEstadoId(id, page, size);
+    }
 }

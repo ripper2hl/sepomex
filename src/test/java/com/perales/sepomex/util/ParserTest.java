@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -124,7 +123,7 @@ public class ParserTest extends TestCase{
     @Test
     public void guardarArchivoEntidadesParseadas() throws IOException, ClassNotFoundException {
         String archivoSepomexNombre = "src/test/resources/" + FILE_NAME;
-        String archivoParseadoNombre = "/home/perales/sepomex-parseado.ser";
+        String archivoParseadoNombre = "/tmp/sepomex-parseado.ser";
         parser.guardarArchivoEntidadesParseadas(archivoSepomexNombre, archivoParseadoNombre);
         File archivoParseadoComprobacion = new File(archivoParseadoNombre);
         assertTrue("Deberia existir el archivo parseado", archivoParseadoComprobacion.exists());
