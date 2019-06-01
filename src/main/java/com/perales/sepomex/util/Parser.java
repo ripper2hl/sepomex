@@ -75,6 +75,7 @@ public class Parser {
     
             colonia.getCiudad().setEstado(colonia.getEstado());
             colonia.getMunicipio().setEstado(colonia.getEstado());
+            colonia.setIdentificadorMunicipal(lista.get(ASENTAMIENTO_IDENTIFICADOR_MUNICIPAL_POSICION));
         }
         return colonia;
     }
@@ -95,7 +96,6 @@ public class Parser {
     public Municipio obtenerMunicipio(List<String> lista) {
         Municipio municipio = new Municipio();
         municipio.setNombre(lista.get(MUNICIPIO_NOMBRE_POSICION));
-        municipio.setIdentificadorMunicipal(lista.get(ASENTAMIENTO_IDENTIFICADOR_MUNICIPAL_POSICION));
         return municipio;
     }
 
@@ -125,7 +125,7 @@ public class Parser {
                                 return colonia;
                             }).collect(Collectors.toList());
                     logger.info(colonias.toString());
-                    oos.writeObject(colonias);
+                    oos.writeUTF( colonias.toString() );
                 }catch (IOException e){
                     throw e;
                 }
