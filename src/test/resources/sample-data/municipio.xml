@@ -2,9 +2,7 @@
 <dataset>
     <Municipio
             id="1" nombre="municipio"
-            identificador_municipal="identificadorMunicipal"
             estado_id="1"
             ciudad_id="1"
-
     />
 </dataset>

@@ -6,5 +6,6 @@
              codigo_postal_administracion_asentamiento_oficina_id="1"
              asentamiento_tipo_id="1" municipio_id="1"
              estado_id="1" ciudad_id="1" zona_tipo_id="1"
+             identificador_municipal="1"
     />
 </dataset>

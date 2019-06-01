@@ -14,7 +14,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -66,13 +65,13 @@ public class AsentamientoTipoControllerTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",
@@ -158,13 +157,13 @@ public class AsentamientoTipoControllerTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",
@@ -204,13 +203,13 @@ public class AsentamientoTipoControllerTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",
@@ -251,13 +250,13 @@ public class AsentamientoTipoControllerTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",
