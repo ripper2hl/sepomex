@@ -5,6 +5,10 @@ import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.*;
 import com.perales.sepomex.repository.ColoniaRepository;
 import com.perales.sepomex.util.Parser;
+import org.apache.lucene.search.Query;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +18,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -232,6 +238,38 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     public Page<Colonia> findByMunicipioId( Integer id, Integer page , Integer size ){
         int firstResult = page * size;
         return coloniaRepository.findByMunicipioId(id, PageRequest.of(firstResult, size ));
+    }
+    
+    public void indexDb() throws InterruptedException {
+    
+        
+        FullTextEntityManager fullTextEntityManager
+                = Search.getFullTextEntityManager(emf.createEntityManager());
+        fullTextEntityManager.createIndexer().startAndWait();
+    }
+    
+    public List<Colonia> searchByName(String name){
+        FullTextEntityManager fullTextEntityManager
+                = Search.getFullTextEntityManager( emf.createEntityManager() );
+    
+        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
+                .buildQueryBuilder()
+                .forEntity(Colonia.class)
+                .get();
+    
+        Query fuzzyQuery = queryBuilder
+                .keyword()
+                .fuzzy()
+                .withEditDistanceUpTo(2)
+                .withPrefixLength(0)
+                .onField("nombre")
+                .matching(name)
+                .createQuery();
+    
+        org.hibernate.search.jpa.FullTextQuery jpaQuery
+                = fullTextEntityManager.createFullTextQuery(fuzzyQuery, Colonia.class);
+                
+        return jpaQuery.getResultList();
     }
     
 }

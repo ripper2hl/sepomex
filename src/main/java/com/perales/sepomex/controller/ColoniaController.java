@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("v1/colonia/")
@@ -57,5 +58,16 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
     @GetMapping(value = "/municipio/{id}", params = {"page", "size"}, produces = "application/json; charset=UTF-8")
     public Page<Colonia> findByEstadoId(@PathVariable Integer id, @RequestParam int page, @RequestParam int size) {
         return coloniaService.findByMunicipioId(id, page, size);
+    }
+    
+    @GetMapping(value = "/index")
+    public Boolean index() throws InterruptedException {
+        coloniaService.indexDb();
+        return true;
+    }
+    
+    @GetMapping(value = "/name/{name}")
+    public List<Colonia> searchByName(@PathVariable String name) {
+        return coloniaService.searchByName(name);
     }
 }

@@ -1,13 +1,10 @@
 package com.perales.sepomex.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,7 +16,6 @@ import java.util.List;
 @EqualsAndHashCode( exclude = { "id", "colonias"})
 @NoArgsConstructor
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity(name = "inegi_clave_municipio")
 public class InegiClaveMunicipio implements Serializable {
     
@@ -40,7 +36,6 @@ public class InegiClaveMunicipio implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
     
-    @JsonBackReference(value = "colonias")
     @OneToMany(mappedBy = "inegiClaveMunicipio")
     private List<Colonia> colonias;
 }
