@@ -40,7 +40,7 @@ public class Municipio implements Serializable {
     @NotNull
     @NotBlank
     @Column(name = "nombre", nullable = false)
-    protected String nombre;
+    private String nombre;
     
     @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
@@ -52,9 +52,11 @@ public class Municipio implements Serializable {
     @JoinColumn(name = "ciudad_id")
     private Ciudad ciudad;
     
+    @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "municipio")
     private List<CodigoPostal> codigosPostales;
     
+    @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "municipio")
     private List<Colonia> colonias;
 }

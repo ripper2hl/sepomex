@@ -45,12 +45,15 @@ public class Ciudad implements Serializable {
     @JoinColumn(name = "estado_id")
     private Estado estado;
     
+    @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "ciudad")
     private List<Colonia> colonias;
     
+    @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "ciudad")
     private List<Municipio> municipios;
     
+    @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "ciudad")
     private List<CodigoPostal> codigosPostales;
 }

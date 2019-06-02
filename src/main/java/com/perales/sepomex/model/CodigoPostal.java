@@ -60,12 +60,15 @@ public class CodigoPostal implements Serializable {
     @JoinColumn(name = "ciudad_id")
     private Ciudad ciudad;
     
+    @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "codigoPostal")
     private List<Colonia> colonias;
     
+    @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "codigoPostalAdministracionAsentamiento")
     private List<Colonia> coloniasCodigoPostalAdministracionAsentamiento;
     
+    @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "codigoPostalAdministracionAsentamientoOficina")
     private List<Colonia> coloniasCodigoPostalAdministracionAsentamientoOficina;
 }

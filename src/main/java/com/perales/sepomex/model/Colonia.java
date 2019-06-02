@@ -96,6 +96,7 @@ public class Colonia implements Serializable {
     @JoinColumn(name = "zona_tipo_id")
     private ZonaTipo zonaTipo;
     
+    @JsonIdentityReference(alwaysAsId = true)
     @NotNull
     @NotBlank
     @Column(name = "identificador_municipal", nullable = false)

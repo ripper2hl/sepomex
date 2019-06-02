@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("v1/codigopostal/")
 public class CodigoPostalController implements ControllerGeneric<CodigoPostal, Integer>{
@@ -44,5 +46,10 @@ public class CodigoPostalController implements ControllerGeneric<CodigoPostal, I
     @DeleteMapping("/{id}")
     public CodigoPostal borrar(@PathVariable Integer id) {
         return codigoPostalService.borrar(id);
+    }
+    
+    @GetMapping(value = "/name/{name}")
+    public List<CodigoPostal> searchByName(@PathVariable String name) {
+        return codigoPostalService.searchByName(name);
     }
 }

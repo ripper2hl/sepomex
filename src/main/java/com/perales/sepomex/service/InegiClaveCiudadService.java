@@ -3,17 +3,27 @@ package com.perales.sepomex.service;
 import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.InegiClaveCiudad;
 import com.perales.sepomex.repository.InegiClaveCiudadRepository;
+import org.apache.lucene.search.Query;
+import org.hibernate.search.jpa.FullTextEntityManager;
+import org.hibernate.search.jpa.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManagerFactory;
+import java.util.List;
+
 @Service
 public class InegiClaveCiudadService implements ServiceGeneric<InegiClaveCiudad, Integer> {
 
     @Autowired
     private InegiClaveCiudadRepository inegiClaveCiudadRepository;
+    
+    @Autowired
+    private EntityManagerFactory emf;
     
     @Transactional(readOnly = true)
     public InegiClaveCiudad buscarPorId(Integer id) {
@@ -47,5 +57,30 @@ public class InegiClaveCiudadService implements ServiceGeneric<InegiClaveCiudad,
     @Transactional(readOnly = true)
     public InegiClaveCiudad findFirstByNombre(String nombre) {
         return inegiClaveCiudadRepository.findFirstByNombre(nombre);
+    }
+    
+    @Transactional(readOnly = true)
+    public List<InegiClaveCiudad> searchByName(String name){
+        FullTextEntityManager fullTextEntityManager
+                = Search.getFullTextEntityManager( emf.createEntityManager() );
+        
+        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
+                .buildQueryBuilder()
+                .forEntity(InegiClaveCiudad.class)
+                .get();
+        
+        Query fuzzyQuery = queryBuilder
+                .keyword()
+                .fuzzy()
+                .withEditDistanceUpTo(2)
+                .withPrefixLength(0)
+                .onField("nombre")
+                .matching(name)
+                .createQuery();
+        
+        org.hibernate.search.jpa.FullTextQuery jpaQuery
+                = fullTextEntityManager.createFullTextQuery(fuzzyQuery, InegiClaveCiudad.class);
+        
+        return jpaQuery.getResultList();
     }
 }

@@ -2,6 +2,7 @@ package com.perales.sepomex.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -42,11 +43,13 @@ public class AsentamientoTipo implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
     
+    @Field(termVector = TermVector.YES)
     @NotNull
     @NotBlank
     @Column(name = "sepomex_clave", nullable = false)
     private String sepomexClave;
     
+    @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(mappedBy = "asentamientoTipo")
     private List<Colonia> colonias;
 }

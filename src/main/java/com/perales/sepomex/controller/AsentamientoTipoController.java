@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("v1/asentamientotipo/")
 public class AsentamientoTipoController implements ControllerGeneric<AsentamientoTipo, Integer> {
@@ -39,5 +41,10 @@ public class AsentamientoTipoController implements ControllerGeneric<Asentamient
     @DeleteMapping("/{id}")
     public AsentamientoTipo borrar( @PathVariable Integer id) {
         return asentamientoTipoService.borrar(id);
+    }
+    
+    @GetMapping(value = "/name/{name}")
+    public List<AsentamientoTipo> searchByName(@PathVariable String name) {
+        return asentamientoTipoService.searchByName(name);
     }
 }

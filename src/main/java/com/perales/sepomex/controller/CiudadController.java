@@ -8,6 +8,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 @RestController
 @RequestMapping("v1/ciudad/")
 public class CiudadController implements ControllerGeneric<Ciudad, Integer> {
@@ -39,5 +42,10 @@ public class CiudadController implements ControllerGeneric<Ciudad, Integer> {
     @DeleteMapping("/{id}")
     public Ciudad borrar(@PathVariable Integer id) {
         return ciudadService.borrar(id);
+    }
+    
+    @GetMapping(value = "/name/{name}")
+    public List<Ciudad> searchByName(@PathVariable String name) {
+        return ciudadService.searchByName(name);
     }
 }

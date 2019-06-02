@@ -46,22 +46,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     private static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
     @Autowired
     private ColoniaRepository coloniaRepository;
-    @Autowired
-    private CodigoPostalService codigoPostalService;
-    @Autowired
-    private MunicipioService municipioService;
-    @Autowired
-    private CiudadService ciudadService;
-    @Autowired
-    private EstadoService estadoService;
-    @Autowired
-    private AsentamientoTipoService asentamientoTipoService;
-    @Autowired
-    private ZonaTipoService zonaTipoService;
-    @Autowired
-    private InegiClaveCiudadService inegiClaveCiudadService;
-    @Autowired
-    private InegiClaveMunicipioService inegiClaveMunicipioService;
+
     @Autowired
     private EntityManagerFactory emf;
     @Autowired
@@ -248,6 +233,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
         fullTextEntityManager.createIndexer().startAndWait();
     }
     
+    @Transactional(readOnly = true)
     public List<Colonia> searchByName(String name){
         FullTextEntityManager fullTextEntityManager
                 = Search.getFullTextEntityManager( emf.createEntityManager() );

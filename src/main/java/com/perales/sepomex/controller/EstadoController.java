@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("v1/estado/")
 public class EstadoController implements ControllerGeneric<Estado, Integer>{
@@ -40,5 +42,10 @@ public class EstadoController implements ControllerGeneric<Estado, Integer>{
     @DeleteMapping("/{id}")
     public Estado borrar(@PathVariable Integer id) {
         return estadoService.borrar(id);
+    }
+    
+    @GetMapping(value = "/name/{name}")
+    public List<Estado> searchByName(@PathVariable String name) {
+        return estadoService.searchByName(name);
     }
 }

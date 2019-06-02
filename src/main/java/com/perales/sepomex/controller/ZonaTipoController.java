@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("v1/zonatipo/")
 public class ZonaTipoController implements ControllerGeneric<ZonaTipo, Integer>{
@@ -40,5 +42,10 @@ public class ZonaTipoController implements ControllerGeneric<ZonaTipo, Integer>{
     @DeleteMapping("/{id}")
     public ZonaTipo borrar(@PathVariable Integer id) {
         return zonaTipoService.borrar(id);
+    }
+    
+    @GetMapping(value = "/name/{name}")
+    public List<ZonaTipo> searchByName(@PathVariable String name) {
+        return zonaTipoService.searchByName(name);
     }
 }

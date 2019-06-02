@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("v1/inegiclaveciudad/")
 public class InegiClaveCiudadController implements ControllerGeneric<InegiClaveCiudad, Integer>{
@@ -40,5 +42,10 @@ public class InegiClaveCiudadController implements ControllerGeneric<InegiClaveC
     @DeleteMapping("/{id}")
     public InegiClaveCiudad borrar(@PathVariable Integer id) {
         return inegiClaveCiudadService.borrar(id);
+    }
+    
+    @GetMapping(value = "/name/{name}")
+    public List<InegiClaveCiudad> searchByName(@PathVariable String name) {
+        return inegiClaveCiudadService.searchByName(name);
     }
 }
