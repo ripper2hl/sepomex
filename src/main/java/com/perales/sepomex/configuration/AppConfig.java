@@ -75,10 +75,12 @@ public class AppConfig implements WebMvcConfigurer {
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.hbm2ddl.auto", "create-drop");
+        properties.put("hibernate.hbm2ddl.auto", "none");
         properties.put("hibernate.jdbc.batch_size", "25");
         properties.put("hibernate.order_inserts", "true");
         properties.put("hibernate.order_updates", "true");
+        properties.put("hibernate.search.default.directory_provider", "filesystem");
+        properties.put("hibernate.search.default.indexBase", "/sepomex-indices/");
         return properties;
     }
     
