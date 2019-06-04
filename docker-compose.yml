@@ -18,7 +18,7 @@ services :
     depends_on:
       - web
       - db
-    image: sepomex:latest
+    image: jesusperales/sepomex-api:latest
     volumes:
       - app-data:/sepomex-indices
 

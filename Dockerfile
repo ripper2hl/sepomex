@@ -10,4 +10,4 @@ RUN chown -R bootapp /sepomex-indices/
 RUN chmod 744 /sepomex-indices/
 USER bootapp
 COPY --from=build /usr/src/app/target/app.jar /
-EXPOSE 8080
+EXPOSE 8007
