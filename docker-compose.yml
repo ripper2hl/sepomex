@@ -8,22 +8,20 @@ services :
       ports:
         - "80:80"
   db:
-    image: postgres:latest
+    image: jesusperales/sepomex-db-postgresql
     ports:
       - "5432:5432"
 
-    environment:
-           POSTGRES_DB: sepomex
-           POSTGRES_USER: sepomex
-           POSTGRES_PASSWORD: sepomex
-
   app:
     ports:
-      - "8080:8080"
+      - "8080:8007"
     depends_on:
       - web
       - db
     image: sepomex:latest
+    volumes:
+      - app-data:/sepomex-indices
 
 volumes:
   db-data:
+  app-data:
