@@ -1,12 +1,17 @@
 package com.perales.sepomex.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -26,6 +31,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
+@EnableCaching
 @EnableWebMvc
 @EnableTransactionManagement
 @EnableAspectJAutoProxy(proxyTargetClass = true)
@@ -107,6 +113,16 @@ public class AppConfig implements WebMvcConfigurer {
         characterEncodingFilter.setEncoding("UTF-8");
         registrationBean.setFilter(characterEncodingFilter);
         return registrationBean;
+    }
+    
+    @Bean
+    public RedisTemplate getRedisTemplate(ObjectMapper objectMapper, RedisConnectionFactory redisConnectionFactory){
+        RedisTemplate redisTemplate = new RedisTemplate();
+        GenericJackson2JsonRedisSerializer configurationJackson = new GenericJackson2JsonRedisSerializer(objectMapper);
+        redisTemplate.setEnableDefaultSerializer(true);
+        redisTemplate.setDefaultSerializer( configurationJackson );
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        return redisTemplate;
     }
     
     @Override

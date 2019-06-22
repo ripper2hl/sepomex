@@ -4,6 +4,7 @@ import com.perales.sepomex.contract.ControllerGeneric;
 import com.perales.sepomex.model.Colonia;
 import com.perales.sepomex.service.ColoniaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -24,11 +25,13 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
         this.coloniaService = coloniaService;
     }
     
+    @Cacheable(value = "ColoniabuscarPorId", key = "#id")
     @GetMapping("/{id}")
     public Colonia buscarPorId(@PathVariable Integer id) {
         return coloniaService.buscarPorId(id);
     }
     
+    @Cacheable(value = "ColoniabuscarTodos", key = "{#page ,#size}")
     @GetMapping(params = {"page", "size"})
     public Page<Colonia> buscarTodos(@RequestParam int page, @RequestParam int size) {
         return coloniaService.buscarTodos(page, size) ;
@@ -66,6 +69,7 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
         return true;
     }
     
+    @Cacheable(value = "ColoniasearchByName", key = "#name")
     @GetMapping(value = "/name/{name}")
     public List<Colonia> searchByName(@PathVariable String name) {
         return coloniaService.searchByName(name);

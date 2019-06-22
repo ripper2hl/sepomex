@@ -4,6 +4,7 @@ import com.perales.sepomex.contract.ControllerGeneric;
 import com.perales.sepomex.model.ZonaTipo;
 import com.perales.sepomex.service.ZonaTipoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -18,11 +19,13 @@ public class ZonaTipoController implements ControllerGeneric<ZonaTipo, Integer>{
     @Autowired
     private ZonaTipoService zonaTipoService;
     
+    @Cacheable(value = "ZonaTipobuscarPorId", key = "#id")
     @GetMapping("/{id}")
     public ZonaTipo buscarPorId( @PathVariable Integer id) {
         return zonaTipoService.buscarPorId(id);
     }
-
+    
+    @Cacheable(value = "ZonaTipobuscarTodos", key = "{#page ,#size}")
     @GetMapping(params = {"page", "size"})
     public Page<ZonaTipo> buscarTodos( @RequestParam int page, @RequestParam int size) {
         return zonaTipoService.buscarTodos(page, size);
@@ -44,6 +47,7 @@ public class ZonaTipoController implements ControllerGeneric<ZonaTipo, Integer>{
         return zonaTipoService.borrar(id);
     }
     
+    @Cacheable(value = "ZonaTiposearchByName", key = "#name")
     @GetMapping(value = "/name/{name}")
     public List<ZonaTipo> searchByName(@PathVariable String name) {
         return zonaTipoService.searchByName(name);

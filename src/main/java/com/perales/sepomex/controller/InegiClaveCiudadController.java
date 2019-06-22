@@ -4,6 +4,7 @@ import com.perales.sepomex.contract.ControllerGeneric;
 import com.perales.sepomex.model.InegiClaveCiudad;
 import com.perales.sepomex.service.InegiClaveCiudadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -18,11 +19,13 @@ public class InegiClaveCiudadController implements ControllerGeneric<InegiClaveC
     @Autowired
     private InegiClaveCiudadService inegiClaveCiudadService;
     
+    @Cacheable(value = "InegiClaveCiudadbuscarPorId", key = "#id")
     @GetMapping("/{id}")
     public InegiClaveCiudad buscarPorId(@PathVariable Integer id) {
         return inegiClaveCiudadService.buscarPorId(id);
     }
-
+    
+    @Cacheable(value = "InegiClaveCiudadbuscarTodos", key = "{#page ,#size}")
     @GetMapping(params = {"page", "size"})
     public Page<InegiClaveCiudad> buscarTodos(@RequestParam int page, @RequestParam int size) {
         return inegiClaveCiudadService.buscarTodos(page,size);
@@ -44,6 +47,7 @@ public class InegiClaveCiudadController implements ControllerGeneric<InegiClaveC
         return inegiClaveCiudadService.borrar(id);
     }
     
+    @Cacheable(value = "InegiClaveCiudadsearchByName", key = "#name")
     @GetMapping(value = "/name/{name}")
     public List<InegiClaveCiudad> searchByName(@PathVariable String name) {
         return inegiClaveCiudadService.searchByName(name);

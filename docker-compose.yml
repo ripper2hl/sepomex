@@ -12,6 +12,11 @@ services :
     ports:
       - "5432:5432"
 
+  cache:
+    image: redis
+    ports:
+      - "6379:6379"
+
   app:
     ports:
       - "8080:8007"
@@ -21,7 +26,15 @@ services :
     image: jesusperales/sepomex-api:latest
     volumes:
       - app-data:/sepomex-indices
+    networks:
+      - default
+
 
 volumes:
   db-data:
   app-data:
+
+networks:
+  default:
+    external:
+      name: wso2

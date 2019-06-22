@@ -4,6 +4,7 @@ import com.perales.sepomex.contract.ControllerGeneric;
 import com.perales.sepomex.model.AsentamientoTipo;
 import com.perales.sepomex.service.AsentamientoTipoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +18,13 @@ public class AsentamientoTipoController implements ControllerGeneric<Asentamient
     @Autowired
     private AsentamientoTipoService asentamientoTipoService;
     
+    @Cacheable(value = "AsentamientoTipobuscarPorId", key = "#id")
     @GetMapping("/{id}")
     public AsentamientoTipo buscarPorId(@PathVariable Integer id) {
         return asentamientoTipoService.buscarPorId(id);
     }
-
+    
+    @Cacheable(value = "AsentamientoTipobuscarTodos", key = "{#page ,#size}")
     @GetMapping(params = {"page", "size"})
     public Page<AsentamientoTipo> buscarTodos(@RequestParam int page, @RequestParam int size) {
         return asentamientoTipoService.buscarTodos(page,size);
@@ -43,6 +46,7 @@ public class AsentamientoTipoController implements ControllerGeneric<Asentamient
         return asentamientoTipoService.borrar(id);
     }
     
+    @Cacheable(value = "AsentamientoTiposearchByName", key = "#name")
     @GetMapping(value = "/name/{name}")
     public List<AsentamientoTipo> searchByName(@PathVariable String name) {
         return asentamientoTipoService.searchByName(name);

@@ -4,6 +4,7 @@ import com.perales.sepomex.contract.ControllerGeneric;
 import com.perales.sepomex.model.CodigoPostal;
 import com.perales.sepomex.service.CodigoPostalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -22,11 +23,13 @@ public class CodigoPostalController implements ControllerGeneric<CodigoPostal, I
         this.codigoPostalService = codigoPostalService;
     }
     
+    @Cacheable(value = "CodigoPostalbuscarPorId", key = "#id")
     @GetMapping("/{id}")
     public CodigoPostal buscarPorId(@PathVariable Integer id) {
         return codigoPostalService.buscarPorId(id);
     }
     
+    @Cacheable(value = "CodigoPostalbuscarTodos", key = "{#page ,#size}")
     @GetMapping(params = {"page", "size"})
     public Page<CodigoPostal> buscarTodos(@RequestParam int page, @RequestParam int size) {
         return codigoPostalService.buscarTodos(page, size) ;
@@ -48,6 +51,7 @@ public class CodigoPostalController implements ControllerGeneric<CodigoPostal, I
         return codigoPostalService.borrar(id);
     }
     
+    @Cacheable(value = "CodigoPostalsearchByName", key = "#name")
     @GetMapping(value = "/name/{name}")
     public List<CodigoPostal> searchByName(@PathVariable String name) {
         return codigoPostalService.searchByName(name);

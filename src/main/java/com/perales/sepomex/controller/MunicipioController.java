@@ -4,6 +4,7 @@ import com.perales.sepomex.contract.ControllerGeneric;
 import com.perales.sepomex.model.Municipio;
 import com.perales.sepomex.service.MunicipioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -17,11 +18,13 @@ public class MunicipioController implements ControllerGeneric<Municipio, Integer
     @Autowired
     private MunicipioService municipioService;
     
+    @Cacheable(value = "MunicipiobuscarPorId", key = "#id")
     @GetMapping("/{id}")
     public Municipio buscarPorId( @PathVariable Integer id) {
         return municipioService.buscarPorId(id);
     }
-
+    
+    @Cacheable(value = "MunicipiobuscarTodos", key = "{#page ,#size}")
     @GetMapping(params = {"page", "size"})
     public Page<Municipio> buscarTodos(@RequestParam int page, @RequestParam int size) {
         return municipioService.buscarTodos(page,size);
@@ -48,6 +51,7 @@ public class MunicipioController implements ControllerGeneric<Municipio, Integer
         return municipioService.findByEstadoId(id, page, size);
     }
     
+    @Cacheable(value = "MunicipiosearchByName", key = "#name")
     @GetMapping(value = "/name/{name}")
     public List<Municipio> searchByName(@PathVariable String name) {
         return municipioService.searchByName(name);

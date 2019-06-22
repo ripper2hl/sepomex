@@ -4,6 +4,7 @@ import com.perales.sepomex.contract.ControllerGeneric;
 import com.perales.sepomex.model.Estado;
 import com.perales.sepomex.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
@@ -18,11 +19,13 @@ public class EstadoController implements ControllerGeneric<Estado, Integer>{
     @Autowired
     private EstadoService estadoService;
     
+    @Cacheable(value = "EstadobuscarPorId", key = "#id")
     @GetMapping("/{id}")
     public Estado buscarPorId(@PathVariable Integer id) {
         return estadoService.buscarPorId(id);
     }
-
+    
+    @Cacheable(value = "EstadobuscarTodos", key = "{#page ,#size}")
     @GetMapping(params = {"page", "size"})
     public Page<Estado> buscarTodos(@RequestParam int page, @RequestParam int size) {
         return estadoService.buscarTodos(page,size);
@@ -44,6 +47,7 @@ public class EstadoController implements ControllerGeneric<Estado, Integer>{
         return estadoService.borrar(id);
     }
     
+    @Cacheable(value = "EstadosearchByName", key = "#name")
     @GetMapping(value = "/name/{name}")
     public List<Estado> searchByName(@PathVariable String name) {
         return estadoService.searchByName(name);
