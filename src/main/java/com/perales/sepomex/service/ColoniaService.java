@@ -6,6 +6,12 @@ import com.perales.sepomex.model.*;
 import com.perales.sepomex.repository.ColoniaRepository;
 import com.perales.sepomex.util.Parser;
 import org.apache.lucene.search.Query;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
@@ -252,7 +258,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     }
     
     @Transactional(readOnly = true)
-    public List<Colonia> searchByName(String name){
+    public List<Colonia> search(Colonia colonia){
         FullTextEntityManager fullTextEntityManager
                 = Search.getFullTextEntityManager( emf.createEntityManager() );
     
@@ -267,13 +273,39 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
                 .withEditDistanceUpTo(2)
                 .withPrefixLength(0)
                 .onField("nombre")
-                .matching(name)
+                .matching( colonia.getNombre())
                 .createQuery();
-    
+        
         org.hibernate.search.jpa.FullTextQuery jpaQuery
                 = fullTextEntityManager.createFullTextQuery(fuzzyQuery, Colonia.class);
-                
+        jpaQuery.setCriteriaQuery( createCriteriaSearch(colonia) );
         return jpaQuery.getResultList();
+    }
+    
+    private Criteria createCriteriaSearch(Colonia colonia){
+        Session session = (Session) emf.createEntityManager().getDelegate();
+        Example example = Example
+                .create(colonia)
+                .enableLike(MatchMode.ANYWHERE)
+                .ignoreCase();
+        
+        Criteria criteria = session
+                .createCriteria(Colonia.class)
+                .add(example);
+        if(colonia.getEstado() != null ){
+            criteria.add( Restrictions.eq( "estado.id", colonia.getEstado().getId() ) );
+        }
+        if(colonia.getMunicipio() != null ){
+            criteria.add( Restrictions.eq( "municipio.id", colonia.getMunicipio().getId() ) );
+        }
+        return criteria;
+    }
+    
+    public int createCriteriaSearchCount(Colonia colonia){
+        Criteria criteria = createCriteriaSearch(colonia);
+        criteria.setProjection(Projections.rowCount());
+        Long count = (Long)criteria.uniqueResult();
+        return count.intValue();
     }
     
 }
