@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -36,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @SpringBootTest(classes = AppTestConfig.class)
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,DbUnitTestExecutionListener.class })
+@ActiveProfiles({ "test" })
 public class ColoniaControllerTest {
     
     private static final String API_URL = "/v1/colonia/";
@@ -352,5 +354,49 @@ public class ColoniaControllerTest {
                 .andExpect( jsonPath("$", hasKey("totalElements") ) )
                 .andExpect( jsonPath("$", hasKey("numberOfElements") ) )
                 .andExpect( jsonPath("$", hasKey("size") ) );
+    }
+    
+    @Test
+    @DatabaseSetups({
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/codigo-postal.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/asentamiento-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/estado.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/zona-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/colonia.xml",
+                    type = DatabaseOperation.REFRESH)
+        
+    })
+    public void findBySearch() throws Exception {
+        StringBuilder sb = new StringBuilder(API_URL);
+        sb.append("search?nombre=cañada&estado.id=19&municipio.id=233");
+        ResultActions response = mockMvc
+                .perform(MockMvcRequestBuilders.get(sb.toString())
+                        .param("page", "0")
+                        .param("size", "10"));
+        logger.info (response.andReturn().getResponse().getContentAsString() );
+        response
+                .andExpect( content().contentType(MediaType.APPLICATION_JSON_UTF8) )
+                .andExpect(status().isOk() );
     }
 }

@@ -66,8 +66,8 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
         return true;
     }
     
-    @GetMapping(value = "/name/{name}")
-    public List<Colonia> searchByName(@PathVariable String name) {
-        return coloniaService.searchByName(name);
+    @GetMapping(value = "/search")
+    public List<Colonia> search(Colonia colonia) {
+        return coloniaService.search(colonia);
     }
 }

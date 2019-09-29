@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -33,6 +34,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 @WebAppConfiguration
 @SpringBootTest(classes = AppTestConfig.class)
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,DbUnitTestExecutionListener.class })
+@ActiveProfiles({ "test" })
 public class ColoniaServiceTest {
     
     private static final String FILE_NAME = "sepomex.txt";
@@ -114,6 +116,7 @@ public class ColoniaServiceTest {
     public void buscarTodos() {
         Colonia colonia = new Colonia();
         colonia.setNombre("Cañada blanca");
+        colonia.setIdentificadorMunicipal("identificador");
         Colonia coloniaGuardada = coloniaService.guardar(colonia);
         int page = 0;
         int size = 20;
@@ -137,6 +140,7 @@ public class ColoniaServiceTest {
         String nombreColonia = "cañada blanca";
         Colonia colonia = new Colonia();
         colonia.setNombre( "canada blanca" );
+        colonia.setIdentificadorMunicipal("identificador");
         colonia = coloniaService.guardar( colonia );
         colonia.setNombre( nombreColonia );
         coloniaService.actualizar( colonia );
