@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 @WebAppConfiguration
 @SpringBootTest(classes = AppTestConfig.class)
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,DbUnitTestExecutionListener.class })
+@ActiveProfiles({ "test" })
 public class ParserTest extends TestCase{
 
     private final Logger logger = Logger.getGlobal();

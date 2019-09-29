@@ -28,6 +28,7 @@ import java.util.Properties;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableJpaRepositories( basePackages = { "com.perales.sepomex.repository" })
 @ComponentScan( basePackages = {"com.perales.sepomex"})
+@Profile({ "test" })
 public class AppTestConfig extends WebMvcConfigurerAdapter {
 
     private LocalContainerEntityManagerFactoryBean emf;
