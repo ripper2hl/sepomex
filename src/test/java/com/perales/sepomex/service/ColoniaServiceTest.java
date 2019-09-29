@@ -116,6 +116,7 @@ public class ColoniaServiceTest {
     public void buscarTodos() {
         Colonia colonia = new Colonia();
         colonia.setNombre("Cañada blanca");
+        colonia.setIdentificadorMunicipal("identificador");
         Colonia coloniaGuardada = coloniaService.guardar(colonia);
         int page = 0;
         int size = 20;
@@ -139,6 +140,7 @@ public class ColoniaServiceTest {
         String nombreColonia = "cañada blanca";
         Colonia colonia = new Colonia();
         colonia.setNombre( "canada blanca" );
+        colonia.setIdentificadorMunicipal("identificador");
         colonia = coloniaService.guardar( colonia );
         colonia.setNombre( nombreColonia );
         coloniaService.actualizar( colonia );
