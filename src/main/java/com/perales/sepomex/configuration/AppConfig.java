@@ -34,17 +34,7 @@ public class AppConfig implements WebMvcConfigurer {
     private LocalContainerEntityManagerFactoryBean emf;
     private HibernateJpaVendorAdapter hibernateJpaVendorAdapter;
     private DataSource dataSource;
-
-    @Bean
-    public DataSource dataSource() {
-        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        dataSource.setDriverClass( org.postgresql.Driver.class);
-        dataSource.setUrl("jdbc:postgresql://db:5432/sepomex");
-        dataSource.setUsername("sepomex");
-        dataSource.setPassword("sepomex");
-        return dataSource;
-    }
-
+    
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
         emf = new LocalContainerEntityManagerFactoryBean();
@@ -54,16 +44,7 @@ public class AppConfig implements WebMvcConfigurer {
         emf.setJpaProperties(hibernateProperties());
         return emf;
     }
-
-    @Bean
-    public JpaVendorAdapter jpaVendorAdapter() {
-        hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-        hibernateJpaVendorAdapter.setShowSql( false );
-        hibernateJpaVendorAdapter.setGenerateDdl(true);
-        hibernateJpaVendorAdapter.setDatabase(Database.POSTGRESQL);
-        return hibernateJpaVendorAdapter;
-    }
-
+    
     @Bean
     public JpaTransactionManager transactionManager(EntityManagerFactory emf){
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
