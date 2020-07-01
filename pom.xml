@@ -16,7 +16,7 @@
         <hibernate.validator.version>6.0.12.Final</hibernate.validator.version>
         <jackson.version>2.9.10</jackson.version>
         <lombok.version>1.18.0</lombok.version>
-        <logforj.version>2.11.2</logforj.version>
+        <logforj.version>2.13.3</logforj.version>
         <jsonpath.version>2.4.0</jsonpath.version>
         <maven.compiler.plugin.version>3.7.0</maven.compiler.plugin.version>
         <dbunit.version>2.6.0</dbunit.version>
