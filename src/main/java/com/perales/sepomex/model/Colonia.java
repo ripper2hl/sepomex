@@ -66,7 +66,6 @@ public class Colonia implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inegi_clave_ciudad_id")
-    @JsonBackReference
     private InegiClaveCiudad inegiClaveCiudad;
     
 
@@ -78,48 +77,34 @@ public class Colonia implements Serializable {
     @JoinColumn(name = "codigo_postal_id")
     private CodigoPostal codigoPostal;
     
-    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "codigo_postal_administracion_asentamiento_id")
-    @JsonBackReference
     private CodigoPostal codigoPostalAdministracionAsentamiento;
-    
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "codigo_postal_administracion_asentamiento_oficina_id")
-    @JsonBackReference
     private CodigoPostal codigoPostalAdministracionAsentamientoOficina;
     
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "asentamiento_tipo_id")
-    @JsonBackReference
     private AsentamientoTipo asentamientoTipo;
     
     @ManyToOne
     @JoinColumn(name = "municipio_id")
-    @JsonBackReference
     private Municipio municipio;
-    
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id")
-    @JsonBackReference
     private Estado estado;
-    
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ciudad_id")
-    @JsonBackReference
     private Ciudad ciudad;
-    
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "zona_tipo_id")
-    @JsonBackReference
     private ZonaTipo zonaTipo;
     
-
     @NotNull
     @NotBlank
     @Column(name = "identificador_municipal", nullable = false)

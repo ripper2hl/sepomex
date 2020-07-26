@@ -41,8 +41,6 @@ public class ZonaTipo implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
     
-    
     @OneToMany(mappedBy = "zonaTipo", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Colonia> colonias;
 }

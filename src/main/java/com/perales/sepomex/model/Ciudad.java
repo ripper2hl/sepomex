@@ -42,17 +42,14 @@ public class Ciudad implements Serializable {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id")
-    @JsonBackReference
     private Estado estado;
     
     
     @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Colonia> colonias;
     
     
     @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Municipio> municipios;
     
     

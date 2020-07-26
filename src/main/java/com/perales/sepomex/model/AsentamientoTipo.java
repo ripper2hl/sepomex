@@ -48,8 +48,6 @@ public class AsentamientoTipo implements Serializable {
     @Column(name = "sepomex_clave", nullable = false)
     private String sepomexClave;
     
-    
     @OneToMany(mappedBy = "asentamientoTipo", fetch = FetchType.LAZY )
-    @JsonManagedReference
     private List<Colonia> colonias;
 }

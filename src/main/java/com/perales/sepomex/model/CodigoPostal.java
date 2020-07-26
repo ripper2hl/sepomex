@@ -46,12 +46,10 @@ public class CodigoPostal implements Serializable {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "municipio_id")
-    @JsonBackReference
     private Municipio municipio;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id")
-    @JsonBackReference
     private Estado estado;
     
     @ManyToOne(fetch = FetchType.LAZY)

@@ -41,8 +41,6 @@ public class InegiClaveCiudad implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
     
-    
     @OneToMany(mappedBy = "inegiClaveCiudad", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Colonia> colonias;
 }

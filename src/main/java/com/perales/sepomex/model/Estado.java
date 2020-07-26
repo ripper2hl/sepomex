@@ -48,23 +48,15 @@ public class Estado implements Serializable {
     @Column(name = "inegi_clave", nullable = false)
     private String inegiClave;
     
-    
     @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Ciudad> ciudades;
     
-    
     @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Municipio> municipios;
     
-    
     @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Colonia> colonias;
     
-    
     @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<CodigoPostal> codigosPostales;
 }
