@@ -38,4 +38,8 @@ export spring_profiles_active=local
 mvn spring-boot:run
 ```
 
+* [Abrir el link de la documentación de swagger](http://localhost:8080/swagger-ui/index.html#)
+
+
+
 [![asciicast](https://asciinema.org/a/d8uBsGBw3S2kET07cDf68i8qG.svg)](https://asciinema.org/a/d8uBsGBw3S2kET07cDf68i8qG)
