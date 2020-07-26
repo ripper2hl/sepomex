@@ -28,15 +28,15 @@ import java.io.Serializable;
 @Entity(name = "colonia")
 @NamedEntityGraph(name = "Colonia.detail",
     attributeNodes = {
-        @NamedAttributeNode("inegiClaveCiudad"),
-            @NamedAttributeNode("inegiClaveMunicipio"),
-            @NamedAttributeNode("codigoPostal"),
-            @NamedAttributeNode("codigoPostalAdministracionAsentamiento"),
-            @NamedAttributeNode("codigoPostalAdministracionAsentamientoOficina"),
-            @NamedAttributeNode("asentamientoTipo"),
             @NamedAttributeNode("municipio"),
             @NamedAttributeNode("ciudad"),
             @NamedAttributeNode("estado"),
+            @NamedAttributeNode("codigoPostal"),
+            @NamedAttributeNode("codigoPostalAdministracionAsentamiento"),
+            @NamedAttributeNode("codigoPostalAdministracionAsentamientoOficina"),
+            @NamedAttributeNode("inegiClaveCiudad"),
+            @NamedAttributeNode("inegiClaveMunicipio"),
+            @NamedAttributeNode("asentamientoTipo"),
             @NamedAttributeNode("zonaTipo")
     })
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
@@ -63,15 +63,17 @@ public class Colonia implements Serializable {
     @ApiModelProperty(notes = "Nombre")
     private String nombre;
     
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "inegi_clave_ciudad_id")
-    private InegiClaveCiudad inegiClaveCiudad;
+    @JoinColumn(name = "estado_id")
+    private Estado estado;
     
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "inegi_clave_municipio_id")
-    private InegiClaveMunicipio inegiClaveMunicipio;
+    @JoinColumn(name = "municipio_id")
+    private Municipio municipio;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ciudad_id")
+    private Ciudad ciudad;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "codigo_postal_id")
@@ -86,20 +88,16 @@ public class Colonia implements Serializable {
     private CodigoPostal codigoPostalAdministracionAsentamientoOficina;
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "inegi_clave_ciudad_id")
+    private InegiClaveCiudad inegiClaveCiudad;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "inegi_clave_municipio_id")
+    private InegiClaveMunicipio inegiClaveMunicipio;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "asentamiento_tipo_id")
     private AsentamientoTipo asentamientoTipo;
-    
-    @ManyToOne
-    @JoinColumn(name = "municipio_id")
-    private Municipio municipio;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "estado_id")
-    private Estado estado;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ciudad_id")
-    private Ciudad ciudad;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "zona_tipo_id")
