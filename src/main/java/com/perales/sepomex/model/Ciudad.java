@@ -57,6 +57,5 @@ public class Ciudad implements Serializable {
     
     
     @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<CodigoPostal> codigosPostales;
 }

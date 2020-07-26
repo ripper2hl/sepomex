@@ -44,36 +44,26 @@ public class CodigoPostal implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
     
-    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "municipio_id")
     @JsonBackReference
     private Municipio municipio;
-    
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id")
     @JsonBackReference
     private Estado estado;
     
-    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ciudad_id")
-    @JsonBackReference
     private Ciudad ciudad;
     
-    
     @OneToMany(mappedBy = "codigoPostal", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Colonia> colonias;
     
-    
     @OneToMany(mappedBy = "codigoPostalAdministracionAsentamiento", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Colonia> coloniasCodigoPostalAdministracionAsentamiento;
     
-    
     @OneToMany(mappedBy = "codigoPostalAdministracionAsentamientoOficina", fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Colonia> coloniasCodigoPostalAdministracionAsentamientoOficina;
 }

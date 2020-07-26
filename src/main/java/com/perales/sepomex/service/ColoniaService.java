@@ -63,7 +63,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     @Transactional(readOnly = true)
     public Colonia buscarPorId(Integer id) {
         Colonia colonia = coloniaRepository.findOneById(id);
-        colonia.getMunicipio().getNombre();
+        log.info(colonia.getInegiClaveMunicipio().getId());
         return colonia;
     }
     

@@ -72,12 +72,10 @@ public class Colonia implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "inegi_clave_municipio_id")
-    @JsonBackReference
     private InegiClaveMunicipio inegiClaveMunicipio;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "codigo_postal_id")
-    @JsonBackReference
     private CodigoPostal codigoPostal;
     
     
@@ -106,6 +104,7 @@ public class Colonia implements Serializable {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id")
+    @JsonBackReference
     private Estado estado;
     
     
