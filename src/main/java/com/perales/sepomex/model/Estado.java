@@ -1,8 +1,6 @@
 package com.perales.sepomex.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -49,19 +47,23 @@ public class Estado implements Serializable {
     @Column(name = "inegi_clave", nullable = false)
     private String inegiClave;
     
-    @JsonIdentityReference(alwaysAsId = true)
+    
     @OneToMany(mappedBy = "estado")
+    @JsonManagedReference
     private List<Ciudad> ciudades;
     
-    @JsonIdentityReference(alwaysAsId = true)
+    
     @OneToMany(mappedBy = "estado")
+    @JsonManagedReference
     private List<Municipio> municipios;
     
-    @JsonIdentityReference(alwaysAsId = true)
+    
     @OneToMany(mappedBy = "estado")
+    @JsonManagedReference
     private List<Colonia> colonias;
     
-    @JsonIdentityReference(alwaysAsId = true)
+    
     @OneToMany(mappedBy = "estado")
+    @JsonManagedReference
     private List<CodigoPostal> codigosPostales;
 }

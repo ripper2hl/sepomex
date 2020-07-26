@@ -5,6 +5,7 @@ import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.*;
 import com.perales.sepomex.repository.ColoniaRepository;
 import com.perales.sepomex.util.Parser;
+import lombok.extern.log4j.Log4j2;
 import org.apache.lucene.search.Query;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -36,6 +37,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
+@Log4j2
 public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     
     private final Logger logger = Logger.getGlobal();
@@ -60,7 +62,8 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     
     @Transactional(readOnly = true)
     public Colonia buscarPorId(Integer id) {
-        return coloniaRepository.findById(id).get();
+        Colonia colonia = coloniaRepository.findById(id).get();
+        return colonia;
     }
     
     @Transactional(readOnly = true)
