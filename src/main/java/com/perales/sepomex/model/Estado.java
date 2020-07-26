@@ -22,6 +22,7 @@ import java.util.List;
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @ToString(exclude = {"asentamientoTipo","municipio", "estado", "ciudad", "zonaTipo"})
 @Entity(name = "estado")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Estado implements Serializable {
     @Id
     @GeneratedValue(
@@ -48,22 +49,22 @@ public class Estado implements Serializable {
     private String inegiClave;
     
     
-    @OneToMany(mappedBy = "estado")
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Ciudad> ciudades;
     
     
-    @OneToMany(mappedBy = "estado")
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Municipio> municipios;
     
     
-    @OneToMany(mappedBy = "estado")
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Colonia> colonias;
     
     
-    @OneToMany(mappedBy = "estado")
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<CodigoPostal> codigosPostales;
 }

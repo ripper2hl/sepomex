@@ -20,6 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Entity(name = "zona_tipo")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ZonaTipo implements Serializable {
     
     @Id
@@ -41,7 +42,7 @@ public class ZonaTipo implements Serializable {
     private String nombre;
     
     
-    @OneToMany(mappedBy = "zonaTipo")
+    @OneToMany(mappedBy = "zonaTipo", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Colonia> colonias;
 }

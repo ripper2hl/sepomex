@@ -25,10 +25,22 @@ import java.io.Serializable;
         "codigoPostalAdministracionAsentamientoOficina",
         "municipio", "estado", "ciudad", "zonaTipo"})
 @ToString(exclude = {"asentamientoTipo","municipio", "estado", "ciudad", "zonaTipo"})
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Entity(name = "colonia")
 @NamedEntityGraph(name = "Colonia.detail",
-    attributeNodes = @NamedAttributeNode("municipio"))
+    attributeNodes = {
+        @NamedAttributeNode("inegiClaveCiudad"),
+            @NamedAttributeNode("inegiClaveMunicipio"),
+            @NamedAttributeNode("codigoPostal"),
+            @NamedAttributeNode("codigoPostalAdministracionAsentamiento"),
+            @NamedAttributeNode("codigoPostalAdministracionAsentamientoOficina"),
+            @NamedAttributeNode("asentamientoTipo"),
+            @NamedAttributeNode("municipio"),
+            @NamedAttributeNode("ciudad"),
+            @NamedAttributeNode("estado"),
+            @NamedAttributeNode("zonaTipo")
+    })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Colonia implements Serializable {
     
     @Id
@@ -86,7 +98,7 @@ public class Colonia implements Serializable {
     @JsonBackReference
     private AsentamientoTipo asentamientoTipo;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "municipio_id")
     @JsonBackReference
     private Municipio municipio;
@@ -94,7 +106,6 @@ public class Colonia implements Serializable {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id")
-    @JsonBackReference
     private Estado estado;
     
     

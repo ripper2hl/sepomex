@@ -26,7 +26,8 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
     
     @GetMapping("/{id}")
     public Colonia buscarPorId(@PathVariable Integer id) {
-        return coloniaService.buscarPorId(id);
+        Colonia colonia = coloniaService.buscarPorId(id);
+        return colonia;
     }
     
     @GetMapping(params = {"page", "size"})

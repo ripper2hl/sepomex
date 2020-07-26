@@ -19,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Entity(name = "ciudad")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Ciudad implements Serializable {
     
     @Id
@@ -45,17 +46,17 @@ public class Ciudad implements Serializable {
     private Estado estado;
     
     
-    @OneToMany(mappedBy = "ciudad")
+    @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Colonia> colonias;
     
     
-    @OneToMany(mappedBy = "ciudad")
+    @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Municipio> municipios;
     
     
-    @OneToMany(mappedBy = "ciudad")
+    @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<CodigoPostal> codigosPostales;
 }
