@@ -1,6 +1,7 @@
 package com.perales.sepomex.model;
 
 import com.fasterxml.jackson.annotation.*;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -38,12 +39,14 @@ public class Colonia implements Serializable {
             allocationSize = 10
     )
     @Column(name = "id")
+    @ApiModelProperty(notes = "ID")
     private Integer id;
     
     @Field(termVector = TermVector.YES)
     @NotNull
     @NotBlank
     @Column(name = "nombre", nullable = false)
+    @ApiModelProperty(notes = "Nombre")
     private String nombre;
     
     @JsonIdentityReference(alwaysAsId = true)
