@@ -121,7 +121,6 @@ public class MunicipioServiceTest {
     }
     
     @Test
-
     @DatabaseSetups({
             @DatabaseSetup(
                     value = "classpath:sample-data/inegi-clave-ciudad.xml",
@@ -150,7 +149,7 @@ public class MunicipioServiceTest {
             @DatabaseSetup(
                     value = "classpath:sample-data/colonia.xml",
                     type = DatabaseOperation.REFRESH)
-    
+        
     })
     public void borrar() {
         int id = 1;

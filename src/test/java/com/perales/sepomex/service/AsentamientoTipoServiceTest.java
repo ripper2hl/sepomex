@@ -111,6 +111,36 @@ public class AsentamientoTipoServiceTest {
     }
     
     @Test
+    @DatabaseSetups({
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/codigo-postal.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/asentamiento-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/estado.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/zona-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/colonia.xml",
+                    type = DatabaseOperation.REFRESH)
+        
+    })
     public void actualizar() {
         String nombreAsentamientoTipo = "cambiando nombre sepomex";
         AsentamientoTipo asentamientoTipo = new AsentamientoTipo();
@@ -156,7 +186,7 @@ public class AsentamientoTipoServiceTest {
     
     })
     public void borrar() {
-        int id = 1;
+        int id = 100;
         asentamientoTipoService.borrar(id);
         exception.expect(NoSuchElementException.class);
         asentamientoTipoService.buscarPorId(id);

@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <asentamiento_tipo id="1" nombre="asentamientoTipo" sepomex_clave="sepomexClave" />
+    <asentamiento_tipo id="100" nombre="asentamientoTipo" sepomex_clave="sepomexClave" />
 </dataset>
