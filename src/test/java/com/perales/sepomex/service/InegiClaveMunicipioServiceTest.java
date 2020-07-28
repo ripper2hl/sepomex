@@ -83,7 +83,7 @@ public class InegiClaveMunicipioServiceTest {
         
     })
     public void buscarPorId() {
-        int inegiClaveMunicipioId = 1;
+        int inegiClaveMunicipioId = 100;
         InegiClaveMunicipio inegiClaveMunicipio = inegiClaveMunicipioService.buscarPorId( inegiClaveMunicipioId );
         assertThat("Deberian ser las mismas", inegiClaveMunicipioId , is( inegiClaveMunicipio.getId() ) );
     }

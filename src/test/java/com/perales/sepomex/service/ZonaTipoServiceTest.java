@@ -83,7 +83,7 @@ public class ZonaTipoServiceTest {
         
     })
     public void buscarPorId() {
-        int zonaTipoId = 1;
+        int zonaTipoId = 100;
         ZonaTipo zonaTipo = zonaTipoService.buscarPorId( zonaTipoId );
         assertThat("Deberian ser las mismas", zonaTipoId , is( zonaTipo.getId() ) );
     }

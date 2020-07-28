@@ -75,15 +75,12 @@ public class EstadoServiceTest {
                     value = "classpath:sample-data/ciudad.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/zona-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/colonia.xml",
                     type = DatabaseOperation.REFRESH)
         
     })
     public void buscarPorId() {
-        int estadoId = 1;
+        int estadoId = 100;
         Estado estado = estadoService.buscarPorId( estadoId );
         assertThat("Deberian ser las mismas", estadoId , is( estado.getId() ) );
     }
@@ -156,7 +153,7 @@ public class EstadoServiceTest {
     
     })
     public void borrar() {
-        int id = 1;
+        int id = 100;
         estadoService.borrar(id);
         exception.expect(NoSuchElementException.class);
         estadoService.buscarPorId(id);

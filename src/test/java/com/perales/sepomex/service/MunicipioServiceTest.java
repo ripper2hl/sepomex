@@ -152,7 +152,7 @@ public class MunicipioServiceTest {
         
     })
     public void borrar() {
-        int id = 1;
+        int id = 100;
         municipioService.borrar(id);
         exception.expect(NoSuchElementException.class);
         municipioService.buscarPorId(id);

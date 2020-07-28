@@ -98,7 +98,7 @@ public class ColoniaServiceTest {
             
     })
     public void buscarPorId() {
-        int coloniaId = 1;
+        int coloniaId = 100;
         Colonia coloniaEncontrada = coloniaService.buscarPorId( coloniaId );
         assertThat("Deberian ser las mismas", coloniaId , is( coloniaEncontrada.getId() ) );
     }
