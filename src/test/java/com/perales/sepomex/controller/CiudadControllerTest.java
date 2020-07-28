@@ -88,7 +88,7 @@ public class CiudadControllerTest {
         sb.append(1);
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get(sb.toString()));
         logger.info( response.andReturn().getResponse().getContentAsString() );
-        response.andExpect( content().contentType(MediaType.APPLICATION_JSON_UTF8) )
+        response.andExpect( content().contentType(MediaType.APPLICATION_JSON) )
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is (  1 ) ) )
                 .andExpect(jsonPath("$.nombre", is (  "test" ) ) );
@@ -134,7 +134,7 @@ public class CiudadControllerTest {
                         .param("size", "10"));
         logger.info (response.andReturn().getResponse().getContentAsString() );
         response
-                .andExpect( content().contentType(MediaType.APPLICATION_JSON_UTF8) )
+                .andExpect( content().contentType(MediaType.APPLICATION_JSON) )
                 .andExpect(status().isOk())
                 .andExpect( jsonPath("$", hasKey("content") ) )
                 .andExpect( jsonPath("$", hasKey("pageable") ) )
@@ -183,7 +183,7 @@ public class CiudadControllerTest {
         String json = ow.writeValueAsString( ciudad );
         ResultActions response = mockMvc
                 .perform(MockMvcRequestBuilders.post(sb.toString())
-                        .contentType( MediaType.APPLICATION_JSON_UTF8 )
+                        .contentType( MediaType.APPLICATION_JSON )
                         .content( json ));
         logger.info( response.andReturn().getResponse().getContentAsString() );
         response.andExpect( status().isCreated() );
@@ -229,7 +229,7 @@ public class CiudadControllerTest {
         String json = ow.writeValueAsString( ciudad );
         ResultActions response = mockMvc
                 .perform(MockMvcRequestBuilders.put(sb.toString())
-                        .contentType( MediaType.APPLICATION_JSON_UTF8 )
+                        .contentType( MediaType.APPLICATION_JSON )
                         .content( json ));
         logger.info( response.andReturn().getResponse().getContentAsString() );
         response.andExpect( status().is2xxSuccessful() );
@@ -271,7 +271,7 @@ public class CiudadControllerTest {
         sb.append(1);
         ResultActions response = mockMvc
                 .perform(MockMvcRequestBuilders.delete(sb.toString())
-                        .contentType( MediaType.APPLICATION_JSON_UTF8 ));
+                        .contentType( MediaType.APPLICATION_JSON ));
         logger.info( response.andReturn().getResponse().getContentAsString() );
         response.andExpect( status().is2xxSuccessful() );
     }
