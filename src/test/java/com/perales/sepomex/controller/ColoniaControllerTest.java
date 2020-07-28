@@ -241,6 +241,7 @@ public class ColoniaControllerTest {
         Colonia colonia = new Colonia();
         colonia.setId(100);
         colonia.setNombre("actualizar");
+        colonia.setIdentificadorMunicipal("identificador");
         StringBuilder sb = new StringBuilder(API_URL);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString( colonia );

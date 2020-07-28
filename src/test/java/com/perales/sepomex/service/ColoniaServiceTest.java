@@ -102,8 +102,35 @@ public class ColoniaServiceTest {
         Colonia coloniaEncontrada = coloniaService.buscarPorId( coloniaId );
         assertThat("Deberian ser las mismas", coloniaId , is( coloniaEncontrada.getId() ) );
     }
-
+    
     @Test
+    @DatabaseSetups({
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/codigo-postal.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/asentamiento-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/estado.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/colonia.xml",
+                    type = DatabaseOperation.REFRESH)
+        
+    })
     public void cargaMasiva() throws Exception {
         MockMultipartFile file = new MockMultipartFile(
                 "data",
