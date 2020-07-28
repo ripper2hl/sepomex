@@ -6,6 +6,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseSetups;
 import com.perales.sepomex.configuration.AppTestConfig;
 import com.perales.sepomex.model.Colonia;
+import com.perales.sepomex.model.ZonaTipo;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Before;
 import org.junit.Rule;
@@ -63,6 +64,9 @@ public class ColoniaServiceTest {
 
     @Autowired
     private ColoniaService coloniaService;
+    
+    @Autowired
+    private ZonaTipoService zonaTipoService;
 
     @Before
     public void setUp() throws Exception {
@@ -118,13 +122,19 @@ public class ColoniaServiceTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/zona-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/zona-tipo-carga-masiva.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/colonia.xml",
@@ -137,8 +147,8 @@ public class ColoniaServiceTest {
                 "filename.txt",
                 "text/plain", SEPOMEX_TEXT.getBytes());
         assertThat("Deberia obtener verdadero",true,  is(coloniaService.cargaMasiva( file ) )  );
-        Page<Colonia> colonias = coloniaService.buscarTodos(0, 100);
-        assertThat( "Debe ser un numero total de ", 9L, is( colonias.getTotalElements() )  );
+        Page<Colonia> colonias = coloniaService.buscarTodos(0, 9);
+        assertThat( "Debe ser un numero total de ", 9, is( colonias.getContent().size() )  );
     }
 
     @Test
