@@ -85,12 +85,12 @@ public class AsentamientoTipoControllerTest {
     })
     public void buscarPorId() throws Exception {
         StringBuilder sb = new StringBuilder(API_URL);
-        sb.append(1);
+        sb.append(100);
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get(sb.toString()));
         logger.info( response.andReturn().getResponse().getContentAsString() );
         response.andExpect( content().contentType(MediaType.APPLICATION_JSON) )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is (  1 ) ) )
+                .andExpect(jsonPath("$.id", is (  100 ) ) )
                 .andExpect(jsonPath("$.nombre", is (  "asentamientoTipo" ) ) );
         
     }
@@ -270,7 +270,7 @@ public class AsentamientoTipoControllerTest {
     })
     public void borrar() throws Exception {
         StringBuilder sb = new StringBuilder(API_URL);
-        sb.append(1);
+        sb.append(100);
         ResultActions response = mockMvc
                 .perform(MockMvcRequestBuilders.delete(sb.toString())
                         .contentType( MediaType.APPLICATION_JSON ));

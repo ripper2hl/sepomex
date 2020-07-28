@@ -35,7 +35,7 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
         return coloniaService.buscarTodos(page, size) ;
     }
 
-    @PostMapping()
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Colonia guardar(@Validated @RequestBody Colonia entity) {
         return coloniaService.guardar(entity);
@@ -56,7 +56,7 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
         return coloniaService.cargaMasiva( file );
     }
     
-    @GetMapping(value = "/municipio/{id}", params = {"page", "size"}, produces = "application/json; charset=UTF-8")
+    @GetMapping(value = "/municipio/{id}", params = {"page", "size"}, produces = "application/json")
     public Page<Colonia> findByEstadoId(@PathVariable Integer id, @RequestParam int page, @RequestParam int size) {
         return coloniaService.findByMunicipioId(id, page, size);
     }
