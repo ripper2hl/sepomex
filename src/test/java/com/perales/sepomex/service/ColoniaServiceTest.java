@@ -6,6 +6,7 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseSetups;
 import com.perales.sepomex.configuration.AppTestConfig;
 import com.perales.sepomex.model.Colonia;
+import lombok.extern.log4j.Log4j2;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,6 +36,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 @SpringBootTest(classes = AppTestConfig.class)
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,DbUnitTestExecutionListener.class })
 @ActiveProfiles({ "test" })
+@Log4j2
 public class ColoniaServiceTest {
     
     private static final String FILE_NAME = "sepomex.txt";
@@ -125,28 +127,6 @@ public class ColoniaServiceTest {
         assertThat("Tener colonias", colonias.getContent().size(), is(  greaterThan( 0 ) ) );
         coloniaService.borrar(coloniaGuardada.getId());
     }
-
-    @Test
-    public void guardar() {
-        Colonia colonia = new Colonia();
-        colonia.setNombre("Cañada blanca");
-        colonia.setIdentificadorMunicipal("identificadorMunicipal");
-        Colonia coloniaGuardada = coloniaService.guardar(colonia);
-        assertThat("Deberia tener un id", coloniaGuardada.getId(), is( notNullValue() ) );
-    }
-
-    @Test
-    public void actualizar() {
-        String nombreColonia = "cañada blanca";
-        Colonia colonia = new Colonia();
-        colonia.setNombre( "canada blanca" );
-        colonia.setIdentificadorMunicipal("identificador");
-        colonia = coloniaService.guardar( colonia );
-        colonia.setNombre( nombreColonia );
-        coloniaService.actualizar( colonia );
-        Colonia coloniaEncontrada = coloniaService.buscarPorId( colonia.getId() );
-        assertThat("Deberia tener el nombre corregido", nombreColonia, is( equalTo( coloniaEncontrada.getNombre() ) ) );
-    }
     
     @Test
     @DatabaseSetups({
@@ -163,24 +143,48 @@ public class ColoniaServiceTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/zona-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
                     value = "classpath:sample-data/colonia.xml",
                     type = DatabaseOperation.REFRESH)
-    
+        
     })
-    
     public void borrar() {
         coloniaService.borrar( 1 );
         exception.expect(NoSuchElementException.class);
         Colonia coloniaEncontrada = coloniaService.buscarPorId( 1 );
+    }
+    
+    @Test
+    public void guardar() {
+        Colonia colonia = new Colonia();
+        colonia.setNombre("Cañada blanca");
+        colonia.setIdentificadorMunicipal("identificadorMunicipal");
+        Colonia coloniaGuardada = coloniaService.guardar(colonia);
+        assertThat("Deberia tener un id", coloniaGuardada.getId(), is( notNullValue() ) );
+    }
+    
+    @Test
+    public void actualizar() {
+        String nombreColonia = "cañada blanca";
+        Colonia colonia = new Colonia();
+        colonia.setNombre( "canada blanca" );
+        colonia.setIdentificadorMunicipal("identificador");
+        colonia = coloniaService.guardar( colonia );
+        colonia.setNombre( nombreColonia );
+        coloniaService.actualizar( colonia );
+        Colonia coloniaEncontrada = coloniaService.buscarPorId( colonia.getId() );
+        assertThat("Deberia tener el nombre corregido", nombreColonia, is( equalTo( coloniaEncontrada.getNombre() ) ) );
     }
     
     @Test

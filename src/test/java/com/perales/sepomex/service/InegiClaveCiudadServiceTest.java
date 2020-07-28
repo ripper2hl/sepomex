@@ -121,6 +121,7 @@ public class InegiClaveCiudadServiceTest {
     }
     
     @Test
+
     @DatabaseSetups({
             @DatabaseSetup(
                     value = "classpath:sample-data/inegi-clave-ciudad.xml",
@@ -135,13 +136,13 @@ public class InegiClaveCiudadServiceTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",

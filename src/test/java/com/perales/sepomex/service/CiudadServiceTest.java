@@ -66,13 +66,13 @@ public class CiudadServiceTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",
@@ -120,7 +120,7 @@ public class CiudadServiceTest {
         assertThat("Deberia tener el nombre igual", nombreCiudad, is( equalTo( ciudadEncontrado.getNombre() ) ) );
     }
     
-    @Test
+    
     @DatabaseSetups({
             @DatabaseSetup(
                     value = "classpath:sample-data/inegi-clave-ciudad.xml",
@@ -135,13 +135,13 @@ public class CiudadServiceTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",
@@ -149,7 +149,7 @@ public class CiudadServiceTest {
             @DatabaseSetup(
                     value = "classpath:sample-data/colonia.xml",
                     type = DatabaseOperation.REFRESH)
-    
+        
     })
     public void borrar() {
         int id = 1;

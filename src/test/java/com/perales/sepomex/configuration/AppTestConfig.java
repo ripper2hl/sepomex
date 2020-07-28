@@ -78,7 +78,7 @@ public class AppTestConfig extends WebMvcConfigurerAdapter {
         properties.put("hibernate.order_inserts", "true");
         properties.put("hibernate.order_updates", "true");
         properties.put("hibernate.search.default.directory_provider", "filesystem");
-        properties.put("hibernate.search.default.indexBase", "/sepomex-indices/");
+        properties.put("hibernate.search.default.indexBase", "/tmp/sepomex-indices/");
         return properties;
     }
     

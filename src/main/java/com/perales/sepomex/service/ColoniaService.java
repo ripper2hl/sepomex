@@ -33,6 +33,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -63,7 +64,9 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     @Transactional(readOnly = true)
     public Colonia buscarPorId(Integer id) {
         Colonia colonia = coloniaRepository.findOneById(id);
-        log.info(colonia.getInegiClaveMunicipio().getId());
+        if(colonia == null){
+            throw new NoSuchElementException();
+        }
         return colonia;
     }
     
