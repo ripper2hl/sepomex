@@ -23,6 +23,7 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ZonaTipo implements Serializable {
     
+    private static final long serialVersionUID = -7321890937862530088L;
     @Id
     @GeneratedValue(
             generator = "sequence_zona_tipo",

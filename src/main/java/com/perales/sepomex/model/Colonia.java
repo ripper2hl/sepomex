@@ -43,6 +43,7 @@ import java.io.Serializable;
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Colonia implements Serializable {
     
+    private static final long serialVersionUID = 7622719610604643048L;
     @Id
     @GeneratedValue(
             generator = "sequence_colonia",

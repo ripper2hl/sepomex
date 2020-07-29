@@ -26,6 +26,7 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CodigoPostal implements Serializable {
     
+    private static final long serialVersionUID = -3109072997206117833L;
     @Id
     @GeneratedValue(
             generator = "sequence_codigo_postal",

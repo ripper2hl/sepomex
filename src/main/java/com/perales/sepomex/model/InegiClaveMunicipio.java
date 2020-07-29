@@ -23,6 +23,7 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class InegiClaveMunicipio implements Serializable {
     
+    private static final long serialVersionUID = -5384242619053470621L;
     @Id
     @GeneratedValue(
             generator = "sequence_inegi_clave_municipio",

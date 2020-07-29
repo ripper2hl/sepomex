@@ -22,6 +22,7 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Ciudad implements Serializable {
     
+    private static final long serialVersionUID = 2570095220028518900L;
     @Id
     @GeneratedValue(
             generator = "sequence_ciudad",

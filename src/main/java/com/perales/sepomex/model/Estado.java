@@ -24,6 +24,7 @@ import java.util.List;
 @Entity(name = "estado")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Estado implements Serializable {
+    private static final long serialVersionUID = -7541622533488952041L;
     @Id
     @GeneratedValue(
             generator = "sequence_estado",

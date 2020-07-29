@@ -24,6 +24,7 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AsentamientoTipo implements Serializable {
     
+    private static final long serialVersionUID = 3547469072116532512L;
     @Id
     @GeneratedValue(
             generator = "sequence_asentamiento_tipo",
