@@ -27,6 +27,7 @@ import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -106,6 +107,7 @@ public class CodigoPostalServiceTest {
         CodigoPostal codigoPostal = new CodigoPostal();
         codigoPostal.setNombre("codigoPostal");
         CodigoPostal codigoPostalGuardado = codigoPostalService.guardar(codigoPostal);
+        assertThat("Deberia tener un id", codigoPostalGuardado.getId(), is( notNullValue() ) );
     }
     
     @Test

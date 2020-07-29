@@ -27,6 +27,7 @@ import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -108,6 +109,7 @@ public class AsentamientoTipoServiceTest {
         asentamientoTipo.setNombre("asentamientoTipo");
         asentamientoTipo.setSepomexClave("sepomexClave");
         AsentamientoTipo asentamientoTipoGuardado = asentamientoTipoService.guardar(asentamientoTipo);
+        assertThat("Deberia tener un id", asentamientoTipoGuardado.getId(), is( notNullValue() ) );
     }
     
     @Test

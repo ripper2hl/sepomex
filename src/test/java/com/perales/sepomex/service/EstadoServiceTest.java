@@ -27,6 +27,7 @@ import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -108,6 +109,7 @@ public class EstadoServiceTest {
         estado.setNombre("estado");
         estado.setInegiClave("inegiClave");
         Estado estadoGuardado = estadoService.guardar(estado);
+        assertThat("Deberia tener un id", estadoGuardado.getId(), is( notNullValue() ) );
     }
     
     @Test
