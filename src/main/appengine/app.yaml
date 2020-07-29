@@ -1,0 +1,20 @@
+runtime: java11
+entrypoint: java -Xmx128m -jar sepomex-api-1.0-SNAPSHOT.jar
+env_variables:
+  SPRING_PROFILES_ACTIVE: "gcp"
+liveness_check:
+  path: "/actuator/health"
+  check_interval_sec: 30
+  timeout_sec: 60
+  failure_threshold: 2
+  success_threshold: 2
+readiness_check:
+  path: "/actuator/health"
+  check_interval_sec: 300
+  timeout_sec: 60
+  failure_threshold: 10
+  success_threshold: 10
+  app_start_timeout_sec: 1800
+automatic_scaling:
+  min_num_instances: 1
+  max_num_instances: 1
