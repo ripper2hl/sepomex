@@ -101,12 +101,12 @@ public class ColoniaControllerTest {
     })
     public void buscarPorId() throws Exception {
         StringBuilder sb = new StringBuilder(API_URL);
-        sb.append(1);
+        sb.append(100);
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get(sb.toString()));
         logger.info( response.andReturn().getResponse().getContentAsString() );
-        response.andExpect( content().contentType(MediaType.APPLICATION_JSON_UTF8) )
+        response.andExpect( content().contentType(MediaType.APPLICATION_JSON) )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is (  1 ) ) )
+                .andExpect(jsonPath("$.id", is (  100 ) ) )
                 .andExpect(jsonPath("$.nombre", is (  "colonia" ) ) );
     
     }
@@ -150,7 +150,7 @@ public class ColoniaControllerTest {
                         .param("size", "10"));
         logger.info (response.andReturn().getResponse().getContentAsString() );
         response
-                .andExpect( content().contentType(MediaType.APPLICATION_JSON_UTF8) )
+                .andExpect( content().contentType(MediaType.APPLICATION_JSON) )
                 .andExpect(status().isOk())
                 .andExpect( jsonPath("$", hasKey("content") ) )
                 .andExpect( jsonPath("$", hasKey("pageable") ) )
@@ -175,13 +175,13 @@ public class ColoniaControllerTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",
@@ -194,12 +194,13 @@ public class ColoniaControllerTest {
     public void guardar() throws Exception {
         Colonia colonia = new Colonia();
         colonia.setNombre("Colonia");
+        colonia.setIdentificadorMunicipal("identificadorMunicipal");
         StringBuilder sb = new StringBuilder(API_URL);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString( colonia );
         ResultActions response = mockMvc
                 .perform(MockMvcRequestBuilders.post(sb.toString())
-                        .contentType( MediaType.APPLICATION_JSON_UTF8 )
+                        .contentType( MediaType.APPLICATION_JSON )
                         .content( json ));
         logger.info( response.andReturn().getResponse().getContentAsString() );
         response.andExpect( status().isCreated() );
@@ -220,13 +221,13 @@ public class ColoniaControllerTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",
@@ -238,14 +239,15 @@ public class ColoniaControllerTest {
     })
     public void actualizar() throws Exception {
         Colonia colonia = new Colonia();
-        colonia.setId(1);
+        colonia.setId(100);
         colonia.setNombre("actualizar");
+        colonia.setIdentificadorMunicipal("identificador");
         StringBuilder sb = new StringBuilder(API_URL);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String json = ow.writeValueAsString( colonia );
         ResultActions response = mockMvc
                 .perform(MockMvcRequestBuilders.put(sb.toString())
-                        .contentType( MediaType.APPLICATION_JSON_UTF8 )
+                        .contentType( MediaType.APPLICATION_JSON )
                         .content( json ));
         logger.info( response.andReturn().getResponse().getContentAsString() );
         response.andExpect( status().is2xxSuccessful() );
@@ -284,10 +286,10 @@ public class ColoniaControllerTest {
     })
     public void borrar() throws Exception {
         StringBuilder sb = new StringBuilder(API_URL);
-        sb.append(1);
+        sb.append(100);
         ResultActions response = mockMvc
                 .perform(MockMvcRequestBuilders.delete(sb.toString())
-                        .contentType( MediaType.APPLICATION_JSON_UTF8 ));
+                        .contentType( MediaType.APPLICATION_JSON ));
         logger.info( response.andReturn().getResponse().getContentAsString() );
         response.andExpect( status().is2xxSuccessful() );
     }
@@ -339,14 +341,14 @@ public class ColoniaControllerTest {
     })
     public void findByMunicipioId() throws Exception {
         StringBuilder sb = new StringBuilder(API_URL);
-        sb.append("municipio/1");
+        sb.append("municipio/100");
         ResultActions response = mockMvc
                 .perform(MockMvcRequestBuilders.get(sb.toString())
                         .param("page", "0")
                         .param("size", "10"));
         logger.info (response.andReturn().getResponse().getContentAsString() );
         response
-                .andExpect( content().contentType(MediaType.APPLICATION_JSON_UTF8) )
+                .andExpect( content().contentType(MediaType.APPLICATION_JSON) )
                 .andExpect(status().isOk())
                 .andExpect( jsonPath("$", hasKey("content") ) )
                 .andExpect( jsonPath("$", hasKey("pageable") ) )
@@ -396,7 +398,7 @@ public class ColoniaControllerTest {
                         .param("size", "10"));
         logger.info (response.andReturn().getResponse().getContentAsString() );
         response
-                .andExpect( content().contentType(MediaType.APPLICATION_JSON_UTF8) )
+                .andExpect( content().contentType(MediaType.APPLICATION_JSON) )
                 .andExpect(status().isOk() );
     }
 }

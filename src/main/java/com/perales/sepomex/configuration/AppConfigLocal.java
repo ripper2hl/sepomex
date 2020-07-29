@@ -1,9 +1,16 @@
 package com.perales.sepomex.configuration;
 
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -14,12 +21,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Properties;
 
 @Configuration
@@ -27,9 +36,10 @@ import java.util.Properties;
 @EnableTransactionManagement
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableJpaRepositories( basePackages = { "com.perales.sepomex.repository" })
-@ComponentScan( basePackages = {"com.perales.sepomex"})
-@Profile({ "test" })
-public class AppTestConfig extends WebMvcConfigurerAdapter {
+@ComponentScan("com.perales.sepomex")
+@Profile({ "local" })
+@Log4j2
+public class AppConfigLocal implements WebMvcConfigurer {
 
     private LocalContainerEntityManagerFactoryBean emf;
     private HibernateJpaVendorAdapter hibernateJpaVendorAdapter;
@@ -38,13 +48,13 @@ public class AppTestConfig extends WebMvcConfigurerAdapter {
     @Bean
     public DataSource dataSource() {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        dataSource.setDriverClass(org.h2.Driver.class);
-        dataSource.setUrl("jdbc:h2:mem:sepomex;DB_CLOSE_DELAY=-1");
-        dataSource.setUsername("sa");
-        dataSource.setPassword("sa");
+        dataSource.setDriverClass( org.postgresql.Driver.class);
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/sepomex");
+        dataSource.setUsername("sepomex");
+        dataSource.setPassword("sepomex");
         return dataSource;
     }
-    
+
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
         emf = new LocalContainerEntityManagerFactoryBean();
@@ -58,9 +68,9 @@ public class AppTestConfig extends WebMvcConfigurerAdapter {
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {
         hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
-        hibernateJpaVendorAdapter.setShowSql(false);
+        hibernateJpaVendorAdapter.setShowSql( true );
         hibernateJpaVendorAdapter.setGenerateDdl(true);
-        hibernateJpaVendorAdapter.setDatabase(Database.H2);
+        hibernateJpaVendorAdapter.setDatabase(Database.POSTGRESQL);
         return hibernateJpaVendorAdapter;
     }
 
@@ -70,10 +80,11 @@ public class AppTestConfig extends WebMvcConfigurerAdapter {
         jpaTransactionManager.setEntityManagerFactory(emf);
         return jpaTransactionManager;
     }
-    
+
     private Properties hibernateProperties() {
         Properties properties = new Properties();
-        properties.put("hibernate.hbm2ddl.auto", "create-drop");
+        properties.put("hibernate.jdbc.lob.non_contextual_creation", "true");
+        properties.put("hibernate.hbm2ddl.auto", "none");
         properties.put("hibernate.jdbc.batch_size", "25");
         properties.put("hibernate.order_inserts", "true");
         properties.put("hibernate.order_updates", "true");
@@ -107,6 +118,16 @@ public class AppTestConfig extends WebMvcConfigurerAdapter {
         return registrationBean;
     }
     
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**").allowedOrigins("*");
+            }
+        };
+    }
+    
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("swagger-ui.html")
@@ -114,5 +135,19 @@ public class AppTestConfig extends WebMvcConfigurerAdapter {
         
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
+    
+    @Bean
+    public Module datatypeHibernateModule() {
+        return new Hibernate5Module();
+    }
+    
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        for (HttpMessageConverter converter : converters) {
+            if (converter instanceof org.springframework.http.converter.json.MappingJackson2HttpMessageConverter) {
+                ObjectMapper mapper = ((MappingJackson2HttpMessageConverter) converter).getObjectMapper();
+                mapper.registerModule(new Hibernate5Module());
+            }
+        }
     }
 }

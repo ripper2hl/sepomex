@@ -27,6 +27,7 @@ import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -66,13 +67,13 @@ public class AsentamientoTipoServiceTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",
@@ -108,19 +109,7 @@ public class AsentamientoTipoServiceTest {
         asentamientoTipo.setNombre("asentamientoTipo");
         asentamientoTipo.setSepomexClave("sepomexClave");
         AsentamientoTipo asentamientoTipoGuardado = asentamientoTipoService.guardar(asentamientoTipo);
-    }
-    
-    @Test
-    public void actualizar() {
-        String nombreAsentamientoTipo = "cambiando nombre sepomex";
-        AsentamientoTipo asentamientoTipo = new AsentamientoTipo();
-        asentamientoTipo.setNombre("asentamientoTipo2");
-        asentamientoTipo.setSepomexClave("sepomexClave2");
-        AsentamientoTipo asentamientoTipoGuardado = asentamientoTipoService.guardar(asentamientoTipo);
-        asentamientoTipoGuardado.setNombre( nombreAsentamientoTipo );
-        asentamientoTipoService.actualizar(asentamientoTipoGuardado);
-        AsentamientoTipo asentamientoTipoEncontrado = asentamientoTipoService.buscarPorId( asentamientoTipo.getId() );
-        assertThat("Deberia tener el nombre igual", nombreAsentamientoTipo, is( equalTo( asentamientoTipoEncontrado.getNombre() ) ) );
+        assertThat("Deberia tener un id", asentamientoTipoGuardado.getId(), is( notNullValue() ) );
     }
     
     @Test
@@ -138,13 +127,57 @@ public class AsentamientoTipoServiceTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
+                    value = "classpath:sample-data/estado.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
                     value = "classpath:sample-data/municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/zona-tipo.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/colonia.xml",
+                    type = DatabaseOperation.REFRESH)
+        
+    })
+    public void actualizar() {
+        String nombreAsentamientoTipo = "cambiando nombre sepomex";
+        AsentamientoTipo asentamientoTipo = new AsentamientoTipo();
+        asentamientoTipo.setNombre("asentamientoTipo2");
+        asentamientoTipo.setSepomexClave("sepomexClave2");
+        AsentamientoTipo asentamientoTipoGuardado = asentamientoTipoService.guardar(asentamientoTipo);
+        asentamientoTipoGuardado.setNombre( nombreAsentamientoTipo );
+        asentamientoTipoService.actualizar(asentamientoTipoGuardado);
+        AsentamientoTipo asentamientoTipoEncontrado = asentamientoTipoService.buscarPorId( asentamientoTipo.getId() );
+        assertThat("Deberia tener el nombre igual", nombreAsentamientoTipo, is( equalTo( asentamientoTipoEncontrado.getNombre() ) ) );
+    }
+    
+    @Test
+
+    @DatabaseSetups({
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/inegi-clave-municipio.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/codigo-postal.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",
@@ -155,7 +188,7 @@ public class AsentamientoTipoServiceTest {
     
     })
     public void borrar() {
-        int id = 1;
+        int id = 100;
         asentamientoTipoService.borrar(id);
         exception.expect(NoSuchElementException.class);
         asentamientoTipoService.buscarPorId(id);

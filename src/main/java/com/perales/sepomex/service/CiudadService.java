@@ -50,6 +50,8 @@ public class CiudadService  implements ServiceGeneric<Ciudad, Integer> {
     public Ciudad borrar(Integer id) {
         Ciudad ciudad = ciudadRepository.findById(id).get();
         ciudad.getColonias().forEach( colonia -> colonia.setCiudad(null));
+        ciudad.getMunicipios().forEach(municipio -> municipio.setCiudad(null));
+        ciudad.getCodigosPostales().forEach(codigoPostal -> codigoPostal.setCiudad(null));
         ciudadRepository.deleteById(id);
         return ciudad;
     }

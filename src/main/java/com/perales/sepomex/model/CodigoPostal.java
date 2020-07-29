@@ -1,8 +1,6 @@
 package com.perales.sepomex.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -25,8 +23,10 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Entity(name = "codigo_postal")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CodigoPostal implements Serializable {
     
+    private static final long serialVersionUID = -3109072997206117833L;
     @Id
     @GeneratedValue(
             generator = "sequence_codigo_postal",
@@ -45,30 +45,24 @@ public class CodigoPostal implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "municipio_id")
     private Municipio municipio;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id")
     private Estado estado;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ciudad_id")
     private Ciudad ciudad;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @OneToMany(mappedBy = "codigoPostal")
+    @OneToMany(mappedBy = "codigoPostal", fetch = FetchType.LAZY)
     private List<Colonia> colonias;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @OneToMany(mappedBy = "codigoPostalAdministracionAsentamiento")
+    @OneToMany(mappedBy = "codigoPostalAdministracionAsentamiento", fetch = FetchType.LAZY)
     private List<Colonia> coloniasCodigoPostalAdministracionAsentamiento;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @OneToMany(mappedBy = "codigoPostalAdministracionAsentamientoOficina")
+    @OneToMany(mappedBy = "codigoPostalAdministracionAsentamientoOficina", fetch = FetchType.LAZY)
     private List<Colonia> coloniasCodigoPostalAdministracionAsentamientoOficina;
 }

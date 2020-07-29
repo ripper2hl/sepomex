@@ -40,7 +40,7 @@ public class ParserTest extends TestCase{
     @Before
     public void setUp() throws Exception {
         super.setUp();
-        br = new BufferedReader( new InputStreamReader(new FileInputStream( "src/test/resources/" + FILE_NAME ), "ISO-8859-1") );
+        br = new BufferedReader( new InputStreamReader(new FileInputStream( "src/test/resources/" + FILE_NAME ), "UTF-8") );
     }
     
     @Test
@@ -125,7 +125,7 @@ public class ParserTest extends TestCase{
     @Test
     public void guardarArchivoEntidadesParseadas() throws IOException, ClassNotFoundException {
         String archivoSepomexNombre = "src/test/resources/" + FILE_NAME;
-        String archivoParseadoNombre = "/tmp/sepomex-parseado.ser";
+        String archivoParseadoNombre = "/tmp/sepomex-parseado.dat";
         parser.guardarArchivoEntidadesParseadas(archivoSepomexNombre, archivoParseadoNombre);
         File archivoParseadoComprobacion = new File(archivoParseadoNombre);
         assertTrue("Deberia existir el archivo parseado", archivoParseadoComprobacion.exists());

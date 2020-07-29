@@ -27,6 +27,7 @@ import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -106,6 +107,7 @@ public class MunicipioServiceTest {
         Municipio municipio = new Municipio();
         municipio.setNombre("municipio");
         Municipio municipioGuardado = municipioService.guardar(municipio);
+        assertThat("Deberia tener un id", municipioGuardado.getId(), is( notNullValue() ) );
     }
     
     @Test
@@ -135,13 +137,13 @@ public class MunicipioServiceTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",
@@ -149,10 +151,10 @@ public class MunicipioServiceTest {
             @DatabaseSetup(
                     value = "classpath:sample-data/colonia.xml",
                     type = DatabaseOperation.REFRESH)
-    
+        
     })
     public void borrar() {
-        int id = 1;
+        int id = 100;
         municipioService.borrar(id);
         exception.expect(NoSuchElementException.class);
         municipioService.buscarPorId(id);

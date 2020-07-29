@@ -27,6 +27,7 @@ import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -66,13 +67,13 @@ public class EstadoServiceTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",
@@ -83,7 +84,7 @@ public class EstadoServiceTest {
         
     })
     public void buscarPorId() {
-        int estadoId = 1;
+        int estadoId = 100;
         Estado estado = estadoService.buscarPorId( estadoId );
         assertThat("Deberian ser las mismas", estadoId , is( estado.getId() ) );
     }
@@ -108,6 +109,7 @@ public class EstadoServiceTest {
         estado.setNombre("estado");
         estado.setInegiClave("inegiClave");
         Estado estadoGuardado = estadoService.guardar(estado);
+        assertThat("Deberia tener un id", estadoGuardado.getId(), is( notNullValue() ) );
     }
     
     @Test
@@ -124,6 +126,7 @@ public class EstadoServiceTest {
     }
     
     @Test
+
     @DatabaseSetups({
             @DatabaseSetup(
                     value = "classpath:sample-data/inegi-clave-ciudad.xml",
@@ -138,13 +141,13 @@ public class EstadoServiceTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",
@@ -155,7 +158,7 @@ public class EstadoServiceTest {
     
     })
     public void borrar() {
-        int id = 1;
+        int id = 100;
         estadoService.borrar(id);
         exception.expect(NoSuchElementException.class);
         estadoService.buscarPorId(id);

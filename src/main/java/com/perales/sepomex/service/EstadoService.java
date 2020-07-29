@@ -51,6 +51,8 @@ public class EstadoService implements ServiceGeneric<Estado, Integer> {
         Estado estado = estadoRepository.findById(id).get();
         estado.getColonias().forEach(colonia -> colonia.setEstado(null));
         estado.getMunicipios().forEach(municipio -> municipio.setEstado(null));
+        estado.getCiudades().forEach( ciudad -> ciudad.setEstado(null) );
+        estado.getCodigosPostales().forEach(codigoPostal -> codigoPostal.setEstado(null));
         estadoRepository.delete(estado);
         return estado;
     }
