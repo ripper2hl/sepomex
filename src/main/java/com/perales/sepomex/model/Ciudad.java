@@ -1,8 +1,6 @@
 package com.perales.sepomex.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -21,8 +19,10 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Entity(name = "ciudad")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Ciudad implements Serializable {
     
+    private static final long serialVersionUID = 2570095220028518900L;
     @Id
     @GeneratedValue(
             generator = "sequence_ciudad",
@@ -40,20 +40,20 @@ public class Ciudad implements Serializable {
     @Column(name = "nombre", nullable = false)
     private String nombre;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id")
     private Estado estado;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @OneToMany(mappedBy = "ciudad")
+    
+    @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
     private List<Colonia> colonias;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @OneToMany(mappedBy = "ciudad")
+    
+    @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
     private List<Municipio> municipios;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @OneToMany(mappedBy = "ciudad")
+    
+    @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
     private List<CodigoPostal> codigosPostales;
 }

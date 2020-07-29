@@ -1,9 +1,7 @@
 package com.perales.sepomex.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -23,8 +21,10 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Entity(name = "asentamiento_tipo")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AsentamientoTipo implements Serializable {
     
+    private static final long serialVersionUID = 3547469072116532512L;
     @Id
     @GeneratedValue(
             generator = "sequence_asentamiento_tipo",
@@ -49,7 +49,6 @@ public class AsentamientoTipo implements Serializable {
     @Column(name = "sepomex_clave", nullable = false)
     private String sepomexClave;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @OneToMany(mappedBy = "asentamientoTipo")
+    @OneToMany(mappedBy = "asentamientoTipo", fetch = FetchType.LAZY )
     private List<Colonia> colonias;
 }

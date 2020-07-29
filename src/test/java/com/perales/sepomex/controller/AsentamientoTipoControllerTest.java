@@ -85,12 +85,12 @@ public class AsentamientoTipoControllerTest {
     })
     public void buscarPorId() throws Exception {
         StringBuilder sb = new StringBuilder(API_URL);
-        sb.append(1);
+        sb.append(100);
         ResultActions response = mockMvc.perform(MockMvcRequestBuilders.get(sb.toString()));
         logger.info( response.andReturn().getResponse().getContentAsString() );
-        response.andExpect( content().contentType(MediaType.APPLICATION_JSON_UTF8) )
+        response.andExpect( content().contentType(MediaType.APPLICATION_JSON) )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is (  1 ) ) )
+                .andExpect(jsonPath("$.id", is (  100 ) ) )
                 .andExpect(jsonPath("$.nombre", is (  "asentamientoTipo" ) ) );
         
     }
@@ -134,7 +134,7 @@ public class AsentamientoTipoControllerTest {
                         .param("size", "10"));
         logger.info (response.andReturn().getResponse().getContentAsString() );
         response
-                .andExpect( content().contentType(MediaType.APPLICATION_JSON_UTF8) )
+                .andExpect( content().contentType(MediaType.APPLICATION_JSON) )
                 .andExpect(status().isOk())
                 .andExpect( jsonPath("$", hasKey("content") ) )
                 .andExpect( jsonPath("$", hasKey("pageable") ) )
@@ -184,7 +184,7 @@ public class AsentamientoTipoControllerTest {
         String json = ow.writeValueAsString( asentamientoTipo );
         ResultActions response = mockMvc
                 .perform(MockMvcRequestBuilders.post(sb.toString())
-                        .contentType( MediaType.APPLICATION_JSON_UTF8 )
+                        .contentType( MediaType.APPLICATION_JSON )
                         .content( json ));
         logger.info( response.andReturn().getResponse().getContentAsString() );
         response.andExpect( status().isCreated() );
@@ -231,7 +231,7 @@ public class AsentamientoTipoControllerTest {
         String json = ow.writeValueAsString( asentamientoTipo );
         ResultActions response = mockMvc
                 .perform(MockMvcRequestBuilders.put(sb.toString())
-                        .contentType( MediaType.APPLICATION_JSON_UTF8 )
+                        .contentType( MediaType.APPLICATION_JSON )
                         .content( json ));
         logger.info( response.andReturn().getResponse().getContentAsString() );
         response.andExpect( status().is2xxSuccessful() );
@@ -270,10 +270,10 @@ public class AsentamientoTipoControllerTest {
     })
     public void borrar() throws Exception {
         StringBuilder sb = new StringBuilder(API_URL);
-        sb.append(1);
+        sb.append(100);
         ResultActions response = mockMvc
                 .perform(MockMvcRequestBuilders.delete(sb.toString())
-                        .contentType( MediaType.APPLICATION_JSON_UTF8 ));
+                        .contentType( MediaType.APPLICATION_JSON ));
         logger.info( response.andReturn().getResponse().getContentAsString() );
         response.andExpect( status().is2xxSuccessful() );
     }

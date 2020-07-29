@@ -125,7 +125,7 @@ public class Parser {
                                 return colonia;
                             }).collect(Collectors.toList());
                     logger.info(colonias.toString());
-                    oos.writeUTF( colonias.toString() );
+                    oos.writeObject( colonias );
                 }catch (IOException e){
                     throw e;
                 }

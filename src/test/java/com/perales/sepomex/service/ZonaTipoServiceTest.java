@@ -27,6 +27,7 @@ import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -83,7 +84,7 @@ public class ZonaTipoServiceTest {
         
     })
     public void buscarPorId() {
-        int zonaTipoId = 1;
+        int zonaTipoId = 100;
         ZonaTipo zonaTipo = zonaTipoService.buscarPorId( zonaTipoId );
         assertThat("Deberian ser las mismas", zonaTipoId , is( zonaTipo.getId() ) );
     }
@@ -106,6 +107,7 @@ public class ZonaTipoServiceTest {
         ZonaTipo zonaTipo = new ZonaTipo();
         zonaTipo.setNombre("zonaTipo");
         ZonaTipo zonaTipoGuardado = zonaTipoService.guardar(zonaTipo);
+        assertThat("Deberia tener un id", zonaTipoGuardado.getId(), is( notNullValue() ) );
     }
     
     @Test
@@ -120,7 +122,7 @@ public class ZonaTipoServiceTest {
         assertThat("Deberia tener el nombre igual", nombreZonaTipo, is( equalTo( zonaTipoEncontrado.getNombre() ) ) );
     }
     
-    @Test
+    @Test(expected = NoSuchElementException.class)
     @DatabaseSetups({
             @DatabaseSetup(
                     value = "classpath:sample-data/inegi-clave-ciudad.xml",
@@ -135,13 +137,13 @@ public class ZonaTipoServiceTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",

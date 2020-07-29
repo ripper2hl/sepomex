@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <Colonia id="1" nombre="colonia" inegi_clave_ciudad_id="1"
-             inegi_clave_municipio_id="1" codigo_postal_id="1"
-             codigo_postal_administracion_asentamiento_id="1"
-             codigo_postal_administracion_asentamiento_oficina_id="1"
-             asentamiento_tipo_id="1" municipio_id="1"
-             estado_id="1" ciudad_id="1" zona_tipo_id="1"
-             identificador_municipal="1"
+    <Colonia id="100" nombre="colonia" inegi_clave_ciudad_id="100"
+             inegi_clave_municipio_id="100" codigo_postal_id="100"
+             codigo_postal_administracion_asentamiento_id="100"
+             codigo_postal_administracion_asentamiento_oficina_id="100"
+             asentamiento_tipo_id="100" municipio_id="100"
+             estado_id="100" ciudad_id="100" zona_tipo_id="100"
+             identificador_municipal="100"
     />
 </dataset>

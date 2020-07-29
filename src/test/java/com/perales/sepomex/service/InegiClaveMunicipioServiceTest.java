@@ -27,6 +27,7 @@ import java.util.NoSuchElementException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -83,7 +84,7 @@ public class InegiClaveMunicipioServiceTest {
         
     })
     public void buscarPorId() {
-        int inegiClaveMunicipioId = 1;
+        int inegiClaveMunicipioId = 100;
         InegiClaveMunicipio inegiClaveMunicipio = inegiClaveMunicipioService.buscarPorId( inegiClaveMunicipioId );
         assertThat("Deberian ser las mismas", inegiClaveMunicipioId , is( inegiClaveMunicipio.getId() ) );
     }
@@ -106,6 +107,7 @@ public class InegiClaveMunicipioServiceTest {
         InegiClaveMunicipio inegiClaveMunicipio = new InegiClaveMunicipio();
         inegiClaveMunicipio.setNombre("inegiClaveMunicipio");
         InegiClaveMunicipio inegiClaveMunicipioGuardado = inegiClaveMunicipioService.guardar(inegiClaveMunicipio);
+        assertThat("Deberia tener un id", inegiClaveMunicipioGuardado.getId(), is( notNullValue() ) );
     }
     
     @Test
@@ -120,7 +122,7 @@ public class InegiClaveMunicipioServiceTest {
         assertThat("Deberia tener el nombre igual", nombreInegiClaveMunicipio, is( equalTo( inegiClaveMunicipioEncontrado.getNombre() ) ) );
     }
     
-    @Test
+    @Test(expected = NoSuchElementException.class)
     @DatabaseSetups({
             @DatabaseSetup(
                     value = "classpath:sample-data/inegi-clave-ciudad.xml",
@@ -135,13 +137,13 @@ public class InegiClaveMunicipioServiceTest {
                     value = "classpath:sample-data/asentamiento-tipo.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
                     value = "classpath:sample-data/estado.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/ciudad.xml",
+                    type = DatabaseOperation.REFRESH),
+            @DatabaseSetup(
+                    value = "classpath:sample-data/municipio.xml",
                     type = DatabaseOperation.REFRESH),
             @DatabaseSetup(
                     value = "classpath:sample-data/zona-tipo.xml",

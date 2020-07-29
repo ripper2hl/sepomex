@@ -25,10 +25,25 @@ import java.io.Serializable;
         "codigoPostalAdministracionAsentamientoOficina",
         "municipio", "estado", "ciudad", "zonaTipo"})
 @ToString(exclude = {"asentamientoTipo","municipio", "estado", "ciudad", "zonaTipo"})
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Entity(name = "colonia")
+@NamedEntityGraph(name = "Colonia.detail",
+    attributeNodes = {
+            @NamedAttributeNode("municipio"),
+            @NamedAttributeNode("ciudad"),
+            @NamedAttributeNode("estado"),
+            @NamedAttributeNode("codigoPostal"),
+            @NamedAttributeNode("codigoPostalAdministracionAsentamiento"),
+            @NamedAttributeNode("codigoPostalAdministracionAsentamientoOficina"),
+            @NamedAttributeNode("inegiClaveCiudad"),
+            @NamedAttributeNode("inegiClaveMunicipio"),
+            @NamedAttributeNode("asentamientoTipo"),
+            @NamedAttributeNode("zonaTipo")
+    })
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Colonia implements Serializable {
     
+    private static final long serialVersionUID = 7622719610604643048L;
     @Id
     @GeneratedValue(
             generator = "sequence_colonia",
@@ -49,57 +64,46 @@ public class Colonia implements Serializable {
     @ApiModelProperty(notes = "Nombre")
     private String nombre;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
-    @JoinColumn(name = "inegi_clave_ciudad_id")
-    private InegiClaveCiudad inegiClaveCiudad;
-    
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
-    @JoinColumn(name = "inegi_clave_municipio_id")
-    private InegiClaveMunicipio inegiClaveMunicipio;
-    
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
-    @JoinColumn(name = "codigo_postal_id")
-    private CodigoPostal codigoPostal;
-    
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
-    @JoinColumn(name = "codigo_postal_administracion_asentamiento_id")
-    private CodigoPostal codigoPostalAdministracionAsentamiento;
-    
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
-    @JoinColumn(name = "codigo_postal_administracion_asentamiento_oficina_id")
-    private CodigoPostal codigoPostalAdministracionAsentamientoOficina;
-    
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
-    @JoinColumn(name = "asentamiento_tipo_id")
-    private AsentamientoTipo asentamientoTipo;
-    
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
-    @JoinColumn(name = "municipio_id")
-    private Municipio municipio;
-    
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id")
     private Estado estado;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "municipio_id")
+    private Municipio municipio;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ciudad_id")
     private Ciudad ciudad;
     
-    @JsonIdentityReference(alwaysAsId = true)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "codigo_postal_id")
+    private CodigoPostal codigoPostal;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "codigo_postal_administracion_asentamiento_id")
+    private CodigoPostal codigoPostalAdministracionAsentamiento;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "codigo_postal_administracion_asentamiento_oficina_id")
+    private CodigoPostal codigoPostalAdministracionAsentamientoOficina;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "inegi_clave_ciudad_id")
+    private InegiClaveCiudad inegiClaveCiudad;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "inegi_clave_municipio_id")
+    private InegiClaveMunicipio inegiClaveMunicipio;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "asentamiento_tipo_id")
+    private AsentamientoTipo asentamientoTipo;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "zona_tipo_id")
     private ZonaTipo zonaTipo;
     
-    @JsonIdentityReference(alwaysAsId = true)
     @NotNull
     @NotBlank
     @Column(name = "identificador_municipal", nullable = false)
