@@ -120,8 +120,7 @@ public class ZonaTipoServiceTest {
         assertThat("Deberia tener el nombre igual", nombreZonaTipo, is( equalTo( zonaTipoEncontrado.getNombre() ) ) );
     }
     
-    @Test
-
+    @Test(expected = NoSuchElementException.class)
     @DatabaseSetups({
             @DatabaseSetup(
                     value = "classpath:sample-data/inegi-clave-ciudad.xml",

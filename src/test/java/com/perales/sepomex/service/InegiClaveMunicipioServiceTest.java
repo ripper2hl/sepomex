@@ -120,8 +120,7 @@ public class InegiClaveMunicipioServiceTest {
         assertThat("Deberia tener el nombre igual", nombreInegiClaveMunicipio, is( equalTo( inegiClaveMunicipioEncontrado.getNombre() ) ) );
     }
     
-    @Test
-
+    @Test(expected = NoSuchElementException.class)
     @DatabaseSetups({
             @DatabaseSetup(
                     value = "classpath:sample-data/inegi-clave-ciudad.xml",
