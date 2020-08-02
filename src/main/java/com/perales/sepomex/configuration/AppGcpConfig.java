@@ -48,7 +48,7 @@ public class AppGcpConfig implements WebMvcConfigurer {
     @Bean
     public DataSource dataSource() throws ClassNotFoundException {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        Class h2 = Class.forName("org.h2.Driver.class");
+        Class h2 = Class.forName("org.h2.Driver");
         dataSource.setDriverClass(h2);
         dataSource.setUrl("jdbc:h2:mem:sepomex;DB_CLOSE_DELAY=-1");
         dataSource.setUsername("sa");

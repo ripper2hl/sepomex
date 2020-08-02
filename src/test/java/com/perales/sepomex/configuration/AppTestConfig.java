@@ -34,11 +34,12 @@ public class AppTestConfig extends WebMvcConfigurerAdapter {
     private LocalContainerEntityManagerFactoryBean emf;
     private HibernateJpaVendorAdapter hibernateJpaVendorAdapter;
     private DataSource dataSource;
-
+    
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource() throws ClassNotFoundException {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        dataSource.setDriverClass(org.h2.Driver.class);
+        Class h2 = Class.forName("org.h2.Driver");
+        dataSource.setDriverClass(h2);
         dataSource.setUrl("jdbc:h2:mem:sepomex;DB_CLOSE_DELAY=-1");
         dataSource.setUsername("sa");
         dataSource.setPassword("sa");
