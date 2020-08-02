@@ -9,6 +9,9 @@ services :
         - "80:80"
   db:
     image: jesusperales/sepomex-db-postgresql
+    environment:
+    - POSTGRES_PASSWORD=sepomex
+    - POSTGRES_USER=sepomex
     ports:
       - "5432:5432"
 

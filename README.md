@@ -1,5 +1,8 @@
 # sepomex-api
 
+[![](https://img.shields.io/docker/stars/jesusperales/sepomex-api.svg)](https://hub.docker.com/r/jesusperales/sepomex-api/ 'Docker hub')
+[![](https://img.shields.io/docker/pulls/jesusperales/sepomex-api.svg)](https://hub.docker.com/r/jesusperales/sepomex-api/ 'Docker hub')
+
 API REST de SEPOMEX creada con Java 
 utilizando la base de datos [sepomex-db-postgresql](https://github.com/ripper2hl/sepomex-db-postgresql).
 
