@@ -3,6 +3,7 @@ package com.perales.sepomex.configuration;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
+import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -36,24 +37,25 @@ import java.util.Properties;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableJpaRepositories( basePackages = { "com.perales.sepomex.repository" })
 @ComponentScan("com.perales.sepomex")
-@Profile({ "local" })
 @Log4j2
-public class AppConfigLocal implements WebMvcConfigurer {
-
+@Profile("gcp")
+public class AppGcpConfig implements WebMvcConfigurer {
+    
     private LocalContainerEntityManagerFactoryBean emf;
     private HibernateJpaVendorAdapter hibernateJpaVendorAdapter;
     private DataSource dataSource;
-
+    
     @Bean
-    public DataSource dataSource() {
+    public DataSource dataSource() throws ClassNotFoundException {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        dataSource.setDriverClass( org.postgresql.Driver.class);
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/sepomex");
-        dataSource.setUsername("sepomex");
-        dataSource.setPassword("sepomex");
+        Class h2 = Class.forName("org.h2.Driver");
+        dataSource.setDriverClass(h2);
+        dataSource.setUrl("jdbc:h2:mem:sepomex;DB_CLOSE_DELAY=-1");
+        dataSource.setUsername("sa");
+        dataSource.setPassword("sa");
         return dataSource;
     }
-
+    
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
         emf = new LocalContainerEntityManagerFactoryBean();
@@ -63,23 +65,23 @@ public class AppConfigLocal implements WebMvcConfigurer {
         emf.setJpaProperties(hibernateProperties());
         return emf;
     }
-
+    
     @Bean
     public JpaVendorAdapter jpaVendorAdapter() {
         hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
         hibernateJpaVendorAdapter.setShowSql( true );
         hibernateJpaVendorAdapter.setGenerateDdl(true);
-        hibernateJpaVendorAdapter.setDatabase(Database.POSTGRESQL);
+        hibernateJpaVendorAdapter.setDatabase(Database.H2);
         return hibernateJpaVendorAdapter;
     }
-
+    
     @Bean
     public JpaTransactionManager transactionManager(EntityManagerFactory emf){
         JpaTransactionManager jpaTransactionManager = new JpaTransactionManager();
         jpaTransactionManager.setEntityManagerFactory(emf);
         return jpaTransactionManager;
     }
-
+    
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.jdbc.lob.non_contextual_creation", "true");
