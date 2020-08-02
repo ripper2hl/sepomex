@@ -52,7 +52,7 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
     }
     
     @PostMapping(value = "/carga", produces = "application/json; charset=UTF-8", consumes = "multipart/form-data;charset=UTF-8")
-    public boolean cargaMasiva( @RequestParam("file") MultipartFile file ) throws IOException {
+    public boolean cargaMasiva( @RequestPart("file") MultipartFile file ) throws IOException {
         return coloniaService.cargaMasiva( file );
     }
     
