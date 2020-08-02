@@ -45,7 +45,7 @@ public class InegiClaveCiudadServiceTest {
     private WebApplicationContext webApplicationContext;
     
     @Autowired
-    InegiClaveCiudadService inegiClaveCiudadService;
+    private InegiClaveCiudadService inegiClaveCiudadService;
     
     @Before
     public void setUp() throws Exception {

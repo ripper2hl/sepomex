@@ -21,6 +21,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
+import java.util.UUID;
 
 @Configuration
 @EnableWebMvc
@@ -40,7 +41,10 @@ public class AppTestConfig extends WebMvcConfigurerAdapter {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         Class h2 = Class.forName("org.h2.Driver");
         dataSource.setDriverClass(h2);
-        dataSource.setUrl("jdbc:h2:mem:sepomex;DB_CLOSE_DELAY=-1");
+        StringBuilder sb = new StringBuilder("jdbc:h2:mem:sepomex");
+        sb.append(UUID.randomUUID());
+        sb.append(";DB_CLOSE_DELAY=-1");
+        dataSource.setUrl(sb.toString());
         dataSource.setUsername("sa");
         dataSource.setPassword("sa");
         return dataSource;
