@@ -36,6 +36,16 @@ public class AppConfig implements WebMvcConfigurer {
     private DataSource dataSource;
     
     @Bean
+    public DataSource dataSource() {
+        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+        dataSource.setDriverClass( org.postgresql.Driver.class);
+        dataSource.setUrl("jdbc:postgresql://db:5432/sepomex");
+        dataSource.setUsername("sepomex");
+        dataSource.setPassword("sepomex");
+        return dataSource;
+    }
+    
+    @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
         emf = new LocalContainerEntityManagerFactoryBean();
         emf.setDataSource(dataSource);
