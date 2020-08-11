@@ -41,10 +41,7 @@ public class AppTestConfig extends WebMvcConfigurerAdapter {
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         Class h2 = Class.forName("org.h2.Driver");
         dataSource.setDriverClass(h2);
-        StringBuilder sb = new StringBuilder("jdbc:h2:mem:sepomex");
-        sb.append(UUID.randomUUID());
-        sb.append(";DB_CLOSE_DELAY=-1");
-        dataSource.setUrl(sb.toString());
+        dataSource.setUrl("jdbc:h2:mem:sepomex;DB_CLOSE_DELAY=-1");
         dataSource.setUsername("sa");
         dataSource.setPassword("sa");
         return dataSource;
