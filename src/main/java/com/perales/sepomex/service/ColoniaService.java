@@ -8,9 +8,8 @@ import com.perales.sepomex.util.Parser;
 import lombok.extern.log4j.Log4j2;
 import org.apache.lucene.search.Query;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
-import org.hibernate.criterion.Example;
-import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.jpa.FullTextEntityManager;
@@ -277,28 +276,26 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
         Query fuzzyQuery = queryBuilder
                 .keyword()
                 .fuzzy()
-                .withEditDistanceUpTo(2)
-                .withPrefixLength(0)
                 .onField("nombre")
                 .matching( colonia.getNombre())
                 .createQuery();
         
         org.hibernate.search.jpa.FullTextQuery jpaQuery
                 = fullTextEntityManager.createFullTextQuery(fuzzyQuery, Colonia.class);
+        
         jpaQuery.setCriteriaQuery( createCriteriaSearch(colonia) );
         return jpaQuery.getResultList();
     }
     
     private Criteria createCriteriaSearch(Colonia colonia){
         Session session = (Session) emf.createEntityManager().getDelegate();
-        Example example = Example
-                .create(colonia)
-                .enableLike(MatchMode.ANYWHERE)
-                .ignoreCase();
         
         Criteria criteria = session
-                .createCriteria(Colonia.class)
-                .add(example);
+                .createCriteria(Colonia.class);
+        criteria.setFetchMode("estado", FetchMode.JOIN);
+        criteria.setFetchMode("municipio", FetchMode.JOIN);
+        criteria.setFetchMode("codigoPostal", FetchMode.JOIN);
+        
         if(colonia.getEstado() != null ){
             criteria.add( Restrictions.eq( "estado.id", colonia.getEstado().getId() ) );
         }
