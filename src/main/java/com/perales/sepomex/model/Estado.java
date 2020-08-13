@@ -20,7 +20,7 @@ import java.util.List;
 @EqualsAndHashCode( exclude = { "id", "ciudades" , "municipios", "colonias", "codigosPostales"})
 @NoArgsConstructor
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-@ToString(exclude = {"asentamientoTipo","municipio", "estado", "ciudad", "zonaTipo"})
+@ToString(exclude = {"ciudades","municipios", "colonias", "codigosPostales"})
 @Entity(name = "estado")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Estado implements Serializable {
