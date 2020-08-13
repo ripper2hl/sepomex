@@ -16,12 +16,11 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
-import java.util.UUID;
 
 @Configuration
 @EnableWebMvc
@@ -30,7 +29,7 @@ import java.util.UUID;
 @EnableJpaRepositories( basePackages = { "com.perales.sepomex.repository" })
 @ComponentScan( basePackages = {"com.perales.sepomex"})
 @Profile({ "test" })
-public class AppTestConfig extends WebMvcConfigurerAdapter {
+public class AppTestConfig implements WebMvcConfigurer {
 
     private LocalContainerEntityManagerFactoryBean emf;
     private HibernateJpaVendorAdapter hibernateJpaVendorAdapter;

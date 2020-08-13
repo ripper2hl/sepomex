@@ -18,7 +18,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(
         exclude = { "id", "ciudad" , "municipio", "estado",
-                "colonias", "coloniasCodigoPostalAdministracionAsentamiento," +
+                "colonias", "coloniasCodigoPostalAdministracionAsentamiento",
                 "coloniasCodigoPostalAdministracionAsentamientoOficina"})
 @NoArgsConstructor
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
