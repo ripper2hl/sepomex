@@ -1,15 +1,18 @@
 package com.perales.sepomex.model;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.apache.lucene.analysis.core.KeywordTokenizerFactory;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
-import org.apache.lucene.analysis.miscellaneous.ASCIIFoldingFilterFactory;
+import org.apache.lucene.analysis.es.SpanishLightStemFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
 import org.hibernate.search.annotations.*;
-import org.hibernate.search.annotations.Index;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -17,12 +20,12 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Indexed
-@NormalizerDef(name = "lowercase",
-        filters = {
-                @TokenFilterDef(factory = ASCIIFoldingFilterFactory.class),
-                @TokenFilterDef(factory = LowerCaseFilterFactory.class)
-        }
-)
+@AnalyzerDef(name = "es", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = {
+        @TokenFilterDef(factory = SpanishLightStemFilterFactory.class),
+        @TokenFilterDef(factory = LowerCaseFilterFactory.class)})
+@AnalyzerDef(name = "es_beginEnd",tokenizer = @TokenizerDef(factory = KeywordTokenizerFactory.class), filters = {
+        @TokenFilterDef(factory = SpanishLightStemFilterFactory.class),
+        @TokenFilterDef(factory = LowerCaseFilterFactory.class)})
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {
@@ -64,9 +67,10 @@ public class Colonia implements Serializable {
     @ApiModelProperty(notes = "ID")
     private Integer id;
     
-    @Field(termVector = TermVector.YES ,
-            index = Index.YES,
-            normalizer = @Normalizer(definition = "lowercase"))
+
+    @Analyzer(definition = "es")
+    @Field(store = Store.YES)
+    @Field(name = "coloniaEs_beginEnd", store = Store.YES, analyzer = @Analyzer(definition = "es_beginEnd"))
     @NotNull
     @NotBlank
     @Column(name = "nombre", nullable = false)
