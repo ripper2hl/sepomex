@@ -44,11 +44,26 @@ public class AppConfig implements WebMvcConfigurer {
     
     @Bean
     public DataSource dataSource() {
+        String db = System.getenv("DB");
+        String dbPort = System.getenv("DB_PORT");
+        String user = System.getenv("DB_USER");
+        String pass = System.getenv("DB_PASS");
+        StringBuilder sb = new StringBuilder("jdbc:postgresql://");
+        if (db != null) {
+            sb.append(db);
+            sb.append(":");
+            sb.append(dbPort);
+        } else {
+            sb.append("db:5432");
+        }
+        if(user == null){ user = "sepomex"; }
+        if(pass == null){ pass = "sepomex"; }
+        sb.append("/sepomex");
         SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
         dataSource.setDriverClass( org.postgresql.Driver.class);
-        dataSource.setUrl("jdbc:postgresql://db:5432/sepomex");
-        dataSource.setUsername("sepomex");
-        dataSource.setPassword("sepomex");
+        dataSource.setUrl(sb.toString());
+        dataSource.setUsername(user);
+        dataSource.setPassword(pass);
         return dataSource;
     }
     
