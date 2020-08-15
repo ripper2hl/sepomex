@@ -3,7 +3,6 @@ package com.perales.sepomex.configuration;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
-import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.validator.HibernateValidator;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -11,7 +10,6 @@ import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -43,18 +41,6 @@ public class AppGcpConfig implements WebMvcConfigurer {
     
     private LocalContainerEntityManagerFactoryBean emf;
     private HibernateJpaVendorAdapter hibernateJpaVendorAdapter;
-    private DataSource dataSource;
-    
-    @Bean
-    public DataSource dataSource() throws ClassNotFoundException {
-        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
-        Class h2 = Class.forName("org.h2.Driver");
-        dataSource.setDriverClass(h2);
-        dataSource.setUrl("jdbc:h2:mem:sepomex;DB_CLOSE_DELAY=-1");
-        dataSource.setUsername("sa");
-        dataSource.setPassword("sa");
-        return dataSource;
-    }
     
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource, JpaVendorAdapter jpaVendorAdapter) {
