@@ -23,7 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceUnit;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -58,6 +60,9 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     
     @PersistenceContext
     private EntityManager em;
+    
+    @PersistenceUnit
+    private EntityManagerFactory emf;
     
     @Autowired
     private Parser parser;
@@ -97,6 +102,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     }
     
     public Boolean cargaMasiva(MultipartFile file) throws IOException {
+        EntityManager em = emf.createEntityManager();
         try (BufferedReader br = new BufferedReader( new InputStreamReader( file.getInputStream() , "UTF-8") )) {
             List<Colonia> colonias = br.lines().parallel()
                     .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
