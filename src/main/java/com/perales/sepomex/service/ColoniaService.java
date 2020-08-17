@@ -23,7 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -55,9 +55,10 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     private static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
     @Autowired
     private ColoniaRepository coloniaRepository;
-
-    @Autowired
-    private EntityManagerFactory emf;
+    
+    @PersistenceContext
+    private EntityManager em;
+    
     @Autowired
     private Parser parser;
     
@@ -117,7 +118,6 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
                     .collect( Collectors.toList() );
     
             Iterables.partition(colonias, 1000).forEach( coloniasBatch -> {
-                EntityManager em = emf.createEntityManager();
                 em.getTransaction().begin();
                 for(Colonia colonia : coloniasBatch){
                     try {
@@ -260,15 +260,13 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     
         
         FullTextEntityManager fullTextEntityManager
-                = Search.getFullTextEntityManager(emf.createEntityManager());
+                = Search.getFullTextEntityManager(em);
         fullTextEntityManager.createIndexer().startAndWait();
     }
     
-    @Transactional(readOnly = true)
     public List<Colonia> search(Colonia colonia){
         FullTextEntityManager fullTextEntityManager
-                = Search.getFullTextEntityManager( emf.createEntityManager() );
-    
+                = Search.getFullTextEntityManager( em );
         QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
                 .buildQueryBuilder()
                 .forEntity(Colonia.class)
@@ -285,14 +283,17 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
                 = fullTextEntityManager.createFullTextQuery(fuzzyQuery, Colonia.class);
         
         jpaQuery.setCriteriaQuery( createCriteriaSearch(colonia) );
-        jpaQuery.setMaxResults(50);
+        jpaQuery.setMaxResults(100);
         jpaQuery.limitExecutionTimeTo(1l, TimeUnit.SECONDS);
-        return jpaQuery.getResultList();
+        List lista = jpaQuery.getResultList();
+        fullTextEntityManager.close();
+        em.close();
+        return lista;
     }
     
     @SuppressWarnings("deprecated")
     private Criteria createCriteriaSearch(Colonia colonia){
-        Session session = (Session) emf.createEntityManager().getDelegate();
+        Session session = (Session) em.getDelegate();
         session.setDefaultReadOnly(true);
         Criteria criteria = session.createCriteria(Colonia.class);
         criteria.setFetchMode("estado", FetchMode.JOIN);
