@@ -65,7 +65,7 @@ public class Colonia implements Serializable {
     )
     @Column(name = "id")
     @ApiModelProperty(notes = "ID")
-    private Integer id;
+    private Long id;
     
 
     @Analyzer(definition = "es")

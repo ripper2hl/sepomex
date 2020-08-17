@@ -37,7 +37,7 @@ public class CodigoPostal implements Serializable {
             allocationSize = 10
     )
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     
     @Field(termVector = TermVector.YES)
     @NotNull

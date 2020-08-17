@@ -222,7 +222,7 @@ public class CodigoPostalControllerTest {
     })
     public void actualizar() throws Exception {
         CodigoPostal codigoPostal = new CodigoPostal();
-        codigoPostal.setId(1);
+        codigoPostal.setId(1L);
         codigoPostal.setNombre("actualizar");
         StringBuilder sb = new StringBuilder(API_URL);
         ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();

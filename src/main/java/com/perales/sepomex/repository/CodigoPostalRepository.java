@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CodigoPostalRepository extends JpaRepository<CodigoPostal, Integer> {
+public interface CodigoPostalRepository extends JpaRepository<CodigoPostal, Long> {
     CodigoPostal findFirstByNombre(String nombre);
 }

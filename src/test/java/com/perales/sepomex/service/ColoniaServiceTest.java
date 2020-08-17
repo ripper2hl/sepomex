@@ -1,9 +1,5 @@
 package com.perales.sepomex.service;
 
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseOperation;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.github.springtestdbunit.annotation.DatabaseSetups;
 import com.perales.sepomex.configuration.AppTestConfig;
 import com.perales.sepomex.model.Colonia;
 import com.perales.sepomex.model.Municipio;
@@ -18,9 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -37,7 +31,6 @@ import static org.hamcrest.core.IsNull.notNullValue;
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @SpringBootTest(classes = AppTestConfig.class)
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,DbUnitTestExecutionListener.class })
 @ActiveProfiles({ "test" })
 @Log4j2
 public class ColoniaServiceTest {
@@ -83,73 +76,13 @@ public class ColoniaServiceTest {
     }
 
     @Test
-    @DatabaseSetups({
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/codigo-postal.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/asentamiento-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/estado.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/colonia.xml",
-                    type = DatabaseOperation.REFRESH)
-            
-    })
     public void buscarPorId() {
-        int coloniaId = 100;
-        Colonia coloniaEncontrada = coloniaService.buscarPorId( coloniaId );
-        assertThat("Deberian ser las mismas", coloniaId , is( coloniaEncontrada.getId() ) );
+        Colonia colonia = generadorColonia();
+        Colonia coloniaEncontrada = coloniaService.buscarPorId( colonia.getId() );
+        assertThat("Deberian ser las mismas", colonia.getId() , is( coloniaEncontrada.getId() ) );
     }
     
     @Test
-    @DatabaseSetups({
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/codigo-postal.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/asentamiento-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/estado.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/zona-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/zona-tipo-carga-masiva.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/colonia.xml",
-                    type = DatabaseOperation.REFRESH)
-        
-    })
     public void cargaMasiva() throws Exception {
         MockMultipartFile file = new MockMultipartFile(
                 "data",
@@ -175,40 +108,11 @@ public class ColoniaServiceTest {
     }
     
     @Test
-    @DatabaseSetups({
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/codigo-postal.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/asentamiento-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/estado.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/zona-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/colonia.xml",
-                    type = DatabaseOperation.REFRESH)
-        
-    })
     public void borrar() {
-        coloniaService.borrar( 1 );
+        Colonia colonia = generadorColonia();
+        coloniaService.borrar( colonia.getId() );
         exception.expect(NoSuchElementException.class);
-        Colonia coloniaEncontrada = coloniaService.buscarPorId( 1 );
+        Colonia coloniaEncontrada = coloniaService.buscarPorId( colonia.getId() );
     }
     
     @Test
@@ -234,36 +138,6 @@ public class ColoniaServiceTest {
     }
     
     @Test
-    @DatabaseSetups({
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/codigo-postal.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/asentamiento-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/estado.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/zona-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/colonia.xml",
-                    type = DatabaseOperation.REFRESH)
-        
-    })
     public void findByMunicipioId() {
         int id = 1;
         Page<Colonia> colonias = coloniaService.findByMunicipioId( id , 0, 10);
@@ -271,36 +145,6 @@ public class ColoniaServiceTest {
     }
     
     @Test
-    @DatabaseSetups({
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/codigo-postal.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/asentamiento-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/estado.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/zona-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/colonia.xml",
-                    type = DatabaseOperation.REFRESH)
-        
-    })
     public void cargaMasivaMunicipiosRepetidos() throws Exception {
         MockMultipartFile file = new MockMultipartFile(
                 "data",
@@ -321,5 +165,12 @@ public class ColoniaServiceTest {
         } );
         
     }
-
+    
+    private Colonia generadorColonia(){
+        Colonia colonia = new Colonia();
+        colonia.setNombre("borrar");
+        colonia.setIdentificadorMunicipal("identificadorMunicipal");
+        Colonia coloniaGuardada = coloniaService.guardar(colonia);
+        return  coloniaGuardada;
+    }
 }

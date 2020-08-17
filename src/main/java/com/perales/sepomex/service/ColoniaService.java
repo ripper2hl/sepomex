@@ -33,12 +33,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
 @Log4j2
-public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
+public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     
     private final Logger logger = Logger.getGlobal();
     
@@ -61,7 +62,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     private Parser parser;
     
     @Transactional(readOnly = true)
-    public Colonia buscarPorId(Integer id) {
+    public Colonia buscarPorId(Long id) {
         Colonia colonia = coloniaRepository.findOneById(id);
         if(colonia == null){
             throw new NoSuchElementException();
@@ -88,7 +89,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
     }
     
     @Transactional
-    public Colonia borrar(Integer id) {
+    public Colonia borrar(Long id) {
         Colonia colonia = coloniaRepository.findById(id).get();
         coloniaRepository.delete(colonia);
         return colonia;
@@ -284,14 +285,16 @@ public class ColoniaService implements ServiceGeneric<Colonia, Integer> {
                 = fullTextEntityManager.createFullTextQuery(fuzzyQuery, Colonia.class);
         
         jpaQuery.setCriteriaQuery( createCriteriaSearch(colonia) );
+        jpaQuery.setMaxResults(50);
+        jpaQuery.limitExecutionTimeTo(1l, TimeUnit.SECONDS);
         return jpaQuery.getResultList();
     }
     
+    @SuppressWarnings("deprecated")
     private Criteria createCriteriaSearch(Colonia colonia){
         Session session = (Session) emf.createEntityManager().getDelegate();
-        
-        Criteria criteria = session
-                .createCriteria(Colonia.class);
+        session.setDefaultReadOnly(true);
+        Criteria criteria = session.createCriteria(Colonia.class);
         criteria.setFetchMode("estado", FetchMode.JOIN);
         criteria.setFetchMode("municipio", FetchMode.JOIN);
         criteria.setFetchMode("codigoPostal", FetchMode.JOIN);

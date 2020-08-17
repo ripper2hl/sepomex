@@ -8,10 +8,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ColoniaRepository extends JpaRepository<Colonia, Integer> {
+public interface ColoniaRepository extends JpaRepository<Colonia, Long> {
     
     Page<Colonia> findByMunicipioId(Integer municipioId, Pageable pageable);
     
     @EntityGraph(value = "Colonia.detail", type = EntityGraph.EntityGraphType.LOAD)
-    Colonia findOneById(Integer id);
+    Colonia findOneById(Long id);
 }

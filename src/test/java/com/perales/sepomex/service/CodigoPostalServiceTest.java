@@ -84,7 +84,7 @@ public class CodigoPostalServiceTest {
     
     })
     public void buscarPorId() {
-        int codigoPostalId = 1;
+        long codigoPostalId = 1l;
         CodigoPostal codigoPostal = codigoPostalService.buscarPorId( codigoPostalId );
         assertThat("Deberian ser las mismas", codigoPostalId , is( codigoPostal.getId() ) );
     }
@@ -154,7 +154,7 @@ public class CodigoPostalServiceTest {
         
     })
     public void borrar() {
-        int id = 1;
+        long id = 1;
         codigoPostalService.borrar(id);
         exception.expect(NoSuchElementException.class);
         codigoPostalService.buscarPorId(id);

@@ -17,7 +17,7 @@ import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
 @Service
-public class CodigoPostalService implements ServiceGeneric<CodigoPostal, Integer> {
+public class CodigoPostalService implements ServiceGeneric<CodigoPostal, Long> {
 
     @Autowired
     private CodigoPostalRepository codigoPostalRepository;
@@ -26,7 +26,7 @@ public class CodigoPostalService implements ServiceGeneric<CodigoPostal, Integer
     private EntityManagerFactory emf;
     
     @Transactional(readOnly = true)
-    public CodigoPostal buscarPorId(Integer id) {
+    public CodigoPostal buscarPorId(Long id) {
         return codigoPostalRepository.findById(id).get();
     }
     
@@ -47,7 +47,7 @@ public class CodigoPostalService implements ServiceGeneric<CodigoPostal, Integer
     }
     
     @Transactional
-    public CodigoPostal borrar(Integer id) {
+    public CodigoPostal borrar(Long id) {
         CodigoPostal codigoPostal = codigoPostalRepository.findById(id).get();
         codigoPostal.getColonias().forEach( colonia -> colonia.setCodigoPostal(null) );
         

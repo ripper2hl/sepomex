@@ -26,7 +26,7 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
     
     @GetMapping("/{id}")
     public Colonia buscarPorId(@PathVariable Integer id) {
-        Colonia colonia = coloniaService.buscarPorId(id);
+        Colonia colonia = coloniaService.buscarPorId(id.longValue());
         return colonia;
     }
     
@@ -48,7 +48,7 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
 
     @DeleteMapping("/{id}")
     public Colonia borrar(@PathVariable Integer id) {
-        return coloniaService.borrar(id);
+        return coloniaService.borrar(id.longValue());
     }
     
     @PostMapping(value = "/carga", produces = "application/json; charset=UTF-8", consumes = "multipart/form-data;charset=UTF-8")

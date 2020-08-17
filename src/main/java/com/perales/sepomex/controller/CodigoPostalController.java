@@ -24,7 +24,7 @@ public class CodigoPostalController implements ControllerGeneric<CodigoPostal, I
     
     @GetMapping("/{id}")
     public CodigoPostal buscarPorId(@PathVariable Integer id) {
-        return codigoPostalService.buscarPorId(id);
+        return codigoPostalService.buscarPorId(id.longValue());
     }
     
     @GetMapping(params = {"page", "size"})
@@ -45,7 +45,7 @@ public class CodigoPostalController implements ControllerGeneric<CodigoPostal, I
 
     @DeleteMapping("/{id}")
     public CodigoPostal borrar(@PathVariable Integer id) {
-        return codigoPostalService.borrar(id);
+        return codigoPostalService.borrar(id.longValue());
     }
     
     @GetMapping(value = "/name/{name}")

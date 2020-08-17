@@ -74,7 +74,7 @@ public class ColoniaControllerTest {
         logger.info( response.andReturn().getResponse().getContentAsString() );
         response.andExpect( content().contentType(MediaType.APPLICATION_JSON) )
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is (  colonia.getId() ) ) )
+                .andExpect(jsonPath("$.id", is (  colonia.getId().intValue() ) ) )
                 .andExpect(jsonPath("$.nombre", is (  colonia.getNombre() ) ) );
     
     }
