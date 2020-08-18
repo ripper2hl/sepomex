@@ -17,11 +17,11 @@ services :
 
   app:
     ports:
-      - "8080:8007"
+      - "8080:8080"
     depends_on:
       - web
       - db
-    image: jesusperales/sepomex-api:latest
+    image: jesusperales/sepomex:latest
     volumes:
       - app-data:/sepomex-indices
 
