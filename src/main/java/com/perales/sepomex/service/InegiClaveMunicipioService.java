@@ -13,8 +13,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class InegiClaveMunicipioService implements ServiceGeneric<InegiClaveMunicipio, Integer> {
@@ -22,8 +24,8 @@ public class InegiClaveMunicipioService implements ServiceGeneric<InegiClaveMuni
     @Autowired
     private InegiClaveMunicipioRepository inegiClaveMunicipioRepository;
     
-    @Autowired
-    private EntityManagerFactory emf;
+    @PersistenceContext
+    private EntityManager em;
     
     @Transactional(readOnly = true)
     public InegiClaveMunicipio buscarPorId(Integer id) {
@@ -59,28 +61,29 @@ public class InegiClaveMunicipioService implements ServiceGeneric<InegiClaveMuni
         return inegiClaveMunicipioRepository.findFirstByNombre(nombre);
     }
     
-    @Transactional(readOnly = true)
-    public List<InegiClaveMunicipio> searchByName(String name){
+    public List<InegiClaveMunicipio> searchByName(String nombre){
         FullTextEntityManager fullTextEntityManager
-                = Search.getFullTextEntityManager( emf.createEntityManager() );
-        
+                = Search.getFullTextEntityManager( em );
         QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
                 .buildQueryBuilder()
                 .forEntity(InegiClaveMunicipio.class)
                 .get();
-        
+    
         Query fuzzyQuery = queryBuilder
                 .keyword()
                 .fuzzy()
-                .withEditDistanceUpTo(2)
-                .withPrefixLength(0)
                 .onField("nombre")
-                .matching(name)
+                .matching( nombre)
                 .createQuery();
-        
+    
         org.hibernate.search.jpa.FullTextQuery jpaQuery
                 = fullTextEntityManager.createFullTextQuery(fuzzyQuery, InegiClaveMunicipio.class);
-        
-        return jpaQuery.getResultList();
+    
+        jpaQuery.setMaxResults(100);
+        jpaQuery.limitExecutionTimeTo(1l, TimeUnit.SECONDS);
+        List lista = jpaQuery.getResultList();
+        fullTextEntityManager.close();
+        em.close();
+        return lista;
     }
 }
