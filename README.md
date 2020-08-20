@@ -46,3 +46,22 @@ mvn spring-boot:run
 
 
 [![asciicast](https://asciinema.org/a/d8uBsGBw3S2kET07cDf68i8qG.svg)](https://asciinema.org/a/d8uBsGBw3S2kET07cDf68i8qG)
+
+## GCP
+
+### Variables de entorno
+
+* DB_USER
+* sepomex
+
+* DB_PASS
+* sepomex
+
+* DB_NAME
+* postgres
+
+* DB_INSTANCE_CONNECTION_NAME
+* clever-hangar-286504:us-central1:sepomex
+
+* SPRING_PROFILES_ACTIVE
+* gcp
