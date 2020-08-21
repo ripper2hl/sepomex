@@ -7,5 +7,5 @@ RUN mv /usr/src/app/target/*.jar /usr/src/app/target/app.jar
 FROM adoptopenjdk/openjdk14-openj9
 RUN mkdir /sepomex-indices/
 COPY --from=build /usr/src/app/target/app.jar /
-ENTRYPOINT java $JAVA_OPTS -XX:NativeMemoryTracking=summary -XX:+UnlockDiagnosticVMOptions -XX:+PrintNMTStatistics -Xshareclasses -Xquickstart -jar /app.jar
+ENTRYPOINT java $JAVA_OPTS -XX:NativeMemoryTracking=summary -XX:+UnlockDiagnosticVMOptions -XX:+PrintNMTStatistics -Xshareclasses:cacheDir=/tmp,noPersistentDiskSpaceCheck -Xquickstart -jar /app.jar
 EXPOSE 8080
