@@ -267,7 +267,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         
         FullTextEntityManager fullTextEntityManager
                 = Search.getFullTextEntityManager(em);
-        fullTextEntityManager.createIndexer().startAndWait();
+        fullTextEntityManager.createIndexer().optimizeOnFinish(true).start();
     }
     
     public List<Colonia> search(Colonia colonia){

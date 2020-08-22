@@ -3,7 +3,6 @@ package com.perales.sepomex.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -64,7 +63,6 @@ public class Colonia implements Serializable {
             allocationSize = 10
     )
     @Column(name = "id")
-    @ApiModelProperty(notes = "ID")
     private Long id;
     
 
@@ -74,7 +72,6 @@ public class Colonia implements Serializable {
     @NotNull
     @NotBlank
     @Column(name = "nombre", nullable = false)
-    @ApiModelProperty(notes = "Nombre")
     private String nombre;
     
     @ManyToOne(fetch = FetchType.LAZY)

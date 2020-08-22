@@ -75,11 +75,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-            <version>${spring.fox.version}</version>
-        </dependency>
-        <dependency>
             <groupId>javax.el</groupId>
             <artifactId>javax.el-api</artifactId>
             <version>${javax.el.api.version}</version>
@@ -214,6 +209,19 @@
         </plugins>
     </build>
     <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>io.springfox</groupId>
+                    <artifactId>springfox-boot-starter</artifactId>
+                    <version>${spring.fox.version}</version>
+                </dependency>
+            </dependencies>
+        </profile>
         <profile>
             <id>gcp</id>
 
