@@ -11,5 +11,5 @@ public interface MunicipioRepository extends JpaRepository<Municipio, Integer> {
     
     Municipio findFirstByNombreAndEstadoId(String nombre, Integer estadoId);
     
-    Page<Municipio> findByEstadoId(Integer estadoId, Pageable pageable);
+    Page<Municipio> findByEstadoIdOrderByNombre(Integer estadoId, Pageable pageable);
 }

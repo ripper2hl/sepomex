@@ -63,7 +63,7 @@ public class MunicipioService implements ServiceGeneric<Municipio, Integer> {
     @Transactional(readOnly = true)
     public Page<Municipio> findByEstadoId(Integer estadoId, int page, int size){
         int firstResult = page * size;
-        return municipioRepository.findByEstadoId(estadoId, PageRequest.of(firstResult, size ));
+        return municipioRepository.findByEstadoIdOrderByNombre(estadoId, PageRequest.of(firstResult, size ));
     }
     
     @Transactional(readOnly = true)
