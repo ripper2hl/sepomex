@@ -68,17 +68,8 @@ mvn spring-boot:run
 
 ## Generación imagen GCP
 
-* Eliminar la dependencia 
-
-```xml
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-indexer</artifactId>
-            <optional>true</optional>
-        </dependency>
-```
-
 * Ejecutar los siguientes comandos.
+
 ```bash
 git clone https://github.com/ripper2hl/sepomex.git
 
@@ -96,8 +87,6 @@ mvn spring-boot:run
 ```
 
 * Abrir swagger y ejecutar el endpoint de reindexado
-
-* Regresar la dependencia removida.
 
 * Ejecutar los siguientes comandos
 
