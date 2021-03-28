@@ -41,7 +41,7 @@ class InegiClaveMunicipioServiceTest {
     InegiClaveMunicipioService inegiClaveMunicipioService;
     
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp(){
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
     

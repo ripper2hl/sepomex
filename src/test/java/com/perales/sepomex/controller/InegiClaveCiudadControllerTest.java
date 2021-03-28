@@ -45,7 +45,7 @@ public class InegiClaveCiudadControllerTest {
     private WebApplicationContext webApplicationContext;
     
     @BeforeEach
-    public void setUp() throws Exception {
+    public void setUp(){
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
     
