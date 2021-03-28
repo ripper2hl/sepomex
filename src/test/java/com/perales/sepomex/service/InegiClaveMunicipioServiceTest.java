@@ -116,39 +116,12 @@ class InegiClaveMunicipioServiceTest {
     }
     
     @Test
-    @DatabaseSetups({
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/codigo-postal.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/asentamiento-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/estado.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/zona-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/colonia.xml",
-                    type = DatabaseOperation.REFRESH)
-    
-    })
     void borrar() {
-        int id = 1;
-        NoSuchElementException exception = Assertions.assertThrows(NoSuchElementException.class, () ->inegiClaveMunicipioService.buscarPorId(id));
+        InegiClaveMunicipio inegiClaveMunicipio = new InegiClaveMunicipio();
+        inegiClaveMunicipio.setNombre("inegiClaveMunicipioBorrar");
+        Integer inegiClaveMunicipioId = inegiClaveMunicipioService.guardar(inegiClaveMunicipio).getId();
+        inegiClaveMunicipioService.borrar(inegiClaveMunicipioId);
+        NoSuchElementException exception = Assertions.assertThrows(NoSuchElementException.class, () ->inegiClaveMunicipioService.buscarPorId(inegiClaveMunicipioId));
         assertThat("Debe lanzar la un NoSuchElementException ", exception, is( notNullValue() ) );
     }
 }
