@@ -1,4 +1,4 @@
-FROM maven:3.6-adoptopenjdk-15-openj9 AS build
+FROM maven:3.6.3-openjdk-16-slim AS build
 ADD src /usr/src/app/src
 ADD pom.xml /usr/src/app/
 RUN mvn -f /usr/src/app/pom.xml clean package -Pgcp -Dmaven.test.skip=true
