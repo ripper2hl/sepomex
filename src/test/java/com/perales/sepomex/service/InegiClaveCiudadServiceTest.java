@@ -1,9 +1,6 @@
 package com.perales.sepomex.service;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseOperation;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.github.springtestdbunit.annotation.DatabaseSetups;
 import com.perales.sepomex.configuration.AppTestConfig;
 import com.perales.sepomex.model.InegiClaveCiudad;
 import org.junit.jupiter.api.Assertions;
@@ -46,40 +43,12 @@ class InegiClaveCiudadServiceTest {
     }
     
     @Test
-    @DatabaseSetups({
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/codigo-postal.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/asentamiento-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/estado.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/zona-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/colonia.xml",
-                    type = DatabaseOperation.REFRESH)
-        
-    })
     void buscarPorId() {
-        int inegiClaveCiudadId = 100;
-        InegiClaveCiudad inegiClaveCiudad = inegiClaveCiudadService.buscarPorId( inegiClaveCiudadId );
-        assertThat("Deberian ser las mismas", inegiClaveCiudadId , is( inegiClaveCiudad.getId() ) );
+        InegiClaveCiudad inegiClaveCiudadGuardar = new InegiClaveCiudad();
+        inegiClaveCiudadGuardar.setNombre("test");
+        inegiClaveCiudadGuardar = inegiClaveCiudadService.guardar(inegiClaveCiudadGuardar);
+        InegiClaveCiudad inegiClaveCiudad = inegiClaveCiudadService.buscarPorId( inegiClaveCiudadGuardar.getId() );
+        assertThat("Deberian ser las mismas", inegiClaveCiudadGuardar.getId() , is( inegiClaveCiudad.getId() ) );
     }
     
     @Test
@@ -116,36 +85,6 @@ class InegiClaveCiudadServiceTest {
     }
     
     @Test
-    @DatabaseSetups({
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/codigo-postal.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/asentamiento-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/estado.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/zona-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/colonia.xml",
-                    type = DatabaseOperation.REFRESH)
-    
-    })
     void borrar() {
         int id = 1;
         NoSuchElementException exception = Assertions.assertThrows(NoSuchElementException.class, () -> inegiClaveCiudadService.buscarPorId(id));
