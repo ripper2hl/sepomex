@@ -148,6 +148,7 @@ class CiudadServiceTest {
     })
     void borrar() {
         int id = 1;
+        ciudadService.borrar(id);
         NoSuchElementException exception = Assertions.assertThrows( NoSuchElementException.class, () -> ciudadService.buscarPorId(id) );
         assertThat("Debe lanzar la un NoSuchElementException ", exception, is( notNullValue() ) );
     }
