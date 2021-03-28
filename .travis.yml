@@ -8,3 +8,13 @@ cache:
   directories:
     - $HOME/.m2
 dist: focal
+
+addons:
+  sonarcloud:
+    organization: "ripper2hl"
+    token:
+      secure: "$TOKEN" # encrypted value of your token
+
+script:
+  # the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=ripper2hl_sepomex
