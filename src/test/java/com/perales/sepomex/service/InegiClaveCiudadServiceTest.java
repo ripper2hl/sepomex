@@ -86,8 +86,14 @@ class InegiClaveCiudadServiceTest {
     
     @Test
     void borrar() {
-        int id = 1;
-        NoSuchElementException exception = Assertions.assertThrows(NoSuchElementException.class, () -> inegiClaveCiudadService.buscarPorId(id));
+        InegiClaveCiudad inegiClaveCiudadGuardar = new InegiClaveCiudad();
+        inegiClaveCiudadGuardar.setNombre("testBorrar");
+        inegiClaveCiudadGuardar = inegiClaveCiudadService.guardar(inegiClaveCiudadGuardar);
+        Integer inegiClaveCiudadId = inegiClaveCiudadService.buscarPorId( inegiClaveCiudadGuardar.getId() ).getId();
+        
+        inegiClaveCiudadService.borrar(inegiClaveCiudadId);
+        
+        NoSuchElementException exception = Assertions.assertThrows( NoSuchElementException.class, () -> inegiClaveCiudadService.buscarPorId( inegiClaveCiudadId ) );
         assertThat("Debe lanzar la un NoSuchElementException ", exception, is( notNullValue() ) );
     }
 }
