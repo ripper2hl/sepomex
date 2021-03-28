@@ -6,49 +6,39 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseSetups;
 import com.perales.sepomex.configuration.AppTestConfig;
 import com.perales.sepomex.model.CodigoPostal;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.NoSuchElementException;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNull.notNullValue;
 
-@RunWith(SpringRunner.class)
-@WebAppConfiguration
 @SpringBootTest(classes = AppTestConfig.class)
+@WebAppConfiguration
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,DbUnitTestExecutionListener.class })
 @ActiveProfiles({ "test" })
-public class CodigoPostalServiceTest {
+class CodigoPostalServiceTest {
     
     private MockMvc mockMvc;
-    
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-    
+ 
     @Autowired
     private WebApplicationContext webApplicationContext;
     
     @Autowired
     CodigoPostalService codigoPostalService;
     
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
     
@@ -83,14 +73,14 @@ public class CodigoPostalServiceTest {
                     type = DatabaseOperation.REFRESH)
     
     })
-    public void buscarPorId() {
+    void buscarPorId() {
         long codigoPostalId = 1l;
         CodigoPostal codigoPostal = codigoPostalService.buscarPorId( codigoPostalId );
         assertThat("Deberian ser las mismas", codigoPostalId , is( codigoPostal.getId() ) );
     }
     
     @Test
-    public void buscarTodos() {
+    void buscarTodos() {
         CodigoPostal codigoPostal = new CodigoPostal();
         codigoPostal.setNombre("Tipo de asentamiento");
         CodigoPostal codigoPostalGuardada = codigoPostalService.guardar(codigoPostal);
@@ -103,7 +93,7 @@ public class CodigoPostalServiceTest {
     }
     
     @Test
-    public void guardar() {
+    void guardar() {
         CodigoPostal codigoPostal = new CodigoPostal();
         codigoPostal.setNombre("codigoPostal");
         CodigoPostal codigoPostalGuardado = codigoPostalService.guardar(codigoPostal);
@@ -111,7 +101,7 @@ public class CodigoPostalServiceTest {
     }
     
     @Test
-    public void actualizar() {
+    void actualizar() {
         String nombreCodigoPostal = "cambiando nombre sepomex";
         CodigoPostal codigoPostal = new CodigoPostal();
         codigoPostal.setNombre("codigoPostal2");
@@ -153,10 +143,9 @@ public class CodigoPostalServiceTest {
                     type = DatabaseOperation.REFRESH)
         
     })
-    public void borrar() {
+    void borrar() {
         long id = 1;
         codigoPostalService.borrar(id);
-        exception.expect(NoSuchElementException.class);
         codigoPostalService.buscarPorId(id);
     }
 }
