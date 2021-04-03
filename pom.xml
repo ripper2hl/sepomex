@@ -244,11 +244,6 @@
             </dependencyManagement>
             <dependencies>
                 <dependency>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context-indexer</artifactId>
-                    <optional>true</optional>
-                </dependency>
-                <dependency>
                     <groupId>com.h2database</groupId>
                     <artifactId>h2</artifactId>
                     <version>${h2.version}</version>
@@ -257,27 +252,35 @@
                     <groupId>org.springframework.cloud</groupId>
                     <artifactId>spring-cloud-gcp-starter-sql-postgresql</artifactId>
                 </dependency>
+                <dependency>
+                    <groupId>org.springframework.cloud</groupId>
+                    <artifactId>spring-cloud-function-adapter-gcp</artifactId>
+                    <version>3.1.2</version>
+                </dependency>
             </dependencies>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>repackage</goal>
-                                </goals>
-                            </execution>
-                        </executions>
+                        <configuration>
+                            <outputDirectory>target/deploy</outputDirectory>
+                        </configuration>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.springframework.cloud</groupId>
+                                <artifactId>spring-cloud-function-adapter-gcp</artifactId>
+                                <version>3.1.2</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                     <plugin>
-                        <groupId>com.google.cloud.tools</groupId>
-                        <artifactId>appengine-maven-plugin</artifactId>
-                        <version>2.4.0</version>
+                        <groupId>com.google.cloud.functions</groupId>
+                        <artifactId>function-maven-plugin</artifactId>
+                        <version>0.9.1</version>
                         <configuration>
-                            <deploy.projectId>sepomex-api</deploy.projectId>
-                            <deploy.version>3</deploy.version>
+                            <functionTarget>org.springframework.cloud.function.adapter.gcp.GcfJarLauncher</functionTarget>
+                            <port>8080</port>
                         </configuration>
                     </plugin>
                 </plugins>
