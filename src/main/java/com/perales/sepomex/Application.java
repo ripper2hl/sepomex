@@ -1,10 +1,12 @@
 package com.perales.sepomex;
 
-import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.function.context.config.JsonMessageConverter;
+import org.springframework.cloud.function.json.JacksonMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -28,8 +30,10 @@ public class Application {
     }
     
     @Bean
-    public Module datatypeHibernateModule() {
-        log.info("Cargando modulo hibernate jackson");
-        return new Hibernate5Module();
+    public JsonMessageConverter jsonMessageConverter() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new Hibernate5Module());
+        JacksonMapper jacksonMapper = new JacksonMapper(objectMapper);
+        return new JsonMessageConverter(jacksonMapper);
     }
 }
