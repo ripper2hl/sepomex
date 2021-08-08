@@ -270,6 +270,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         fullTextEntityManager.createIndexer().startAndWait();
     }
     
+    @Transactional(readOnly = true)
     public List<Colonia> search(Colonia colonia){
         FullTextEntityManager fullTextEntityManager
                 = Search.getFullTextEntityManager( em );
