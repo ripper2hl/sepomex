@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.util.function.Function;
 
 @Log4j2
-@Component
 public class ObtenerMunicipiosPorEstado implements Function<FunctionMunicipiosPorEstadoPojo, Page<Municipio>> {
     
     

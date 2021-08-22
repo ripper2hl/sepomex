@@ -97,3 +97,46 @@ docker push gcr.io/clever-hangar-286504/sepomex-api
 ```
 
 * Deployar en el UI de GCP.
+
+# Spring cloud function
+
+## Workaround: 
+
+Agregar la anotación @Component de la funcion a deployar 
+y quitar de las funciones que no se deployaran, siempre correr la fase de clean de maven
+antes de desplegar la función.
+
+```bash
+mvn -Dmaven.test.skip=true -Pgcp clean install && mvn -Pgcp function:run
+```
+
+## run
+
+```bash
+export spring_profiles_active=local
+mvn -Pgcp function:run
+```
+
+## deloy estados
+
+```bash
+gcloud functions deploy sepomex-estados \
+--entry-point org.springframework.cloud.function.adapter.gcp.GcfJarLauncher \
+--runtime java11 \
+--trigger-http \
+--source target/deploy \
+--memory 512MB
+
+```
+
+### deploy municipios
+
+```bash
+gcloud functions deploy sepomex-municipios --allow-unauthenticated --max-instances=1 --entry-point org.springframework.cloud.function.adapter.gcp.GcfJarLauncher --runtime java11 --trigger-http --source target/deploy --memory 512MB --set-env-vars DB_USER=sepomex,DB_PASS=sepomex,DB_NAME=postgres,DB_INSTANCE_CONNECTION_NAME=clever-hangar-286504:us-central1:sepomex,SPRING_PROFILES_ACTIVE=gcp
+```
+
+### deploy colonia
+
+```bash
+gcloud functions deploy sepomex-colonia --allow-unauthenticated --max-instances=1 --entry-point org.springframework.cloud.function.adapter.gcp.GcfJarLauncher --runtime java11 --trigger-http --source target/deploy --memory 512MB --set-env-vars DB_USER=sepomex,DB_PASS=sepomex,DB_NAME=postgres,DB_INSTANCE_CONNECTION_NAME=clever-hangar-286504:us-central1:sepomex,SPRING_PROFILES_ACTIVE=gcp
+```
