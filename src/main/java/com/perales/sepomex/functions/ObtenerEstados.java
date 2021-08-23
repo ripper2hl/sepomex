@@ -3,6 +3,7 @@ package com.perales.sepomex.functions;
 import com.perales.sepomex.model.Estado;
 import com.perales.sepomex.service.EstadoService;
 import lombok.extern.log4j.Log4j2;
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
