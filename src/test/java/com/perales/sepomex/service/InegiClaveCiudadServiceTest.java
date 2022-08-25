@@ -1,22 +1,16 @@
 package com.perales.sepomex.service;
 
 import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseOperation;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.github.springtestdbunit.annotation.DatabaseSetups;
 import com.perales.sepomex.configuration.AppTestConfig;
 import com.perales.sepomex.model.InegiClaveCiudad;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,17 +23,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNull.notNullValue;
 
-@RunWith(SpringRunner.class)
-@WebAppConfiguration
 @SpringBootTest(classes = AppTestConfig.class)
+@WebAppConfiguration
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,DbUnitTestExecutionListener.class })
 @ActiveProfiles({ "test" })
-public class InegiClaveCiudadServiceTest {
+class InegiClaveCiudadServiceTest {
     
     private MockMvc mockMvc;
-    
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
     
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -47,50 +37,22 @@ public class InegiClaveCiudadServiceTest {
     @Autowired
     private InegiClaveCiudadService inegiClaveCiudadService;
     
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp(){
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
     
     @Test
-    @DatabaseSetups({
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/codigo-postal.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/asentamiento-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/estado.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/zona-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/colonia.xml",
-                    type = DatabaseOperation.REFRESH)
-        
-    })
-    public void buscarPorId() {
-        int inegiClaveCiudadId = 100;
-        InegiClaveCiudad inegiClaveCiudad = inegiClaveCiudadService.buscarPorId( inegiClaveCiudadId );
-        assertThat("Deberian ser las mismas", inegiClaveCiudadId , is( inegiClaveCiudad.getId() ) );
+    void buscarPorId() {
+        InegiClaveCiudad inegiClaveCiudadGuardar = new InegiClaveCiudad();
+        inegiClaveCiudadGuardar.setNombre("test");
+        inegiClaveCiudadGuardar = inegiClaveCiudadService.guardar(inegiClaveCiudadGuardar);
+        InegiClaveCiudad inegiClaveCiudad = inegiClaveCiudadService.buscarPorId( inegiClaveCiudadGuardar.getId() );
+        assertThat("Deberian ser las mismas", inegiClaveCiudadGuardar.getId() , is( inegiClaveCiudad.getId() ) );
     }
     
     @Test
-    public void buscarTodos() {
+    void buscarTodos() {
         InegiClaveCiudad inegiClaveCiudad = new InegiClaveCiudad();
         inegiClaveCiudad.setNombre("Tipo de asentamiento");
         InegiClaveCiudad inegiClaveCiudadGuardada = inegiClaveCiudadService.guardar(inegiClaveCiudad);
@@ -103,7 +65,7 @@ public class InegiClaveCiudadServiceTest {
     }
     
     @Test
-    public void guardar() {
+    void guardar() {
         InegiClaveCiudad inegiClaveCiudad = new InegiClaveCiudad();
         inegiClaveCiudad.setNombre("inegiClaveCiudad");
         InegiClaveCiudad inegiClaveCiudadGuardado = inegiClaveCiudadService.guardar(inegiClaveCiudad);
@@ -111,7 +73,7 @@ public class InegiClaveCiudadServiceTest {
     }
     
     @Test
-    public void actualizar() {
+    void actualizar() {
         String nombreInegiClaveCiudad = "cambiando nombre sepomex";
         InegiClaveCiudad inegiClaveCiudad = new InegiClaveCiudad();
         inegiClaveCiudad.setNombre("inegiClaveCiudad2");
@@ -122,41 +84,16 @@ public class InegiClaveCiudadServiceTest {
         assertThat("Deberia tener el nombre igual", nombreInegiClaveCiudad, is( equalTo( inegiClaveCiudadEncontrado.getNombre() ) ) );
     }
     
-    @Test(expected = NoSuchElementException.class)
-    @DatabaseSetups({
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/codigo-postal.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/asentamiento-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/estado.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/zona-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/colonia.xml",
-                    type = DatabaseOperation.REFRESH)
-    
-    })
-    public void borrar() {
-        int id = 1;
-        inegiClaveCiudadService.borrar(id);
-        exception.expect(NoSuchElementException.class);
-        inegiClaveCiudadService.buscarPorId(id);
+    @Test
+    void borrar() {
+        InegiClaveCiudad inegiClaveCiudadGuardar = new InegiClaveCiudad();
+        inegiClaveCiudadGuardar.setNombre("testBorrar");
+        inegiClaveCiudadGuardar = inegiClaveCiudadService.guardar(inegiClaveCiudadGuardar);
+        Integer inegiClaveCiudadId = inegiClaveCiudadService.buscarPorId( inegiClaveCiudadGuardar.getId() ).getId();
+        
+        inegiClaveCiudadService.borrar(inegiClaveCiudadId);
+        
+        NoSuchElementException exception = Assertions.assertThrows( NoSuchElementException.class, () -> inegiClaveCiudadService.buscarPorId( inegiClaveCiudadId ) );
+        assertThat("Debe lanzar la un NoSuchElementException ", exception, is( notNullValue() ) );
     }
 }

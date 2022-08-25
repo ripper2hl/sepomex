@@ -4,17 +4,14 @@ import com.perales.sepomex.configuration.AppTestConfig;
 import com.perales.sepomex.model.Colonia;
 import com.perales.sepomex.model.Municipio;
 import lombok.extern.log4j.Log4j2;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -28,12 +25,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNull.notNullValue;
 
-@RunWith(SpringRunner.class)
-@WebAppConfiguration
 @SpringBootTest(classes = AppTestConfig.class)
+@WebAppConfiguration
 @ActiveProfiles({ "test" })
 @Log4j2
-public class ColoniaServiceTest {
+class ColoniaServiceTest {
     
     private static final String FILE_NAME = "sepomex.txt";
     private  static final String SEPOMEX_TEXT = "El Catálogo Nacional de Códigos Postales, es elaborado por Correos de México y se proporciona en forma gratuita para uso particular, no estando permitida su comercialización, total o parcial, ni su distribución a terceros bajo ningún concepto.\n" +
@@ -58,9 +54,6 @@ public class ColoniaServiceTest {
     
     private MockMvc mockMvc;
     
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
-
     @Autowired
     private WebApplicationContext webApplicationContext;
 
@@ -70,20 +63,20 @@ public class ColoniaServiceTest {
     @Autowired
     private MunicipioService municipioService;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp(){
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @Test
-    public void buscarPorId() {
+    void buscarPorId() {
         Colonia colonia = generadorColonia();
         Colonia coloniaEncontrada = coloniaService.buscarPorId( colonia.getId() );
         assertThat("Deberian ser las mismas", colonia.getId() , is( coloniaEncontrada.getId() ) );
     }
     
     @Test
-    public void cargaMasiva() throws Exception {
+    void cargaMasiva() throws Exception {
         MockMultipartFile file = new MockMultipartFile(
                 "data",
                 "filename.txt",
@@ -94,7 +87,7 @@ public class ColoniaServiceTest {
     }
 
     @Test
-    public void buscarTodos() {
+    void buscarTodos() {
         Colonia colonia = new Colonia();
         colonia.setNombre("Cañada blanca");
         colonia.setIdentificadorMunicipal("identificador");
@@ -108,15 +101,15 @@ public class ColoniaServiceTest {
     }
     
     @Test
-    public void borrar() {
+    void borrar() {
         Colonia colonia = generadorColonia();
         coloniaService.borrar( colonia.getId() );
-        exception.expect(NoSuchElementException.class);
-        Colonia coloniaEncontrada = coloniaService.buscarPorId( colonia.getId() );
+        NoSuchElementException exception = Assertions.assertThrows(NoSuchElementException.class, () ->coloniaService.buscarPorId( colonia.getId() ));
+        assertThat("Debe lanzar la un NoSuchElementException ", exception, is( notNullValue() ) );
     }
     
     @Test
-    public void guardar() {
+    void guardar() {
         Colonia colonia = new Colonia();
         colonia.setNombre("Cañada blanca");
         colonia.setIdentificadorMunicipal("identificadorMunicipal");
@@ -125,7 +118,7 @@ public class ColoniaServiceTest {
     }
     
     @Test
-    public void actualizar() {
+    void actualizar() {
         String nombreColonia = "cañada blanca";
         Colonia colonia = new Colonia();
         colonia.setNombre( "canada blanca" );
@@ -138,14 +131,14 @@ public class ColoniaServiceTest {
     }
     
     @Test
-    public void findByMunicipioId() {
+    void findByMunicipioId() {
         int id = 1;
         Page<Colonia> colonias = coloniaService.findByMunicipioId( id , 0, 10);
         assertThat("Deberia encontrar colonias por municipio", colonias , is( notNullValue() ) );
     }
     
     @Test
-    public void cargaMasivaMunicipiosRepetidos() throws Exception {
+    void cargaMasivaMunicipiosRepetidos() throws Exception {
         MockMultipartFile file = new MockMultipartFile(
                 "data",
                 "filename.txt",

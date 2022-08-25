@@ -4,30 +4,28 @@ import com.github.springtestdbunit.DbUnitTestExecutionListener;
 import com.perales.sepomex.configuration.AppTestConfig;
 import com.perales.sepomex.model.*;
 import junit.framework.TestCase;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-@RunWith(SpringRunner.class)
-@WebAppConfiguration
 @SpringBootTest(classes = AppTestConfig.class)
+@WebAppConfiguration
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,DbUnitTestExecutionListener.class })
 @ActiveProfiles({ "test" })
-public class ParserTest extends TestCase{
+class ParserTest extends TestCase{
 
     private final Logger logger = Logger.getGlobal();
 
@@ -37,14 +35,14 @@ public class ParserTest extends TestCase{
     @Autowired
     private Parser parser;
     
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
-        br = new BufferedReader( new InputStreamReader(new FileInputStream( "src/test/resources/" + FILE_NAME ), "UTF-8") );
+        br = new BufferedReader( new InputStreamReader(new FileInputStream( "src/test/resources/" + FILE_NAME ), StandardCharsets.UTF_8) );
     }
     
     @Test
-    public void convertirListaColonia() throws IOException {
+    void convertirListaColonia()  {
         AtomicInteger count = new AtomicInteger();
         br.lines().parallel()
                 .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
@@ -59,7 +57,7 @@ public class ParserTest extends TestCase{
     }
 
     @Test
-    public void obtenerAsentamientoTipo() {
+    void obtenerAsentamientoTipo() {
         br.lines().parallel()
                 .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
                 .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION) )
@@ -71,7 +69,7 @@ public class ParserTest extends TestCase{
     }
 
     @Test
-    public void obtenerCiudad() {
+    void obtenerCiudad() {
         br.lines().parallel()
                 .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
                 .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION) )
@@ -84,7 +82,7 @@ public class ParserTest extends TestCase{
     }
 
     @Test
-    public void obtenerMunicipio() {
+    void obtenerMunicipio() {
         br.lines().parallel()
                 .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
                 .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION) )
@@ -97,7 +95,7 @@ public class ParserTest extends TestCase{
     }
 
     @Test
-    public void obtenerEstado() {
+    void obtenerEstado() {
         br.lines().parallel()
                 .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
                 .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION) )
@@ -110,7 +108,7 @@ public class ParserTest extends TestCase{
     }
 
     @Test
-    public void obtenerZonaTipo() {
+    void obtenerZonaTipo() {
         br.lines().parallel()
                 .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
                 .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION) )
@@ -123,7 +121,7 @@ public class ParserTest extends TestCase{
     }
     
     @Test
-    public void guardarArchivoEntidadesParseadas() throws IOException, ClassNotFoundException {
+    void guardarArchivoEntidadesParseadas() throws IOException, ClassNotFoundException {
         String archivoSepomexNombre = "src/test/resources/" + FILE_NAME;
         String archivoParseadoNombre = "/tmp/sepomex-parseado.dat";
         parser.guardarArchivoEntidadesParseadas(archivoSepomexNombre, archivoParseadoNombre);

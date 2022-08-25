@@ -65,3 +65,35 @@ mvn spring-boot:run
 
 * SPRING_PROFILES_ACTIVE
 * gcp
+
+## Generación imagen GCP
+
+* Ejecutar los siguientes comandos.
+
+```bash
+git clone https://github.com/ripper2hl/sepomex.git
+
+cd sepomex 
+
+git checkout -b dev origin/dev
+
+docker-compose pull db
+
+docker-compose up -d db
+
+export spring_profiles_active=local
+
+mvn spring-boot:run
+```
+
+* Abrir swagger y ejecutar el endpoint de reindexado
+
+* Ejecutar los siguientes comandos
+
+```bash
+docker build -f Dockerfile.gcp . -t gcr.io/clever-hangar-286504/sepomex-api
+
+docker push gcr.io/clever-hangar-286504/sepomex-api
+```
+
+* Deployar en el UI de GCP.

@@ -6,17 +6,14 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DatabaseSetups;
 import com.perales.sepomex.configuration.AppTestConfig;
 import com.perales.sepomex.model.Ciudad;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -29,17 +26,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNull.notNullValue;
 
-@RunWith(SpringRunner.class)
-@WebAppConfiguration
 @SpringBootTest(classes = AppTestConfig.class)
+@WebAppConfiguration
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,DbUnitTestExecutionListener.class })
 @ActiveProfiles({ "test" })
-public class CiudadServiceTest {
+class CiudadServiceTest {
     
     private MockMvc mockMvc;
-    
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
     
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -47,8 +40,8 @@ public class CiudadServiceTest {
     @Autowired
     CiudadService ciudadService;
     
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp(){
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
     
@@ -83,14 +76,14 @@ public class CiudadServiceTest {
                     type = DatabaseOperation.REFRESH)
         
     })
-    public void buscarPorId() {
+    void buscarPorId() {
         int ciudadId = 1;
         Ciudad ciudad = ciudadService.buscarPorId( ciudadId );
         assertThat("Deberian ser las mismas", ciudadId , is( ciudad.getId() ) );
     }
     
     @Test
-    public void buscarTodos() {
+    void buscarTodos() {
         Ciudad ciudad = new Ciudad();
         ciudad.setNombre("Tipo de asentamiento");
         Ciudad ciudadGuardada = ciudadService.guardar(ciudad);
@@ -103,7 +96,7 @@ public class CiudadServiceTest {
     }
     
     @Test
-    public void guardar() {
+    void guardar() {
         Ciudad ciudad = new Ciudad();
         ciudad.setNombre("ciudad");
         Ciudad ciudadGuardado = ciudadService.guardar(ciudad);
@@ -111,7 +104,7 @@ public class CiudadServiceTest {
     }
     
     @Test
-    public void actualizar() {
+    void actualizar() {
         String nombreCiudad = "cambiando nombre sepomex";
         Ciudad ciudad = new Ciudad();
         ciudad.setNombre("ciudad2");
@@ -122,41 +115,13 @@ public class CiudadServiceTest {
         assertThat("Deberia tener el nombre igual", nombreCiudad, is( equalTo( ciudadEncontrado.getNombre() ) ) );
     }
     
-    
-    @DatabaseSetups({
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/inegi-clave-municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/codigo-postal.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/asentamiento-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/estado.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/ciudad.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/municipio.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/zona-tipo.xml",
-                    type = DatabaseOperation.REFRESH),
-            @DatabaseSetup(
-                    value = "classpath:sample-data/colonia.xml",
-                    type = DatabaseOperation.REFRESH)
-        
-    })
-    public void borrar() {
-        int id = 1;
-        ciudadService.borrar(id);
-        exception.expect(NoSuchElementException.class);
-        ciudadService.buscarPorId(id);
+    @Test
+    void borrar() {
+        Ciudad ciudad = new Ciudad();
+        ciudad.setNombre("ciudadBorrar");
+        Integer ciudadGuardadoId = ciudadService.guardar(ciudad).getId();
+        ciudadService.borrar(ciudadGuardadoId);
+        NoSuchElementException exception = Assertions.assertThrows( NoSuchElementException.class, () -> ciudadService.buscarPorId(ciudadGuardadoId) );
+        assertThat("Debe lanzar la un NoSuchElementException ", exception, is( notNullValue() ) );
     }
 }
