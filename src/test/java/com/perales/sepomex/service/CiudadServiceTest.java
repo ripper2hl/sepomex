@@ -30,7 +30,6 @@ import static org.hamcrest.core.IsNull.notNullValue;
 
 @SpringBootTest(classes = AppTestConfig.class)
 @WebAppConfiguration
-@TestExecutionListeners({ DependencyInjectionTestExecutionListener.class,DbUnitTestExecutionListener.class })
 @ActiveProfiles({ "test" })
 class CiudadServiceTest {
     
