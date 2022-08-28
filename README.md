@@ -1,5 +1,6 @@
 # sepomex-api
 
+[![codecov](https://codecov.io/gh/ripper2hl/sepomex/branch/master/graph/badge.svg?token=JPL2I5IUI0)](https://codecov.io/gh/ripper2hl/sepomex)
 [![](https://img.shields.io/docker/stars/jesusperales/sepomex-api.svg)](https://hub.docker.com/r/jesusperales/sepomex-api/ 'Docker hub')
 [![](https://img.shields.io/docker/pulls/jesusperales/sepomex-api.svg)](https://hub.docker.com/r/jesusperales/sepomex-api/ 'Docker hub')
 
