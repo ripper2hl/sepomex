@@ -88,9 +88,7 @@ class CiudadServiceTest {
     
     @Test
     void borrar() {
-        Ciudad ciudad = new Ciudad();
-        ciudad.setNombre("ciudadBorrar");
-        Integer ciudadGuardadoId = ciudadService.guardar(ciudad).getId();
+        Integer ciudadGuardadoId = generadorCiudad().getId();
         ciudadService.borrar(ciudadGuardadoId);
         NoSuchElementException exception = Assertions.assertThrows( NoSuchElementException.class, () -> ciudadService.buscarPorId(ciudadGuardadoId) );
         assertThat("Debe lanzar la un NoSuchElementException ", exception, is( notNullValue() ) );
