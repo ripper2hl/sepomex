@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -95,7 +96,7 @@ class CiudadServiceTest {
     }
     private Ciudad generadorCiudad(){
         Ciudad ciudad = new Ciudad();
-        ciudad.setNombre("borrar");
+        ciudad.setNombre(UUID.randomUUID().toString());
         Ciudad ciudadGuardada = ciudadService.guardar(ciudad);
         return  ciudadGuardada;
     }
