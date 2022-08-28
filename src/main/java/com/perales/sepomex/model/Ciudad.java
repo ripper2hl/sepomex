@@ -38,7 +38,7 @@ public class Ciudad implements Serializable {
     @Column(name = "id")
     private Integer id;
     
-    @Analyzer(definition = "es")
+
     @Field(store = Store.YES)
     @Field(name = "ciudadEs_beginEnd", store = Store.YES, analyzer = @Analyzer(definition = "es_beginEnd"))
     @NotNull

@@ -66,7 +66,7 @@ public class Colonia implements Serializable {
     private Long id;
     
 
-    @Analyzer(definition = "es")
+
     @Field(store = Store.YES)
     @Field(name = "coloniaEs_beginEnd", store = Store.YES, analyzer = @Analyzer(definition = "es_beginEnd"))
     @NotNull
