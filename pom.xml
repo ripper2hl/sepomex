@@ -19,7 +19,7 @@
         <dbunit.version>2.7.0</dbunit.version>
         <dbunit.spring.version>1.3.0</dbunit.spring.version>
         <google.guava.version>31.1-jre</google.guava.version>
-        <h2.version>2.1.214</h2.version>
+        <h2.version>2.2.220</h2.version>
         <javax.el.api.version>3.0.1-b06</javax.el.api.version>
         <javax.el.version>3.0.1-b12</javax.el.version>
         <jaxb.api.version>2.4.0-b180830.0359</jaxb.api.version>
