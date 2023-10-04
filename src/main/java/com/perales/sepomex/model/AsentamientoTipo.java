@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hibernate.search.annotations.*;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

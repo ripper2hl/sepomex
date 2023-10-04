@@ -6,10 +6,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Store;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -39,9 +37,7 @@ public class ZonaTipo implements Serializable {
     @Column(name = "id")
     private Integer id;
     
-
-    @Field(store = Store.YES)
-    @Field(name = "zonaTipoEs_beginEnd", store = Store.YES, analyzer = @Analyzer(definition = "es_beginEnd"))
+    @FullTextField(analyzer = "name")
     @NotNull
     @NotBlank
     @Column(name = "nombre", nullable = false)

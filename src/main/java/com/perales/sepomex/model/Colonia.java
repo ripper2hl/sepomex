@@ -7,11 +7,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.lucene.analysis.core.KeywordTokenizerFactory;
-import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
-import org.apache.lucene.analysis.es.SpanishLightStemFilterFactory;
-import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
-import org.hibernate.search.annotations.*;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,12 +16,6 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Indexed
-@AnalyzerDef(name = "es", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = {
-        @TokenFilterDef(factory = SpanishLightStemFilterFactory.class),
-        @TokenFilterDef(factory = LowerCaseFilterFactory.class)})
-@AnalyzerDef(name = "es_beginEnd",tokenizer = @TokenizerDef(factory = KeywordTokenizerFactory.class), filters = {
-        @TokenFilterDef(factory = SpanishLightStemFilterFactory.class),
-        @TokenFilterDef(factory = LowerCaseFilterFactory.class)})
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {
@@ -65,10 +56,7 @@ public class Colonia implements Serializable {
     @Column(name = "id")
     private Long id;
     
-
-
-    @Field(store = Store.YES)
-    @Field(name = "coloniaEs_beginEnd", store = Store.YES, analyzer = @Analyzer(definition = "es_beginEnd"))
+    @FullTextField(analyzer = "MyLuceneAnalysisConfigurer")
     @NotNull
     @NotBlank
     @Column(name = "nombre", nullable = false)

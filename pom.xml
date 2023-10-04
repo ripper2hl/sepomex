@@ -23,7 +23,7 @@
         <javax.el.api.version>3.0.1-b06</javax.el.api.version>
         <javax.el.version>3.0.1-b12</javax.el.version>
         <jaxb.api.version>2.4.0-b180830.0359</jaxb.api.version>
-        <hibernate.search.orm.version>5.11.10.Final</hibernate.search.orm.version>
+        <hibernate.search.orm.version>6.0.10.Final</hibernate.search.orm.version>
         <hamcrest.all.version>1.3</hamcrest.all.version>
         <postgresql.version>42.4.2</postgresql.version>
         <jakarta.validation.api>2.0.2</jakarta.validation.api>
@@ -113,11 +113,20 @@
         </dependency>
 
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-search-orm</artifactId>
+            <groupId>org.hibernate.search</groupId>
+            <artifactId>hibernate-search-mapper-orm</artifactId>
             <version>${hibernate.search.orm.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.hibernate.search</groupId>
+            <artifactId>hibernate-search-backend-lucene</artifactId>
+            <version>${hibernate.search.orm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.search</groupId>
+            <artifactId>hibernate-search-v5migrationhelper-orm</artifactId>
+            <version>${hibernate.search.orm.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
