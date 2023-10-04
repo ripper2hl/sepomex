@@ -133,8 +133,8 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
                     }
                 }
                 em.getTransaction().commit();
-                em.close();
             });
+            em.close();
         }
         return true;
     }
