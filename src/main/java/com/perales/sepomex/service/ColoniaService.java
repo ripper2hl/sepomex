@@ -81,6 +81,11 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         int firstResult = page * size;
         return coloniaRepository.findAll( PageRequest.of(firstResult, size ) );
     }
+
+    @Transactional(readOnly = true)
+    public List<Colonia> buscarColoniasPorCodigoPostal(String codigoPostal) {
+        return coloniaRepository.findByCodigoPostal_Nombre(codigoPostal);
+    }
     
     @Transactional
     public Colonia guardar(Colonia entity) {
