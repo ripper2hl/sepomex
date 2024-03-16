@@ -56,6 +56,11 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
     public boolean cargaMasiva( @RequestPart("file") MultipartFile file ) throws IOException {
         return coloniaService.cargaMasiva( file );
     }
+
+    @PatchMapping(value = "/actualizacion", produces = "application/json; charset=UTF-8", consumes = "multipart/form-data;charset=UTF-8")
+    public boolean actualizacionMasiva( @RequestPart("file") MultipartFile file ) throws IOException {
+        return coloniaService.actualizacionMasiva( file );
+    }
     
     @GetMapping(value = "/municipio/{id}", params = {"page", "size"}, produces = "application/json")
     public Page<Colonia> findByEstadoId(@PathVariable Integer id, @RequestParam int page, @RequestParam int size) {
