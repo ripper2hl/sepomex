@@ -33,10 +33,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -113,7 +111,10 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         coloniaRepository.delete(colonia);
         return colonia;
     }
-    
+
+    @Autowired
+    private ArchivoService archivoService;
+
     public Boolean cargaMasiva(MultipartFile file) throws IOException {
         EntityManager em = emf.createEntityManager();
         try (BufferedReader br = new BufferedReader( new InputStreamReader( file.getInputStream() , "UTF-8") )) {
@@ -146,8 +147,10 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
                         // Verificar si la colonia ya existe en la base de datos
                         Colonia existingColonia = buscarColonia(colonia);
                         if (existingColonia == null) {
-                            // Si no existe, guardar como nuevo
+                            log.info("La colonia no existe y es necesario crearla: " + colonia.toString());
                             revisarColonia(colonia, em);
+                        }else{
+                            log.info("La colonia ya existe y no se guardara: " + colonia.toString());
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -181,7 +184,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
             return null;
         }
 
-// Verificar si la colonia ya existe en la base de datos
+        // Verificar si la colonia ya existe en la base de datos
         List<Colonia> coloniasEncontradas = coloniaRepository.findByNombreAndMunicipioIdAndEstadoId(
                 colonia.getNombre(), colonia.getMunicipio().getId(), colonia.getEstado().getId());
 
@@ -189,8 +192,10 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     }
 
     private List<Colonia> leerColoniaDesdeArchivo(BufferedReader br) {
-        return br.lines()
+        StringBuilder contenidoArchivo = new StringBuilder();
+        List<Colonia> colonias = br.lines()
                 .parallel()
+                .peek( line -> contenidoArchivo.append(line))
                 .filter(line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE))
                 .filter(line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION))
                 .map(line -> Arrays.asList(line.split("\\|")))
@@ -205,6 +210,12 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
                 })
                 .filter(colonia -> colonia != null)
                 .collect(Collectors.toList());
+
+        Archivo archivo = new Archivo();
+        archivo.setFechaCarga(LocalDateTime.now());
+        archivo.setContenido(contenidoArchivo.toString());
+        archivoService.guardar(archivo);
+        return colonias;
     }
 
     private void revisarColonia(Colonia colonia, EntityManager em) {

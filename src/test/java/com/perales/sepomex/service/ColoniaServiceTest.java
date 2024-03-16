@@ -55,7 +55,9 @@ class ColoniaServiceTest {
     private static String SEPOMEX_TEXT_ACTUALIZACION = "El Catálogo Nacional de Códigos Postales, es elaborado por Correos de México y se proporciona en forma gratuita para uso particular, no estando permitida su comercialización, total o parcial, ni su distribución a terceros bajo ningún concepto.\n" +
             "d_codigo|d_asenta|d_tipo_asenta|D_mnpio|d_estado|d_ciudad|d_CP|c_estado|c_oficina|c_CP|c_tipo_asenta|c_mnpio|id_asenta_cpcons|d_zona|c_cve_ciudad\n" +
             "||||||||||||||\n" +
-            "01063|Altavistaaa|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0018|Urbano|01";
+            "01010|Los Alpes|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0005|Urbano|01\n" +
+            "01063|Altavistaaa|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0018|Urbano|01\n" +
+             "00000|Cañada Blancaa|Unidad habitacionall|Guadalupee|Nuevo Leónn|Guadalupee|67121|19|67121||31|026|1551|Urbano|04" ;
     
     private MockMvc mockMvc;
     
