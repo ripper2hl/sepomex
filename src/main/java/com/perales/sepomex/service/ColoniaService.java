@@ -140,6 +140,8 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         EntityManager em = emf.createEntityManager();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), "UTF-8"))) {
             List<Colonia> colonias = leerColoniaDesdeArchivo(br);
+            this.estados = estadoRepository.findAll();
+            this.municipios = municipioRepository.findAll();
             Iterables.partition(colonias, 10000).forEach(coloniasBatch -> {
                 em.getTransaction().begin();
                 coloniasBatch.forEach(colonia -> {
@@ -166,7 +168,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
 
     private Colonia buscarColonia(Colonia colonia) {
         // Buscar el estado por nombre
-        Estado estado = estadoRepository.findFirstByNombre(colonia.getEstado().getNombre());
+        Estado estado = buscarEstado(colonia.getEstado().getNombre());
         if (estado != null) {
             colonia.setEstado(estado);
         } else {
@@ -175,7 +177,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         }
 
         // Buscar el municipio por nombre y estado
-        Municipio municipio = municipioRepository.findFirstByNombreAndIdEstado(colonia.getMunicipio().getNombre(),estado.getId());
+        Municipio municipio = buscarMunicipio(colonia.getMunicipio().getNombre(),estado);
         if (municipio != null) {
             Integer estadoId = municipio.getEstado().getId();
             colonia.setMunicipio(municipio);
@@ -399,6 +401,21 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         criteria.setProjection(Projections.rowCount());
         Long count = (Long)criteria.uniqueResult();
         return count.intValue();
+    }
+
+    // Método para buscar estados y municipios pre-cargados
+    private Estado buscarEstado(String nombre) {
+        return estados.stream()
+                .filter(estado -> estado.getNombre().equalsIgnoreCase(nombre))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Municipio buscarMunicipio(String nombre, Estado estado) {
+        return municipios.stream()
+                .filter(municipio -> municipio.getNombre().equalsIgnoreCase(nombre) && municipio.getEstado().equals(estado))
+                .findFirst()
+                .orElse(null);
     }
     
 }
