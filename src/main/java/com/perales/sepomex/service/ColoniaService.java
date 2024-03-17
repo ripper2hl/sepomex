@@ -120,7 +120,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         try (BufferedReader br = new BufferedReader( new InputStreamReader( file.getInputStream() , "UTF-8") )) {
             List<Colonia> colonias = leerColoniaDesdeArchivo(br);
     
-            Iterables.partition(colonias, 1000).forEach( coloniasBatch -> {
+            Iterables.partition(colonias, 10000).forEach( coloniasBatch -> {
                 em.getTransaction().begin();
                 for(Colonia colonia : coloniasBatch){
                     try {
@@ -140,7 +140,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         EntityManager em = emf.createEntityManager();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), "UTF-8"))) {
             List<Colonia> colonias = leerColoniaDesdeArchivo(br);
-            Iterables.partition(colonias, 1000).forEach(coloniasBatch -> {
+            Iterables.partition(colonias, 10000).forEach(coloniasBatch -> {
                 em.getTransaction().begin();
                 coloniasBatch.forEach(colonia -> {
                     try {
@@ -175,7 +175,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         }
 
         // Buscar el municipio por nombre y estado
-        Municipio municipio = municipioRepository.findFirstByNombre(colonia.getMunicipio().getNombre());
+        Municipio municipio = municipioRepository.findFirstByNombreAndIdEstado(colonia.getMunicipio().getNombre(),estado.getId());
         if (municipio != null) {
             Integer estadoId = municipio.getEstado().getId();
             colonia.setMunicipio(municipio);
@@ -213,7 +213,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
 
         Archivo archivo = new Archivo();
         archivo.setFechaCarga(LocalDateTime.now());
-        archivo.setContenido(contenidoArchivo.toString());
+        archivo.setContenido(contenidoArchivo.toString().replaceAll("\u0000", ""));
         archivoService.guardar(archivo);
         return colonias;
     }

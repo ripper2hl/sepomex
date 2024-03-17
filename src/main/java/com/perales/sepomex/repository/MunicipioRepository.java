@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface MunicipioRepository extends JpaRepository<Municipio, Integer> {
     
@@ -16,5 +18,12 @@ public interface MunicipioRepository extends JpaRepository<Municipio, Integer> {
     Page<Municipio> findByEstadoIdOrderByNombre(Integer estadoId, Pageable pageable);
 
     @Query("SELECT m FROM municipio m JOIN FETCH m.estado WHERE m.nombre = :nombre")
-    Municipio findFirstByNombre(String nombre);
+    List<Municipio> findFirstByNombre(String nombre);
+
+    @Query("SELECT m FROM municipio m JOIN FETCH m.estado e WHERE m.nombre = :nombreMunicipio AND e.nombre = :nombreEstado")
+    Municipio findFirstByNombreAndNombreEstado(String nombreMunicipio, String nombreEstado);
+
+    @Query("SELECT m FROM municipio m JOIN FETCH m.estado e WHERE m.nombre = :nombreMunicipio AND e.id = :idEstado")
+    Municipio findFirstByNombreAndIdEstado(String nombreMunicipio, Integer idEstado);
+
 }
