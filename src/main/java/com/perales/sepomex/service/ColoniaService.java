@@ -3,9 +3,7 @@ package com.perales.sepomex.service;
 import com.google.common.collect.Iterables;
 import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.*;
-import com.perales.sepomex.repository.ColoniaRepository;
-import com.perales.sepomex.repository.EstadoRepository;
-import com.perales.sepomex.repository.MunicipioRepository;
+import com.perales.sepomex.repository.*;
 import com.perales.sepomex.util.Parser;
 import lombok.extern.log4j.Log4j2;
 import org.apache.lucene.search.Query;
@@ -55,14 +53,33 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     private List<ZonaTipo> zonaTipos = new ArrayList<>();
     
     private static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
+
     @Autowired
     private ColoniaRepository coloniaRepository;
+
+    @Autowired
+    private CiudadRepository ciudadRepository;
 
     @Autowired
     private MunicipioRepository municipioRepository;
 
     @Autowired
     private EstadoRepository estadoRepository;
+
+    @Autowired
+    private CodigoPostalRepository codigoPostalRepository;
+
+    @Autowired
+    private InegiClaveCiudadRepository inegiClaveCiudadRepository;
+
+    @Autowired
+    private InegiClaveMunicipioRepository inegiClaveMunicipioRepository;
+
+    @Autowired
+    private AsentamientoTipoRepository asentamientoTipoRepository;
+
+    @Autowired
+    private ZonaTipoRepository zonaTipoRepository;
     
     @PersistenceContext
     private EntityManager em;
@@ -136,12 +153,19 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         return true;
     }
 
+    @Transactional(readOnly = true)
     public Boolean actualizacionMasiva(MultipartFile file) throws IOException {
         EntityManager em = emf.createEntityManager();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), "UTF-8"))) {
             List<Colonia> colonias = leerColoniaDesdeArchivo(br);
+            this.asentamientosTipos =  asentamientoTipoRepository.findAll();
+            this.ciudades = ciudadRepository.findAll();
+            this.codigosPostales = codigoPostalRepository.findAll();
             this.estados = estadoRepository.findAll();
+            this.inegiClaveCiudades = inegiClaveCiudadRepository.findAll();
+            this.inegiClavesMunicipios = inegiClaveMunicipioRepository.findAll();
             this.municipios = municipioRepository.findAll();
+            this.zonaTipos = zonaTipoRepository.findAll();
             Iterables.partition(colonias, 10000).forEach(coloniasBatch -> {
                 em.getTransaction().begin();
                 coloniasBatch.forEach(colonia -> {
