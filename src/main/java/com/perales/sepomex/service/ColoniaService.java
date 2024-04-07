@@ -194,6 +194,15 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
             });
         } finally {
             em.close();
+            this.asentamientosTipos = null;
+            this.ciudades = null;
+            this.codigosPostales = null;
+            this.colonias = null;
+            this.estados = null;
+            this.inegiClaveCiudades = null;
+            this.inegiClavesMunicipios = null;
+            this.municipios = null;
+            this.zonaTipos = null;
         }
         return true;
     }
@@ -218,11 +227,17 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
             return null;
         }
 
-        // Verificar si la colonia ya existe en la base de datos
-        List<Colonia> coloniasEncontradas = coloniaRepository.findByNombreAndMunicipioIdAndEstadoId(
-                colonia.getNombre(), colonia.getMunicipio().getId(), colonia.getEstado().getId());
+        Colonia foundColonia = null;
+        for (Colonia existingColonia : colonias) {
+            if (existingColonia.getNombre().equals(colonia.getNombre()) &&
+                    existingColonia.getMunicipio().getId().equals(colonia.getMunicipio().getId()) &&
+                    existingColonia.getEstado().getId().equals(colonia.getEstado().getId())) {
+                foundColonia = existingColonia;
+                break;
+            }
+        }
 
-        return !coloniasEncontradas.isEmpty() ? coloniasEncontradas.get(0) : null;
+        return foundColonia;
     }
 
     private List<Colonia> leerColoniaDesdeArchivo(BufferedReader br) {
