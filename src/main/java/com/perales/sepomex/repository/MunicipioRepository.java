@@ -26,4 +26,6 @@ public interface MunicipioRepository extends JpaRepository<Municipio, Integer> {
     @Query("SELECT m FROM municipio m JOIN FETCH m.estado e WHERE m.nombre = :nombreMunicipio AND e.id = :idEstado")
     Municipio findFirstByNombreAndIdEstado(String nombreMunicipio, Integer idEstado);
 
+    @Query("SELECT m FROM municipio m JOIN FETCH m.estado")
+    List<Municipio> findAllMunicipiosWithEstado();
 }

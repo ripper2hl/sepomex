@@ -34,6 +34,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,8 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     
     private List<Estado> estados = new ArrayList<>();
     private List<Ciudad> ciudades = new ArrayList<>();
+
+    private List<Colonia> colonias = new ArrayList<>();
     private List<Municipio> municipios = new ArrayList<>();
     private List<CodigoPostal> codigosPostales = new ArrayList<>();
     private List<InegiClaveCiudad> inegiClaveCiudades = new ArrayList<>();
@@ -153,36 +156,41 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         return true;
     }
 
-    @Transactional(readOnly = true)
     public Boolean actualizacionMasiva(MultipartFile file) throws IOException {
         EntityManager em = emf.createEntityManager();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), "UTF-8"))) {
             List<Colonia> colonias = leerColoniaDesdeArchivo(br);
+            int totalColonias = colonias.size();
+            AtomicInteger coloniasProcesadas = new AtomicInteger(0);
             this.asentamientosTipos =  asentamientoTipoRepository.findAll();
             this.ciudades = ciudadRepository.findAll();
             this.codigosPostales = codigoPostalRepository.findAll();
+            this.colonias = coloniaRepository.findAllColoniasWithEstadoAndMunicipio();
             this.estados = estadoRepository.findAll();
             this.inegiClaveCiudades = inegiClaveCiudadRepository.findAll();
             this.inegiClavesMunicipios = inegiClaveMunicipioRepository.findAll();
-            this.municipios = municipioRepository.findAll();
+            this.municipios = municipioRepository.findAllMunicipiosWithEstado();
             this.zonaTipos = zonaTipoRepository.findAll();
             Iterables.partition(colonias, 10000).forEach(coloniasBatch -> {
                 em.getTransaction().begin();
-                coloniasBatch.forEach(colonia -> {
+                coloniasBatch.stream().parallel().forEach(colonia -> {
                     try {
                         // Verificar si la colonia ya existe en la base de datos
                         Colonia existingColonia = buscarColonia(colonia);
                         if (existingColonia == null) {
-                            log.info("La colonia no existe y es necesario crearla: " + colonia.toString());
+                            log.debug("La colonia no existe y es necesario crearla: " + colonia.toString());
                             revisarColonia(colonia, em);
                         }else{
-                            log.info("La colonia ya existe y no se guardara: " + colonia.toString());
+                            log.debug("La colonia ya existe y no se guardara: " + colonia.toString());
                         }
+                        coloniasProcesadas.incrementAndGet();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 });
                 em.getTransaction().commit();
+                double porcentaje = ((double) coloniasProcesadas.get() / totalColonias) * 100;
+                log.info("Porcentaje de colonias procesadas: " + porcentaje + "%");
             });
         } finally {
             em.close();

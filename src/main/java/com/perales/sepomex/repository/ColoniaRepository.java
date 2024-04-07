@@ -1,6 +1,7 @@
 package com.perales.sepomex.repository;
 
 import com.perales.sepomex.model.Colonia;
+import com.perales.sepomex.model.Municipio;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -25,5 +26,9 @@ public interface ColoniaRepository extends JpaRepository<Colonia, Long> {
     List<Colonia> findByNombreAndMunicipioIdAndEstadoId(String nombreColonia,
                                                                Integer municipioId,
                                                                Integer estadoId);
+
+
+    @Query("SELECT c FROM colonia c JOIN FETCH c.municipio m JOIN FETCH m.estado")
+    List<Colonia> findAllColoniasWithEstadoAndMunicipio();
 
 }
