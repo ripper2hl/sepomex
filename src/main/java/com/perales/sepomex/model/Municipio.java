@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -22,6 +23,7 @@ import java.util.List;
 @EqualsAndHashCode( exclude = { "id", "colonias", "codigosPostales"})
 @NoArgsConstructor
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+@ToString(exclude = {"estado","ciudad", "colonias", "codigosPostales"})
 @Entity(name = "municipio")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Municipio implements Serializable {

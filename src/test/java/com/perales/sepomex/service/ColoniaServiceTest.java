@@ -51,6 +51,13 @@ class ColoniaServiceTest {
             "67117|Cañada Blanca|Unidad habitacional|Guadalupe|Nuevo León|Guadalupe|67121|19|67121||31|026|1551|Urbano|04\n" +
             "32765|Cerros Colorados|Ranchería|Guadalupe|Chihuahua||32001|08|32001||29|028|1316|Rural|\n" +
             "74895|Barranca el Brasil|Ranchería|Guadalupe|Puebla||74801|21|74801||29|066|7805|Rural|";
+
+    private static String SEPOMEX_TEXT_ACTUALIZACION = "El Catálogo Nacional de Códigos Postales, es elaborado por Correos de México y se proporciona en forma gratuita para uso particular, no estando permitida su comercialización, total o parcial, ni su distribución a terceros bajo ningún concepto.\n" +
+            "d_codigo|d_asenta|d_tipo_asenta|D_mnpio|d_estado|d_ciudad|d_CP|c_estado|c_oficina|c_CP|c_tipo_asenta|c_mnpio|id_asenta_cpcons|d_zona|c_cve_ciudad\n" +
+            "||||||||||||||\n" +
+            "01010|Los Alpes|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0005|Urbano|01\n" +
+            "01063|Altavistaaa|Colonia|Álvaro Obregón|Ciudad de México|Ciudad de México|01001|09|01001||09|010|0018|Urbano|01\n" +
+             "00000|Cañada Blancaa|Unidad habitacionall|Guadalupee|Nuevo Leónn|Guadalupee|67121|19|67121||31|026|1551|Urbano|04" ;
     
     private MockMvc mockMvc;
     
@@ -84,6 +91,27 @@ class ColoniaServiceTest {
         assertThat("Deberia obtener verdadero",true,  is(coloniaService.cargaMasiva( file ) )  );
         Page<Colonia> colonias = coloniaService.buscarTodos(0, 9);
         assertThat( "Debe ser un numero total de ", 9, is( colonias.getContent().size() )  );
+    }
+    @Test
+    void actualizacionMasiva() throws Exception{
+        cargaMasiva();
+        MockMultipartFile file = new MockMultipartFile(
+                "data",
+                "filename.txt",
+                "text/plain", SEPOMEX_TEXT_ACTUALIZACION.getBytes());
+        assertThat("Deberia obtener verdadero",true,  is(coloniaService.actualizacionMasiva( file ) )  );
+        Page<Colonia> colonias = coloniaService.buscarTodos(0, 100);
+        // Verifica si existe una colonia llamada "colonia prueba" en la lista
+        boolean coloniaPruebaExists = false;
+        for (Colonia colonia : colonias.getContent()) {
+            if (colonia.getNombre().equals("Altavistaaa")) {
+                coloniaPruebaExists = true;
+                break;
+            }
+        }
+
+        // Verifica si la colonia "colonia prueba" existe después de la actualización masiva
+        assertThat("Debería existir una colonia llamada 'colonia prueba'", coloniaPruebaExists, is(true));
     }
 
     @Test

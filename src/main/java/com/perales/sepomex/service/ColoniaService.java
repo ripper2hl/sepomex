@@ -3,7 +3,7 @@ package com.perales.sepomex.service;
 import com.google.common.collect.Iterables;
 import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.*;
-import com.perales.sepomex.repository.ColoniaRepository;
+import com.perales.sepomex.repository.*;
 import com.perales.sepomex.util.Parser;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.Criteria;
@@ -35,10 +35,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -50,6 +50,8 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     
     private List<Estado> estados = new ArrayList<>();
     private List<Ciudad> ciudades = new ArrayList<>();
+
+    private List<Colonia> colonias = new ArrayList<>();
     private List<Municipio> municipios = new ArrayList<>();
     private List<CodigoPostal> codigosPostales = new ArrayList<>();
     private List<InegiClaveCiudad> inegiClaveCiudades = new ArrayList<>();
@@ -58,9 +60,34 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     private List<ZonaTipo> zonaTipos = new ArrayList<>();
     
     private static final int POSICIONES_MAXIMAS_SEPARADOR = 15;
+
     @Autowired
     private ColoniaRepository coloniaRepository;
-    
+
+    @Autowired
+    private CiudadRepository ciudadRepository;
+
+    @Autowired
+    private MunicipioRepository municipioRepository;
+
+    @Autowired
+    private EstadoRepository estadoRepository;
+
+    @Autowired
+    private CodigoPostalRepository codigoPostalRepository;
+
+    @Autowired
+    private InegiClaveCiudadRepository inegiClaveCiudadRepository;
+
+    @Autowired
+    private InegiClaveMunicipioRepository inegiClaveMunicipioRepository;
+
+    @Autowired
+    private AsentamientoTipoRepository asentamientoTipoRepository;
+
+    @Autowired
+    private ZonaTipoRepository zonaTipoRepository;
+
     @PersistenceContext
     private EntityManager em;
     
@@ -84,7 +111,12 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         int firstResult = page * size;
         return coloniaRepository.findAll( PageRequest.of(firstResult, size ) );
     }
-    
+
+    @Transactional(readOnly = true)
+    public List<Colonia> buscarColoniasPorCodigoPostal(String codigoPostal) {
+        return coloniaRepository.findByCodigoPostal_Nombre(codigoPostal);
+    }
+
     @Transactional
     public Colonia guardar(Colonia entity) {
         return coloniaRepository.save(entity);
@@ -103,30 +135,16 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         coloniaRepository.delete(colonia);
         return colonia;
     }
-    
+
+    @Autowired
+    private ArchivoService archivoService;
+
     public Boolean cargaMasiva(MultipartFile file) throws IOException {
         EntityManager em = emf.createEntityManager();
         try (BufferedReader br = new BufferedReader( new InputStreamReader( file.getInputStream() , "UTF-8") )) {
-            List<Colonia> colonias = br.lines().parallel()
-                    .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE) )
-                    .filter( line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION) )
-                    .map( line -> {
-                        ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(line);
-                        return line;
-                    })
-                    .map( line -> Arrays.asList(line.split("\\|")) )
-                    .map( list -> {
-                        Colonia colonia = parser.convertirListaColonia(list);
-                        if(colonia != null){
-                            logger.info( colonia.toString() );
-                        }else{
-                            logger.severe("No fue posible guardar el siguiente registro: " + list);
-                        }
-                        return colonia;
-                    }).filter( colonia -> colonia != null )
-                    .collect( Collectors.toList() );
-    
-            Iterables.partition(colonias, 1000).forEach( coloniasBatch -> {
+            List<Colonia> colonias = leerColoniaDesdeArchivo(br);
+
+            Iterables.partition(colonias, 10000).forEach( coloniasBatch -> {
                 em.getTransaction().begin();
                 for(Colonia colonia : coloniasBatch){
                     try {
@@ -136,12 +154,123 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
                     }
                 }
                 em.getTransaction().commit();
-                em.close();
             });
+            em.close();
         }
         return true;
     }
-    
+
+    public Boolean actualizacionMasiva(MultipartFile file) throws IOException {
+        EntityManager em = emf.createEntityManager();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream(), "UTF-8"))) {
+            List<Colonia> colonias = leerColoniaDesdeArchivo(br);
+            int totalColonias = colonias.size();
+            AtomicInteger coloniasProcesadas = new AtomicInteger(0);
+            this.asentamientosTipos =  asentamientoTipoRepository.findAll();
+            this.ciudades = ciudadRepository.findAll();
+            this.codigosPostales = codigoPostalRepository.findAll();
+            this.colonias = coloniaRepository.findAllColoniasWithEstadoAndMunicipio();
+            this.estados = estadoRepository.findAll();
+            this.inegiClaveCiudades = inegiClaveCiudadRepository.findAll();
+            this.inegiClavesMunicipios = inegiClaveMunicipioRepository.findAll();
+            this.municipios = municipioRepository.findAllMunicipiosWithEstado();
+            this.zonaTipos = zonaTipoRepository.findAll();
+            Iterables.partition(colonias, 10000).forEach(coloniasBatch -> {
+                em.getTransaction().begin();
+                coloniasBatch.stream().parallel().forEach(colonia -> {
+                    try {
+                        // Verificar si la colonia ya existe en la base de datos
+                        Colonia existingColonia = buscarColonia(colonia);
+                        if (existingColonia == null) {
+                            log.debug("La colonia no existe y es necesario crearla: " + colonia.toString());
+                            revisarColonia(colonia, em);
+                        }else{
+                            log.debug("La colonia ya existe y no se guardara: " + colonia.toString());
+                        }
+                        coloniasProcesadas.incrementAndGet();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                em.getTransaction().commit();
+                double porcentaje = ((double) coloniasProcesadas.get() / totalColonias) * 100;
+                log.info("Porcentaje de colonias procesadas: " + porcentaje + "%");
+            });
+        } finally {
+            em.close();
+            this.asentamientosTipos = null;
+            this.ciudades = null;
+            this.codigosPostales = null;
+            this.colonias = null;
+            this.estados = null;
+            this.inegiClaveCiudades = null;
+            this.inegiClavesMunicipios = null;
+            this.municipios = null;
+            this.zonaTipos = null;
+        }
+        return true;
+    }
+
+    private Colonia buscarColonia(Colonia colonia) {
+        // Buscar el estado por nombre
+        Estado estado = buscarEstado(colonia.getEstado().getNombre());
+        if (estado != null) {
+            colonia.setEstado(estado);
+        } else {
+            logger.warning("No se encontró el estado con nombre: " + colonia.getEstado().getNombre());
+            return null;
+        }
+
+        // Buscar el municipio por nombre y estado
+        Municipio municipio = buscarMunicipio(colonia.getMunicipio().getNombre(),estado);
+        if (municipio != null) {
+            Integer estadoId = municipio.getEstado().getId();
+            colonia.setMunicipio(municipio);
+        } else {
+            logger.warning("No se encontró el municipio con nombre: " + colonia.getMunicipio().getNombre() + " y estado ID: " + estado.getId());
+            return null;
+        }
+
+        Colonia foundColonia = null;
+        for (Colonia existingColonia : colonias) {
+            if (existingColonia.getNombre().equals(colonia.getNombre()) &&
+                    existingColonia.getMunicipio().getId().equals(colonia.getMunicipio().getId()) &&
+                    existingColonia.getEstado().getId().equals(colonia.getEstado().getId())) {
+                foundColonia = existingColonia;
+                break;
+            }
+        }
+
+        return foundColonia;
+    }
+
+    private List<Colonia> leerColoniaDesdeArchivo(BufferedReader br) {
+        StringBuilder contenidoArchivo = new StringBuilder();
+        List<Colonia> colonias = br.lines()
+                .parallel()
+                .peek( line -> contenidoArchivo.append(line))
+                .filter(line -> !line.contains(Parser.TEXT_FOR_DETECT_FIRST_LINE))
+                .filter(line -> !line.contains(Parser.TEXT_FOR_DETECT_FIELD_DESCRIPTION))
+                .map(line -> Arrays.asList(line.split("\\|")))
+                .map(list -> {
+                    Colonia colonia = parser.convertirListaColonia(list);
+                    if (colonia != null) {
+                        logger.info(colonia.toString());
+                    } else {
+                        logger.severe("No fue posible guardar el siguiente registro: " + list);
+                    }
+                    return colonia;
+                })
+                .filter(colonia -> colonia != null)
+                .collect(Collectors.toList());
+
+        Archivo archivo = new Archivo();
+        archivo.setFechaCarga(LocalDateTime.now());
+        archivo.setContenido(contenidoArchivo.toString().replaceAll("\u0000", ""));
+        archivoService.guardar(archivo);
+        return colonias;
+    }
+
     private void revisarColonia(Colonia colonia, EntityManager em) {
         CodigoPostal codigoPostal = colonia.getCodigoPostal();
         
@@ -266,11 +395,9 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     }
     
     public void indexDb() throws InterruptedException {
-    
-        
-        FullTextEntityManager fullTextEntityManager
-                = Search.getFullTextEntityManager(em);
-        fullTextEntityManager.createIndexer().startAndWait();
+        SearchSession searchSession = Search.session(em);
+        searchSession.massIndexer()
+                .startAndWait();
     }
     
     /**
@@ -281,10 +408,10 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
      */
     public List<Colonia> search(Colonia colonia){
         SearchSession searchSession = Search.session( em );
-        SearchQuery<Colonia> searchQuery = searchSession.search(Colonia.class)
+        SearchQuery<Colonia> searchQuery = (SearchQuery<Colonia>) searchSession.search(Colonia.class)
                 .where( f -> f.match()
                         .fields( "nombre" )
-                        .matching( colonia.getNombre() );
+                        .matching( colonia.getNombre() ));
         javax.persistence.TypedQuery<Colonia> jpaQuery = Search.toJpaQuery( searchQuery );
         org.hibernate.query.Query<Colonia> ormQuery = Search.toOrmQuery( searchQuery );
         return null;
@@ -305,17 +432,17 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         if(colonia.getMunicipio() != null ){
             criteria.add( Restrictions.eq( "municipio.id", colonia.getMunicipio().getId() ) );
         }
-        
+
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Colonia> cq = cb.createQuery(Colonia.class);
-    
+
         Root<Colonia> rootColonia = cq.from(Colonia.class);
         rootColonia.join("estado", JoinType.LEFT);
         rootColonia.join("municipio", JoinType.LEFT);
         rootColonia.join("codigoPostal", JoinType.LEFT);
-        
+
         cq.select(rootColonia).where();
-        
+
         return criteria;
     }
     
@@ -325,5 +452,20 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         Long count = (Long)criteria.uniqueResult();
         return count.intValue();
     }
-    
+
+    // Método para buscar estados y municipios pre-cargados
+    private Estado buscarEstado(String nombre) {
+        return estados.stream()
+                .filter(estado -> estado.getNombre().equalsIgnoreCase(nombre))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Municipio buscarMunicipio(String nombre, Estado estado) {
+        return municipios.stream()
+                .filter(municipio -> municipio.getNombre().equalsIgnoreCase(nombre) && municipio.getEstado().equals(estado))
+                .findFirst()
+                .orElse(null);
+    }
+
 }

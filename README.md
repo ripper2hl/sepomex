@@ -98,3 +98,8 @@ docker push gcr.io/clever-hangar-286504/sepomex-api
 ```
 
 * Deployar en el UI de GCP.
+
+
+### Curl para actualizar
+
+curl -X 'PATCH'   'http://localhost:8080/v1/colonia/actualizacion'   -H 'accept: application/json;charset=UTF-8'   -H 'Content-Type: multipart/form-data;charset=UTF-8' -F 'file=@archivo.txt'
