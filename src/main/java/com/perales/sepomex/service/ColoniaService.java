@@ -6,15 +6,15 @@ import com.perales.sepomex.model.*;
 import com.perales.sepomex.repository.ColoniaRepository;
 import com.perales.sepomex.util.Parser;
 import lombok.extern.log4j.Log4j2;
-import org.apache.lucene.search.Query;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.search.engine.search.query.SearchQuery;
 import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.jpa.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
+import org.hibernate.search.mapper.orm.Search;
+import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +26,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceUnit;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -35,7 +39,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -270,31 +273,21 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         fullTextEntityManager.createIndexer().startAndWait();
     }
     
+    /**
+     * Crea una busqueda de texto de hibernate search y la fusiona
+     * con una busqueda de SQL por medio de criteria.
+     * @param colonia con todos los parametros para realizar la busqueda
+     * @return una lista de colonias que coinciden con la busqueda.
+     */
     public List<Colonia> search(Colonia colonia){
-        FullTextEntityManager fullTextEntityManager
-                = Search.getFullTextEntityManager( em );
-        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
-                .buildQueryBuilder()
-                .forEntity(Colonia.class)
-                .get();
-    
-        Query fuzzyQuery = queryBuilder
-                .keyword()
-                .fuzzy()
-                .onField("nombre")
-                .matching( colonia.getNombre())
-                .createQuery();
-        
-        org.hibernate.search.jpa.FullTextQuery jpaQuery
-                = fullTextEntityManager.createFullTextQuery(fuzzyQuery, Colonia.class);
-        
-        jpaQuery.setCriteriaQuery( createCriteriaSearch(colonia) );
-        jpaQuery.setMaxResults(100);
-        jpaQuery.limitExecutionTimeTo(1l, TimeUnit.SECONDS);
-        List lista = jpaQuery.getResultList();
-        fullTextEntityManager.close();
-        em.close();
-        return lista;
+        SearchSession searchSession = Search.session( em );
+        SearchQuery<Colonia> searchQuery = searchSession.search(Colonia.class)
+                .where( f -> f.match()
+                        .fields( "nombre" )
+                        .matching( colonia.getNombre() );
+        javax.persistence.TypedQuery<Colonia> jpaQuery = Search.toJpaQuery( searchQuery );
+        org.hibernate.query.Query<Colonia> ormQuery = Search.toOrmQuery( searchQuery );
+        return null;
     }
     
     @SuppressWarnings("deprecated")
@@ -312,6 +305,17 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         if(colonia.getMunicipio() != null ){
             criteria.add( Restrictions.eq( "municipio.id", colonia.getMunicipio().getId() ) );
         }
+        
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Colonia> cq = cb.createQuery(Colonia.class);
+    
+        Root<Colonia> rootColonia = cq.from(Colonia.class);
+        rootColonia.join("estado", JoinType.LEFT);
+        rootColonia.join("municipio", JoinType.LEFT);
+        rootColonia.join("codigoPostal", JoinType.LEFT);
+        
+        cq.select(rootColonia).where();
+        
         return criteria;
     }
     
