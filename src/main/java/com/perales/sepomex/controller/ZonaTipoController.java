@@ -43,9 +43,4 @@ public class ZonaTipoController implements ControllerGeneric<ZonaTipo, Integer>{
     public ZonaTipo borrar(@PathVariable Integer id) {
         return zonaTipoService.borrar(id);
     }
-    
-    @GetMapping(value = "/name/{name}")
-    public List<ZonaTipo> searchByName(@PathVariable String name) {
-        return zonaTipoService.searchByName(name);
-    }
 }

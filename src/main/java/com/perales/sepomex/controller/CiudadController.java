@@ -43,9 +43,4 @@ public class CiudadController implements ControllerGeneric<Ciudad, Integer> {
     public Ciudad borrar(@PathVariable Integer id) {
         return ciudadService.borrar(id);
     }
-    
-    @GetMapping(value = "/name/{name}")
-    public List<Ciudad> searchByName(@PathVariable String name) {
-        return ciudadService.searchByName(name);
-    }
 }

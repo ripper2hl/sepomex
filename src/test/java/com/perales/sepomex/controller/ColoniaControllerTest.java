@@ -16,6 +16,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -23,7 +25,8 @@ import java.util.logging.Logger;
 
 import static org.hamcrest.Matchers.hasKey;
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(classes = AppTestConfig.class)
@@ -139,16 +142,18 @@ public class ColoniaControllerTest {
     
     @Test
     public void cargaMasiva() throws Exception {
-        MockMultipartFile multipartFile = new MockMultipartFile("file", "test.txt",
-                "text/plain", sepomexText.getBytes());
-    
-        StringBuilder sb = new StringBuilder(API_URL);
-        sb.append("carga");
-        ResultActions response = mockMvc.perform(fileUpload(sb.toString())
-                .file(multipartFile));
+        MockMultipartFile multipartFile = new MockMultipartFile(
+                "file",            // nombre del parámetro del archivo
+                "test.txt",        // nombre del archivo original
+                MediaType.TEXT_PLAIN_VALUE, // tipo de contenido
+                sepomexText.getBytes() // contenido del archivo
+        );
 
-        logger.info( response.andReturn().getResponse().getContentAsString() );
-        response.andExpect( status().is2xxSuccessful() );
+        String endpoint = API_URL + "carga";
+        mockMvc.perform(MockMvcRequestBuilders.multipart(endpoint)
+                        .file(multipartFile))
+                .andDo(MockMvcResultHandlers.print()) // para imprimir la respuesta en el log
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
     }
     
     @Test

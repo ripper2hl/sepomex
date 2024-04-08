@@ -4,17 +4,13 @@ import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.InegiClaveMunicipio;
 import com.perales.sepomex.repository.InegiClaveMunicipioRepository;
 import org.apache.lucene.search.Query;
-import org.hibernate.search.jpa.FullTextEntityManager;
-import org.hibernate.search.jpa.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import jakarta.persistence.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -59,31 +55,5 @@ public class InegiClaveMunicipioService implements ServiceGeneric<InegiClaveMuni
     @Transactional(readOnly = true)
     public InegiClaveMunicipio findFirstByNombre(String nombre) {
         return inegiClaveMunicipioRepository.findFirstByNombre(nombre);
-    }
-    
-    public List<InegiClaveMunicipio> searchByName(String nombre){
-        FullTextEntityManager fullTextEntityManager
-                = Search.getFullTextEntityManager( em );
-        QueryBuilder queryBuilder = fullTextEntityManager.getSearchFactory()
-                .buildQueryBuilder()
-                .forEntity(InegiClaveMunicipio.class)
-                .get();
-    
-        Query fuzzyQuery = queryBuilder
-                .keyword()
-                .fuzzy()
-                .onField("nombre")
-                .matching( nombre)
-                .createQuery();
-    
-        org.hibernate.search.jpa.FullTextQuery jpaQuery
-                = fullTextEntityManager.createFullTextQuery(fuzzyQuery, InegiClaveMunicipio.class);
-    
-        jpaQuery.setMaxResults(100);
-        jpaQuery.limitExecutionTimeTo(1l, TimeUnit.SECONDS);
-        List lista = jpaQuery.getResultList();
-        fullTextEntityManager.close();
-        em.close();
-        return lista;
     }
 }

@@ -47,9 +47,4 @@ public class CodigoPostalController implements ControllerGeneric<CodigoPostal, I
     public CodigoPostal borrar(@PathVariable Integer id) {
         return codigoPostalService.borrar(id.longValue());
     }
-    
-    @GetMapping(value = "/name/{name}")
-    public List<CodigoPostal> searchByName(@PathVariable String name) {
-        return codigoPostalService.searchByName(name);
-    }
 }

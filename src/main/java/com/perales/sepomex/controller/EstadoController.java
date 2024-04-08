@@ -43,9 +43,5 @@ public class EstadoController implements ControllerGeneric<Estado, Integer>{
     public Estado borrar(@PathVariable Integer id) {
         return estadoService.borrar(id);
     }
-    
-    @GetMapping(value = "/name/{name}")
-    public List<Estado> searchByName(@PathVariable String name) {
-        return estadoService.searchByName(name);
-    }
+
 }

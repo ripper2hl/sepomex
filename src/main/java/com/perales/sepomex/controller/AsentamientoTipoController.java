@@ -42,9 +42,4 @@ public class AsentamientoTipoController implements ControllerGeneric<Asentamient
     public AsentamientoTipo borrar( @PathVariable Integer id) {
         return asentamientoTipoService.borrar(id);
     }
-    
-    @GetMapping(value = "/name/{name}")
-    public List<AsentamientoTipo> searchByName(@PathVariable String name) {
-        return asentamientoTipoService.searchByName(name);
-    }
 }

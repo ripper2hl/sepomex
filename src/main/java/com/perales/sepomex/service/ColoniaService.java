@@ -5,14 +5,10 @@ import com.perales.sepomex.contract.ServiceGeneric;
 import com.perales.sepomex.model.*;
 import com.perales.sepomex.repository.*;
 import com.perales.sepomex.util.Parser;
+import jakarta.persistence.criteria.*;
 import lombok.extern.log4j.Log4j2;
-import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
-import org.hibernate.Session;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.search.engine.search.query.SearchQuery;
-import org.hibernate.search.jpa.FullTextEntityManager;
+
 import org.hibernate.search.mapper.orm.Search;
 import org.hibernate.search.mapper.orm.session.SearchSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Root;
+import jakarta.persistence.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -412,45 +401,32 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
                 .where( f -> f.match()
                         .fields( "nombre" )
                         .matching( colonia.getNombre() ));
-        javax.persistence.TypedQuery<Colonia> jpaQuery = Search.toJpaQuery( searchQuery );
+        jakarta.persistence.TypedQuery<Colonia> jpaQuery = Search.toJpaQuery( searchQuery );
         org.hibernate.query.Query<Colonia> ormQuery = Search.toOrmQuery( searchQuery );
         return null;
     }
-    
-    @SuppressWarnings("deprecated")
-    private Criteria createCriteriaSearch(Colonia colonia){
-        Session session = (Session) em.getDelegate();
-        session.setDefaultReadOnly(true);
-        Criteria criteria = session.createCriteria(Colonia.class);
-        criteria.setFetchMode("estado", FetchMode.JOIN);
-        criteria.setFetchMode("municipio", FetchMode.JOIN);
-        criteria.setFetchMode("codigoPostal", FetchMode.JOIN);
-        
-        if(colonia.getEstado() != null ){
-            criteria.add( Restrictions.eq( "estado.id", colonia.getEstado().getId() ) );
-        }
-        if(colonia.getMunicipio() != null ){
-            criteria.add( Restrictions.eq( "municipio.id", colonia.getMunicipio().getId() ) );
-        }
 
+    private CriteriaQuery<Colonia> createCriteriaSearch(Colonia colonia) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Colonia> cq = cb.createQuery(Colonia.class);
+        Root<Colonia> root = cq.from(Colonia.class);
 
-        Root<Colonia> rootColonia = cq.from(Colonia.class);
-        rootColonia.join("estado", JoinType.LEFT);
-        rootColonia.join("municipio", JoinType.LEFT);
-        rootColonia.join("codigoPostal", JoinType.LEFT);
+        // Joins for associations
+        Join<Colonia, Estado> estadoJoin = root.join("estado", JoinType.LEFT);
+        Join<Colonia, Municipio> municipioJoin = root.join("municipio", JoinType.LEFT);
+        Join<Colonia, CodigoPostal> codigoPostalJoin = root.join("codigoPostal", JoinType.LEFT);
 
-        cq.select(rootColonia).where();
+        // Filters for search criteria
+        List<Predicate> predicates = new ArrayList<>();
+        if (colonia.getEstado() != null) {
+            predicates.add(cb.equal(estadoJoin.get("id"), colonia.getEstado().getId()));
+        }
+        if (colonia.getMunicipio() != null) {
+            predicates.add(cb.equal(municipioJoin.get("id"), colonia.getMunicipio().getId()));
+        }
+        cq.where(predicates.toArray(new Predicate[0]));
 
-        return criteria;
-    }
-    
-    public int createCriteriaSearchCount(Colonia colonia){
-        Criteria criteria = createCriteriaSearch(colonia);
-        criteria.setProjection(Projections.rowCount());
-        Long count = (Long)criteria.uniqueResult();
-        return count.intValue();
+        return cq;
     }
 
     // Método para buscar estados y municipios pre-cargados

@@ -43,9 +43,5 @@ public class InegiClaveMunicipioController implements ControllerGeneric<InegiCla
     public InegiClaveMunicipio borrar(@PathVariable Integer id) {
         return inegiClaveMunicipioService.borrar(id);
     }
-    
-    @GetMapping(value = "/name/{name}")
-    public List<InegiClaveMunicipio> searchByName(@PathVariable String name) {
-        return inegiClaveMunicipioService.searchByName(name);
-    }
+
 }

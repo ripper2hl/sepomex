@@ -47,9 +47,4 @@ public class MunicipioController implements ControllerGeneric<Municipio, Integer
     public Page<Municipio> findByEstadoId( @PathVariable Integer id, @RequestParam int page, @RequestParam int size) {
         return municipioService.findByEstadoId(id, page, size);
     }
-    
-    @GetMapping(value = "/name/{name}")
-    public List<Municipio> searchByName(@PathVariable String name) {
-        return municipioService.searchByName(name);
-    }
 }

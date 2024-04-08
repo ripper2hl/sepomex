@@ -3,16 +3,15 @@ package com.perales.sepomex.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.search.annotations.Analyzer;
-import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
-import org.hibernate.search.annotations.Store;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
-import javax.persistence.*;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -40,10 +39,9 @@ public class Municipio implements Serializable {
     )
     @Column(name = "id")
     private Integer id;
-    
 
-    @Field(store = Store.YES)
-    @Field(name = "municipioEs_beginEnd", store = Store.YES, analyzer = @Analyzer(definition = "es_beginEnd"))
+
+    @FullTextField(analyzer = "es_beginEnd")
     @NotNull
     @NotBlank
     @Column(name = "nombre", nullable = false)
