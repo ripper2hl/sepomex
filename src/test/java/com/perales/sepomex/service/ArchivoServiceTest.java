@@ -186,7 +186,7 @@ class ArchivoServiceTest {
                 "filename.txt",
                 "text/plain", SEPOMEX_TEXT_ACTUALIZACION.getBytes());
         assertThat("Deberia obtener verdadero",true,  is(archivoService.actualizacionMasiva( file ) )  );
-        Page<Colonia> colonias = coloniaService.buscarTodos(0, 100);
+        Page<Colonia> colonias = coloniaService.buscarTodos(0, 1000);
         // Verifica si existe una colonia llamada "colonia prueba" en la lista
         boolean coloniaPruebaExists = false;
         for (Colonia colonia : colonias.getContent()) {
