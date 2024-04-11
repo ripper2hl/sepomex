@@ -320,6 +320,7 @@ public class ArchivoService implements ServiceGeneric<Archivo, Integer> {
             if( ciudades.contains( ciudad ) ) {
                 ciudad = ciudades.get( ciudades.indexOf( ciudad ) );
                 colonia.setCiudad(ciudad);
+                colonia.getMunicipio().setCiudad(ciudad);
                 codigoPostal.setCiudad( ciudad);
                 codigoPostalAdministracionAsentamiento.setCiudad( ciudad );
                 codigoPostalAdministracionAsentamientoOficina.setCiudad( ciudad );
@@ -327,6 +328,7 @@ public class ArchivoService implements ServiceGeneric<Archivo, Integer> {
                 colonia.getCiudad().setEstado(estado);
                 em.persist(colonia.getCiudad());
                 ciudades.add( colonia.getCiudad() );
+                colonia.getMunicipio().setCiudad(colonia.getCiudad());
                 codigoPostal.setCiudad(colonia.getCiudad());
                 codigoPostalAdministracionAsentamiento.setCiudad( colonia.getCiudad() );
                 codigoPostalAdministracionAsentamientoOficina.setCiudad( colonia.getCiudad() );

@@ -72,8 +72,10 @@ public class Parser {
             colonia.setMunicipio(obtenerMunicipio(lista));
             colonia.setEstado(obtenerEstado(lista));
             colonia.setZonaTipo(obtenerZonaTipo(lista));
-    
-            colonia.getCiudad().setEstado(colonia.getEstado());
+            // Las colonias pueden ser rurales y no tener ciudad
+            if(colonia.getCiudad() != null){
+                colonia.getCiudad().setEstado(colonia.getEstado());
+            }
             colonia.getMunicipio().setEstado(colonia.getEstado());
             colonia.setIdentificadorMunicipal(lista.get(ASENTAMIENTO_IDENTIFICADOR_MUNICIPAL_POSICION));
         }
@@ -88,8 +90,12 @@ public class Parser {
     }
 
     public Ciudad obtenerCiudad(List<String> lista) {
-        Ciudad ciudad = new Ciudad();
-        ciudad.setNombre(lista.get(CIUDAD_NOMBRE_POSICION));
+        Ciudad ciudad = null;
+        String ciudadNombre = lista.get(CIUDAD_NOMBRE_POSICION);
+        if(!ciudadNombre.isEmpty() || !ciudadNombre.isBlank()){
+            ciudad = new Ciudad();
+            ciudad.setNombre(ciudadNombre);
+        }
         return ciudad;
     }
 
