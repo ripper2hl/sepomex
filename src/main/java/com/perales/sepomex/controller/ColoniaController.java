@@ -51,28 +51,12 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer>{
     public Colonia borrar(@PathVariable Integer id) {
         return coloniaService.borrar(id.longValue());
     }
-    
-    @PostMapping(value = "/carga", produces = "application/json; charset=UTF-8", consumes = "multipart/form-data;charset=UTF-8")
-    public boolean cargaMasiva( @RequestPart("file") MultipartFile file ) throws IOException {
-        return coloniaService.cargaMasiva( file );
-    }
 
-    @PatchMapping(value = "/actualizacion", produces = "application/json; charset=UTF-8", consumes = "multipart/form-data;charset=UTF-8")
-    public boolean actualizacionMasiva( @RequestPart("file") MultipartFile file ) throws IOException {
-        return coloniaService.actualizacionMasiva( file );
-    }
-    
     @GetMapping(value = "/municipio/{id}", params = {"page", "size"}, produces = "application/json")
     public Page<Colonia> findByEstadoId(@PathVariable Integer id, @RequestParam int page, @RequestParam int size) {
         return coloniaService.findByMunicipioId(id, page, size);
     }
-    
-    @GetMapping(value = "/index")
-    public Boolean index() throws InterruptedException {
-        coloniaService.indexDb();
-        return true;
-    }
-    
+
     @GetMapping(value = "/search")
     public List<Colonia> search(Colonia colonia) {
         return coloniaService.search(colonia);
