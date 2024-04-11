@@ -197,7 +197,7 @@ class ArchivoServiceTest {
         }
 
         // Verifica si la colonia "colonia prueba" existe después de la actualización masiva
-        assertThat("Debería existir una colonia llamada 'colonia prueba'", coloniaPruebaExists, is(true));
+        assertThat("Debería existir una colonia llamada 'colonia Altavistaaa'", coloniaPruebaExists, is(true));
     }
 
 }
