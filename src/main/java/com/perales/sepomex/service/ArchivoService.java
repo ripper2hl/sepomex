@@ -178,7 +178,7 @@ public class ArchivoService implements ServiceGeneric<Archivo, Integer> {
             this.zonaTipos = zonaTipoRepository.findAll();
             Iterables.partition(colonias, 10000).forEach(coloniasBatch -> {
                 em.getTransaction().begin();
-                coloniasBatch.stream().parallel().forEach(colonia -> {
+                coloniasBatch.forEach(colonia -> {
                     try {
                         // Verificar si la colonia ya existe en la base de datos
                         Colonia existingColonia = buscarColonia(colonia);
@@ -197,6 +197,8 @@ public class ArchivoService implements ServiceGeneric<Archivo, Integer> {
                 double porcentaje = ((double) coloniasProcesadas.get() / totalColonias) * 100;
                 log.info("Porcentaje de colonias procesadas: " + porcentaje + "%");
             });
+        } catch (Exception e){
+            e.printStackTrace();
         } finally {
             em.close();
             this.asentamientosTipos = null;

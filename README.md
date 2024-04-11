@@ -102,4 +102,4 @@ docker push gcr.io/clever-hangar-286504/sepomex-api
 
 ### Curl para actualizar
 
-curl -X 'PATCH'   'http://localhost:8080/v1/colonia/actualizacion'   -H 'accept: application/json;charset=UTF-8'   -H 'Content-Type: multipart/form-data;charset=UTF-8' -F 'file=@archivo.txt'
+curl -X 'POST'   'http://localhost:8080/v1/archivo/actualizacion'   -H 'accept: application/json;charset=UTF-8'   -H 'Content-Type: multipart/form-data;charset=UTF-8' -F 'file=@src/test/resources/sepomex.txt'
