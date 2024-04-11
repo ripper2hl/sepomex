@@ -22,6 +22,7 @@ import java.util.NoSuchElementException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNull.notNullValue;
+import static org.junit.Assert.assertTrue;
 
 @SpringBootTest(classes = AppTestConfig.class)
 @WebAppConfiguration
@@ -109,4 +110,11 @@ class ArchivoServiceTest {
         NoSuchElementException exception = Assertions.assertThrows( NoSuchElementException.class, () -> archivoService.buscarPorId( archivoId ) );
         assertThat("Debe lanzar la un NoSuchElementException ", exception, is( notNullValue() ) );
     }
+
+    @Test
+    void procesarArchivo() {
+        boolean result = archivoService.procesarArchivo();
+        assertTrue(result);
+    }
+
 }

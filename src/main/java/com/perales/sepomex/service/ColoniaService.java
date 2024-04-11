@@ -61,6 +61,9 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     private ColoniaRepository coloniaRepository;
 
     @Autowired
+    private ArchivoService archivoService;
+
+    @Autowired
     private CiudadRepository ciudadRepository;
 
     @Autowired
@@ -131,9 +134,6 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
         coloniaRepository.delete(colonia);
         return colonia;
     }
-
-    @Autowired
-    private ArchivoService archivoService;
 
     public Boolean cargaMasiva(MultipartFile file) throws IOException {
         EntityManager em = emf.createEntityManager();
