@@ -13,7 +13,7 @@ public class Archivo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private LocalDateTime fechaCarga;
 
@@ -25,18 +25,18 @@ public class Archivo {
     }
 
     // Constructor con todos los atributos
-    public Archivo(int id, LocalDateTime fechaCarga, String contenido) {
+    public Archivo(Integer id, LocalDateTime fechaCarga, String contenido) {
         this.id = id;
         this.fechaCarga = fechaCarga;
         this.contenido = contenido;
     }
 
     // Getters y setters
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

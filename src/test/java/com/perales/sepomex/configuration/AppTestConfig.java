@@ -67,9 +67,9 @@ public class AppTestConfig{
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.hbm2ddl.auto", "create-drop");
-        properties.put("hibernate.jdbc.batch_size", "25");
-        properties.put("hibernate.order_inserts", "true");
-        properties.put("hibernate.order_updates", "true");
+        properties.put("hibernate.jdbc.batch_size", "50000");
+        properties.put("hibernate.order_inserts", "false");
+        properties.put("hibernate.order_updates", "false");
         properties.put("hibernate.search.default.directory_provider", "filesystem");
         properties.put("hibernate.search.default.indexBase", "/tmp/sepomex-indices/");
         return properties;
