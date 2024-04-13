@@ -315,26 +315,6 @@ public class ArchivoService implements ServiceGeneric<Archivo, Integer> {
             codigoPostalAdministracionAsentamientoOficina.setEstado( estado );
         }
 
-        if(colonia.getCiudad() != null && estado != null){
-            Ciudad ciudad = colonia.getCiudad();
-            if( ciudades.contains( ciudad ) ) {
-                ciudad = ciudades.get( ciudades.indexOf( ciudad ) );
-                colonia.setCiudad(ciudad);
-                colonia.getMunicipio().setCiudad(ciudad);
-                codigoPostal.setCiudad( ciudad);
-                codigoPostalAdministracionAsentamiento.setCiudad( ciudad );
-                codigoPostalAdministracionAsentamientoOficina.setCiudad( ciudad );
-            }else {
-                colonia.getCiudad().setEstado(estado);
-                em.persist(colonia.getCiudad());
-                ciudades.add( colonia.getCiudad() );
-                colonia.getMunicipio().setCiudad(colonia.getCiudad());
-                codigoPostal.setCiudad(colonia.getCiudad());
-                codigoPostalAdministracionAsentamiento.setCiudad( colonia.getCiudad() );
-                codigoPostalAdministracionAsentamientoOficina.setCiudad( colonia.getCiudad() );
-            }
-        }
-
         Municipio municipio = colonia.getMunicipio();
         if( municipios.contains( municipio ) ){
             municipio = municipios.get( municipios.indexOf( municipio ) );
@@ -349,6 +329,25 @@ public class ArchivoService implements ServiceGeneric<Archivo, Integer> {
             codigoPostal.setMunicipio( colonia.getMunicipio() );
             codigoPostalAdministracionAsentamiento.setMunicipio( colonia.getMunicipio() );
             codigoPostalAdministracionAsentamientoOficina.setMunicipio( colonia.getMunicipio() );
+        }
+
+        if(colonia.getCiudad() != null && estado != null){
+            Ciudad ciudad = colonia.getCiudad();
+            if( ciudades.contains( ciudad ) ) {
+                ciudad = ciudades.get( ciudades.indexOf( ciudad ) );
+                colonia.setCiudad(ciudad);
+                codigoPostal.setCiudad( ciudad);
+                codigoPostalAdministracionAsentamiento.setCiudad( ciudad );
+                codigoPostalAdministracionAsentamientoOficina.setCiudad( ciudad );
+            }else {
+                colonia.getCiudad().setEstado(estado);
+                colonia.getCiudad().setMunicipio(municipio);
+                em.persist(colonia.getCiudad());
+                ciudades.add( colonia.getCiudad() );
+                codigoPostal.setCiudad(colonia.getCiudad());
+                codigoPostalAdministracionAsentamiento.setCiudad( colonia.getCiudad() );
+                codigoPostalAdministracionAsentamientoOficina.setCiudad( colonia.getCiudad() );
+            }
         }
 
         ZonaTipo zonaTipo = colonia.getZonaTipo();

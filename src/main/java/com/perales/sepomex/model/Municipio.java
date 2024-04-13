@@ -52,10 +52,9 @@ public class Municipio implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id")
     private Estado estado;
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ciudad_id")
-    private Ciudad ciudad;
+
+    @OneToMany(mappedBy = "municipio", fetch = FetchType.LAZY)
+    private List<Ciudad> ciudades;
     
     @OneToMany(mappedBy = "municipio", fetch = FetchType.LAZY)
     private List<CodigoPostal> codigosPostales;

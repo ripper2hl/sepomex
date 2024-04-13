@@ -3,6 +3,5 @@
     <Municipio
             id="100" nombre="municipio"
             estado_id="100"
-            ciudad_id="100"
     />
 </dataset>
