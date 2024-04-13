@@ -18,7 +18,7 @@ import java.util.List;
 
 @Indexed
 @Data
-@EqualsAndHashCode( exclude = { "id", "estado" , "municipios", "colonias", "codigosPostales"})
+@EqualsAndHashCode( exclude = { "id", "estado" , "municipio", "colonias", "codigosPostales"})
 @NoArgsConstructor
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 @Entity(name = "ciudad")
@@ -53,12 +53,12 @@ public class Ciudad implements Serializable {
     
     @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
     private List<Colonia> colonias;
-    
-    
-    @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
-    private List<Municipio> municipios;
-    
-    
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "municipio_id")
+    private Municipio municipio;
+
     @OneToMany(mappedBy = "ciudad", fetch = FetchType.LAZY)
     private List<CodigoPostal> codigosPostales;
 }
