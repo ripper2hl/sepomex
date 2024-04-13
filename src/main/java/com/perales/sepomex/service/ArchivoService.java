@@ -142,14 +142,19 @@ public class ArchivoService implements ServiceGeneric<Archivo, Integer> {
 
     public Boolean cargaMasiva(MultipartFile file) throws IOException {
         EntityManager em = emf.createEntityManager();
+        AtomicInteger coloniasProcesadas = new AtomicInteger(0);
         try (BufferedReader br = new BufferedReader( new InputStreamReader( file.getInputStream() , "UTF-8") )) {
             List<Colonia> colonias = leerColoniaDesdeArchivo(br);
+            int totalColonias = colonias.size();
 
             Iterables.partition(colonias, 10000).forEach(coloniasBatch -> {
                 em.getTransaction().begin();
                 for(Colonia colonia : coloniasBatch){
                     try {
                         revisarColonia(colonia, em);
+                        coloniasProcesadas.incrementAndGet();
+                        double porcentaje = ((double) coloniasProcesadas.get() / totalColonias) * 100;
+                        log.info("Porcentaje de colonias procesadas: " + porcentaje + "%");
                     }catch (Exception e){
                         e.printStackTrace();
                     }
