@@ -16,7 +16,7 @@
         <hibernate.validator.version>7.0.5.Final</hibernate.validator.version>
         <jackson.version>2.17.0</jackson.version>
         <lombok.version>1.18.32</lombok.version>
-        <jsonpath.version>2.8.0</jsonpath.version>
+        <jsonpath.version>2.9.0</jsonpath.version>
         <dbunit.version>2.7.0</dbunit.version>
         <dbunit.spring.version>1.3.0</dbunit.spring.version>
         <google.guava.version>33.1.0-jre</google.guava.version>
