@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Hidden;
 
 import java.util.List;
 
@@ -27,17 +28,20 @@ public class AsentamientoTipoController implements ControllerGeneric<Asentamient
         return asentamientoTipoService.buscarTodos(page,size);
     }
 
+    @Hidden
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public AsentamientoTipo guardar( @RequestBody AsentamientoTipo entity) {
         return asentamientoTipoService.guardar(entity);
     }
 
+    @Hidden
     @PutMapping
     public AsentamientoTipo actualizar( @RequestBody AsentamientoTipo entity) {
         return asentamientoTipoService.actualizar(entity);
     }
     
+    @Hidden
     @DeleteMapping("/{id}")
     public AsentamientoTipo borrar( @PathVariable Integer id) {
         return asentamientoTipoService.borrar(id);

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Hidden;
 
 import java.util.List;
 
@@ -29,16 +30,19 @@ public class InegiClaveCiudadController implements ControllerGeneric<InegiClaveC
     }
 
     @PostMapping
+@Hidden
     @ResponseStatus(HttpStatus.CREATED)
     public InegiClaveCiudad guardar(@Validated @RequestBody InegiClaveCiudad entity) {
         return inegiClaveCiudadService.guardar(entity);
     }
 
+    @Hidden
     @PutMapping
     public InegiClaveCiudad actualizar(@Validated @RequestBody InegiClaveCiudad entity) {
         return inegiClaveCiudadService.actualizar(entity);
     }
 
+    @Hidden
     @DeleteMapping("/{id}")
     public InegiClaveCiudad borrar(@PathVariable Integer id) {
         return inegiClaveCiudadService.borrar(id);

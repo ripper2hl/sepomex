@@ -3,6 +3,7 @@ package com.perales.sepomex.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -20,15 +21,17 @@ import java.util.List;
 
 @Indexed
 @Data
-@EqualsAndHashCode( exclude = { "id", "colonias", "codigosPostales"})
+@EqualsAndHashCode(exclude = {"id", "colonias", "codigosPostales"})
 @NoArgsConstructor
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-@ToString(exclude = {"estado","ciudad", "colonias", "codigosPostales"})
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+@ToString(exclude = {"estado", "ciudad", "colonias", "codigosPostales"})
 @Entity(name = "municipio")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Schema(description = "Representa un municipio con información básica.")
 public class Municipio implements Serializable {
-    
+
     private static final long serialVersionUID = 390174828643611176L;
+
     @Id
     @GeneratedValue(
             generator = "sequence_municipio",
@@ -39,26 +42,32 @@ public class Municipio implements Serializable {
             allocationSize = 10
     )
     @Column(name = "id")
+    @Schema(description = "ID único del municipio", example = "983")
     private Integer id;
-    
+
     @Analyzer(definition = "es")
     @Field(store = Store.YES)
     @Field(name = "municipioEs_beginEnd", store = Store.YES, analyzer = @Analyzer(definition = "es_beginEnd"))
     @NotNull
     @NotBlank
     @Column(name = "nombre", nullable = false)
+    @Schema(description = "Nombre del municipio", example = "Guadalupe")
     private String nombre;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id")
+    @Schema(hidden = true)
     private Estado estado;
 
     @OneToMany(mappedBy = "municipio", fetch = FetchType.LAZY)
+    @Schema(hidden = true) // Oculta este campo en la documentación de Swagger
     private List<Ciudad> ciudades;
-    
+
     @OneToMany(mappedBy = "municipio", fetch = FetchType.LAZY)
+    @Schema(hidden = true) // Oculta este campo en la documentación de Swagger
     private List<CodigoPostal> codigosPostales;
-    
+
     @OneToMany(mappedBy = "municipio", fetch = FetchType.LAZY)
+    @Schema(hidden = true) // Oculta este campo en la documentación de Swagger
     private List<Colonia> colonias;
 }

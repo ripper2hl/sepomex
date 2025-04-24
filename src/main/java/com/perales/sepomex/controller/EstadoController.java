@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Hidden;
 
 import java.util.List;
 
@@ -29,16 +30,19 @@ public class EstadoController implements ControllerGeneric<Estado, Integer>{
     }
 
     @PostMapping
+@Hidden
     @ResponseStatus(HttpStatus.CREATED)
     public Estado guardar(@Validated @RequestBody Estado entity) {
         return estadoService.guardar(entity);
     }
 
+    @Hidden
     @PutMapping
     public Estado actualizar(@Validated @RequestBody Estado entity) {
         return estadoService.actualizar(entity);
     }
 
+    @Hidden
     @DeleteMapping("/{id}")
     public Estado borrar(@PathVariable Integer id) {
         return estadoService.borrar(id);

@@ -33,9 +33,9 @@ cd sepomex
 
 git checkout -b dev origin/dev
 
-docker-compose pull db
+docker compose pull db
 
-docker-compose up -d db
+docker compose up -d db
 
 export spring_profiles_active=local
 

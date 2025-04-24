@@ -3,6 +3,8 @@ package com.perales.sepomex.model;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -50,9 +52,11 @@ import java.io.Serializable;
     })
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+@Schema(description = "Representa una colonia con información básica.")
 public class Colonia implements Serializable {
     
     private static final long serialVersionUID = 7622719610604643048L;
+    
     @Id
     @GeneratedValue(
             generator = "sequence_colonia",
@@ -63,6 +67,7 @@ public class Colonia implements Serializable {
             allocationSize = 10
     )
     @Column(name = "id")
+    @Schema(description = "ID único de la colonia", example = "88724")
     private Long id;
     
 
@@ -72,14 +77,17 @@ public class Colonia implements Serializable {
     @NotNull
     @NotBlank
     @Column(name = "nombre", nullable = false)
+    @Schema(description = "Nombre de la colonia", example = "Cañada Blanca")
     private String nombre;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "estado_id")
+    @Schema(description = "Estado al que pertenece la colonia")
     private Estado estado;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "municipio_id")
+    @Schema(description = "Municipio al que pertenece la colonia")
     private Municipio municipio;
     
     @ManyToOne(fetch = FetchType.LAZY)
@@ -88,34 +96,42 @@ public class Colonia implements Serializable {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "codigo_postal_id")
+    @Schema(description = "Código postal asociado a la colonia")
     private CodigoPostal codigoPostal;
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @Schema(hidden = true)
     @JoinColumn(name = "codigo_postal_administracion_asentamiento_id")
     private CodigoPostal codigoPostalAdministracionAsentamiento;
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @Schema(hidden = true)
     @JoinColumn(name = "codigo_postal_administracion_asentamiento_oficina_id")
     private CodigoPostal codigoPostalAdministracionAsentamientoOficina;
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @Schema(hidden = true)
     @JoinColumn(name = "inegi_clave_ciudad_id")
     private InegiClaveCiudad inegiClaveCiudad;
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @Schema(hidden = true)
     @JoinColumn(name = "inegi_clave_municipio_id")
     private InegiClaveMunicipio inegiClaveMunicipio;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "asentamiento_tipo_id")
+    @Schema(hidden = true)
     private AsentamientoTipo asentamientoTipo;
     
     @ManyToOne(fetch = FetchType.LAZY)
+    @Schema(hidden = true)
     @JoinColumn(name = "zona_tipo_id")
     private ZonaTipo zonaTipo;
     
     @NotNull
     @NotBlank
     @Column(name = "identificador_municipal", nullable = false)
+    @Schema(hidden = true)
     private String identificadorMunicipal;
 }

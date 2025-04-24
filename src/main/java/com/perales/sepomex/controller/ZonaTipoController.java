@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Hidden;
 
 import java.util.List;
 
@@ -29,16 +30,19 @@ public class ZonaTipoController implements ControllerGeneric<ZonaTipo, Integer>{
     }
 
     @PostMapping
+@Hidden
     @ResponseStatus(HttpStatus.CREATED)
     public ZonaTipo guardar(@Validated @RequestBody ZonaTipo entity) {
         return zonaTipoService.guardar(entity);
     }
 
+    @Hidden
     @PutMapping
     public ZonaTipo actualizar(@Validated @RequestBody ZonaTipo entity) {
         return zonaTipoService.actualizar(entity);
     }
 
+    @Hidden
     @DeleteMapping("/{id}")
     public ZonaTipo borrar(@PathVariable Integer id) {
         return zonaTipoService.borrar(id);

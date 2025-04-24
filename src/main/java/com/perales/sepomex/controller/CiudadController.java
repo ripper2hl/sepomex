@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Hidden;
 
 import java.util.List;
 
@@ -29,16 +30,19 @@ public class CiudadController implements ControllerGeneric<Ciudad, Integer> {
     }
     
     @PostMapping
+@Hidden
     @ResponseStatus(HttpStatus.CREATED)
     public Ciudad guardar(@Validated @RequestBody Ciudad entity) {
         return ciudadService.guardar(entity);
     }
     
+    @Hidden
     @PutMapping
     public Ciudad actualizar(@Validated @RequestBody Ciudad entity) {
         return ciudadService.actualizar(entity);
     }
-    
+
+    @Hidden
     @DeleteMapping("/{id}")
     public Ciudad borrar(@PathVariable Integer id) {
         return ciudadService.borrar(id);
