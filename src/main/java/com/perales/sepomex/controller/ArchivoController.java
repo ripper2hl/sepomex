@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Hidden;
 import java.io.IOException;
 import java.util.List;
 
+@Hidden
 @RestController
 @RequestMapping("v1/archivo/")
 public class ArchivoController implements ControllerGeneric<Archivo, Integer>{

@@ -7,7 +7,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import io.swagger.v3.oas.annotations.Hidden;
 
+@Hidden
 @Entity(name = "archivo")
 public class Archivo {
 
