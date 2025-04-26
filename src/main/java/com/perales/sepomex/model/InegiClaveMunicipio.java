@@ -1,6 +1,7 @@
 package com.perales.sepomex.model;
 
 import com.fasterxml.jackson.annotation.*;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -16,14 +17,16 @@ import java.util.List;
 
 @Indexed
 @Data
-@EqualsAndHashCode( exclude = { "id", "colonias"})
+@EqualsAndHashCode(exclude = {"id", "colonias"})
 @NoArgsConstructor
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 @Entity(name = "inegi_clave_municipio")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Schema(description = "Representa una clave INEGI asociada a un municipio.")
 public class InegiClaveMunicipio implements Serializable {
-    
+
     private static final long serialVersionUID = -5384242619053470621L;
+
     @Id
     @GeneratedValue(
             generator = "sequence_inegi_clave_municipio",
@@ -34,14 +37,17 @@ public class InegiClaveMunicipio implements Serializable {
             allocationSize = 10
     )
     @Column(name = "id")
+    @Schema(description = "ID único de la clave INEGI del municipio", example = "1")
     private Integer id;
-    
+
     @Field(termVector = TermVector.YES)
     @NotNull
     @NotBlank
     @Column(name = "nombre", nullable = false)
+    @Schema(description = "Nombre de la clave INEGI del municipio", example = "010")
     private String nombre;
-    
+
     @OneToMany(mappedBy = "inegiClaveMunicipio", fetch = FetchType.LAZY)
+    @Schema(hidden = true) // Oculta esta relación en la documentación de Swagger
     private List<Colonia> colonias;
 }
