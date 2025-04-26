@@ -33,7 +33,8 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer> {
     @GetMapping("/{id}")
     @io.swagger.v3.oas.annotations.Operation(
         summary = "Buscar colonia por ID",
-        description = "Obtiene los detalles de una colonia específica utilizando su ID."
+        description = "Obtiene los detalles de una colonia específica utilizando su ID.",
+        operationId = "buscarPorIdColonia"
     )
     public Colonia buscarPorId(@PathVariable Integer id) {
         return coloniaService.buscarPorId(id.longValue());
@@ -42,7 +43,8 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer> {
     @GetMapping(params = {"page", "size"})
     @io.swagger.v3.oas.annotations.Operation(
         summary = "Listar todas las colonias",
-        description = "Obtiene una lista paginada de todas las colonias disponibles."
+        description = "Obtiene una lista paginada de todas las colonias disponibles.",
+        operationId = "buscarTodosColonia"
     )
     public Page<Colonia> buscarTodos(
             @Parameter(description = "Número de página", example = "0", schema = @Schema(defaultValue = "0"))
@@ -74,9 +76,10 @@ public class ColoniaController implements ControllerGeneric<Colonia, Integer> {
     @GetMapping(value = "/municipio/{id}", params = {"page", "size"}, produces = "application/json")
     @io.swagger.v3.oas.annotations.Operation(
         summary = "Buscar colonias por municipio",
-        description = "Obtiene una lista paginada de colonias asociadas a un municipio específico."
+        description = "Obtiene una lista paginada de colonias asociadas a un municipio específico.",
+        operationId = "buscarColoniasPorMunicipio"
     )
-    public Page<Colonia> findByEstadoId(
+    public Page<Colonia> findByMunicipioId(
             @PathVariable Integer id,
             @Parameter(description = "Número de página", example = "0", schema = @Schema(defaultValue = "0"))
             @RequestParam int page,

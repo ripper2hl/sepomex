@@ -1,0 +1,1826 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+      "title": "OpenAPI definition",
+      "version": "v0"
+  },
+  "servers": [
+      {
+          "url": "https://secondly-just-dove.ngrok-free.app",
+          "description": "Generated server url"
+      }
+  ],
+  "tags": [
+      {
+          "name": "Colonia API",
+          "description": "Endpoints para consultar información de colonias y códigos postales"
+      }
+  ],
+  "paths": {
+      "/v1/zonatipo/{id}": {
+          "get": {
+              "tags": [
+                  "zona-tipo-controller"
+              ],
+              "operationId": "buscarPorId",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/ZonaTipo"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/zonatipo/name/{name}": {
+          "get": {
+              "tags": [
+                  "zona-tipo-controller"
+              ],
+              "operationId": "searchByName",
+              "parameters": [
+                  {
+                      "name": "name",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/ZonaTipo"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/zonatipo/": {
+          "get": {
+              "tags": [
+                  "zona-tipo-controller"
+              ],
+              "operationId": "buscarTodos",
+              "parameters": [
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  },
+                  {
+                      "name": "size",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PageZonaTipo"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/municipio/{id}": {
+          "get": {
+              "tags": [
+                  "municipio-controller"
+              ],
+              "operationId": "buscarPorId_1",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/Municipio"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/municipio/name/{name}": {
+          "get": {
+              "tags": [
+                  "municipio-controller"
+              ],
+              "operationId": "searchByName_1",
+              "parameters": [
+                  {
+                      "name": "name",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/Municipio"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/municipio/estado/{id}": {
+          "get": {
+              "tags": [
+                  "municipio-controller"
+              ],
+              "operationId": "findByEstadoId",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  },
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  },
+                  {
+                      "name": "size",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PageMunicipio"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/municipio/": {
+          "get": {
+              "tags": [
+                  "municipio-controller"
+              ],
+              "operationId": "buscarTodos_1",
+              "parameters": [
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  },
+                  {
+                      "name": "size",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PageMunicipio"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/inegiclavemunicipio/{id}": {
+          "get": {
+              "tags": [
+                  "inegi-clave-municipio-controller"
+              ],
+              "operationId": "buscarPorId_2",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/InegiClaveMunicipio"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/inegiclavemunicipio/name/{name}": {
+          "get": {
+              "tags": [
+                  "inegi-clave-municipio-controller"
+              ],
+              "operationId": "searchByName_2",
+              "parameters": [
+                  {
+                      "name": "name",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/InegiClaveMunicipio"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/inegiclavemunicipio/": {
+          "get": {
+              "tags": [
+                  "inegi-clave-municipio-controller"
+              ],
+              "operationId": "buscarTodos_2",
+              "parameters": [
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  },
+                  {
+                      "name": "size",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PageInegiClaveMunicipio"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/inegiclaveciudad/{id}": {
+          "get": {
+              "tags": [
+                  "inegi-clave-ciudad-controller"
+              ],
+              "operationId": "buscarPorId_3",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/InegiClaveCiudad"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/inegiclaveciudad/name/{name}": {
+          "get": {
+              "tags": [
+                  "inegi-clave-ciudad-controller"
+              ],
+              "operationId": "searchByName_3",
+              "parameters": [
+                  {
+                      "name": "name",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/InegiClaveCiudad"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/inegiclaveciudad/": {
+          "get": {
+              "tags": [
+                  "inegi-clave-ciudad-controller"
+              ],
+              "operationId": "buscarTodos_3",
+              "parameters": [
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  },
+                  {
+                      "name": "size",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PageInegiClaveCiudad"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/estado/{id}": {
+          "get": {
+              "tags": [
+                  "estado-controller"
+              ],
+              "operationId": "buscarPorId_4",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/Estado"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/estado/name/{name}": {
+          "get": {
+              "tags": [
+                  "estado-controller"
+              ],
+              "operationId": "searchByName_4",
+              "parameters": [
+                  {
+                      "name": "name",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/Estado"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/estado/": {
+          "get": {
+              "tags": [
+                  "estado-controller"
+              ],
+              "operationId": "buscarTodos_4",
+              "parameters": [
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  },
+                  {
+                      "name": "size",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PageEstado"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/colonia/{id}": {
+          "get": {
+              "tags": [
+                  "Colonia API"
+              ],
+              "summary": "Buscar colonia por ID",
+              "description": "Obtiene los detalles de una colonia específica utilizando su ID.",
+              "operationId": "buscarPorId_5",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/Colonia"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/colonia/search": {
+          "get": {
+              "tags": [
+                  "Colonia API"
+              ],
+              "summary": "Buscar colonias por criterios",
+              "description": "Permite buscar colonias utilizando el nombre de la colonia. Opcionalmente, se pueden filtrar por el ID del estado y/o municipio.",
+              "operationId": "search",
+              "parameters": [
+                  {
+                      "name": "nombre",
+                      "in": "query",
+                      "description": "Nombre de la colonia a buscar",
+                      "required": true,
+                      "example": "cañada blanca",
+                      "schema": {
+                          "type": "string"
+                      }
+                  },
+                  {
+                      "name": "estado.id",
+                      "in": "query",
+                      "description": "ID del estado (opcional)",
+                      "example": 19,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  },
+                  {
+                      "name": "municipio.id",
+                      "in": "query",
+                      "description": "ID del municipio (opcional)",
+                      "example": 983,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/Colonia"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/colonia/municipio/{id}": {
+          "get": {
+              "tags": [
+                  "Colonia API"
+              ],
+              "summary": "Buscar colonias por municipio",
+              "description": "Obtiene una lista paginada de colonias asociadas a un municipio específico.",
+              "operationId": "findByEstadoId_1",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  },
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "description": "Número de página",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "default": "0"
+                      },
+                      "example": 0
+                  },
+                  {
+                      "name": "size",
+                      "in": "query",
+                      "description": "Tamaño de página",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "default": "20"
+                      },
+                      "example": 20
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PageColonia"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/colonia/codigopostal/{codigoPostal}": {
+          "get": {
+              "tags": [
+                  "Colonia API"
+              ],
+              "summary": "Buscar colonias por código postal",
+              "description": "Obtiene una lista de colonias asociadas a un código postal específico.",
+              "operationId": "buscarColoniasPorCodigoPostal",
+              "parameters": [
+                  {
+                      "name": "codigoPostal",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/Colonia"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/colonia/": {
+          "get": {
+              "tags": [
+                  "Colonia API"
+              ],
+              "summary": "Listar todas las colonias",
+              "description": "Obtiene una lista paginada de todas las colonias disponibles.",
+              "operationId": "buscarTodos_5",
+              "parameters": [
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "description": "Número de página",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "default": "0"
+                      },
+                      "example": 0
+                  },
+                  {
+                      "name": "size",
+                      "in": "query",
+                      "description": "Tamaño de página",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "default": "33"
+                      },
+                      "example": 33
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PageColonia"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/codigopostal/{id}": {
+          "get": {
+              "tags": [
+                  "codigo-postal-controller"
+              ],
+              "operationId": "buscarPorId_6",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/CodigoPostal"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/codigopostal/name/{name}": {
+          "get": {
+              "tags": [
+                  "codigo-postal-controller"
+              ],
+              "operationId": "searchByName_5",
+              "parameters": [
+                  {
+                      "name": "name",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/CodigoPostal"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/codigopostal/": {
+          "get": {
+              "tags": [
+                  "codigo-postal-controller"
+              ],
+              "operationId": "buscarTodos_6",
+              "parameters": [
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  },
+                  {
+                      "name": "size",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PageCodigoPostal"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/ciudad/{id}": {
+          "get": {
+              "tags": [
+                  "ciudad-controller"
+              ],
+              "operationId": "buscarPorId_7",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/Ciudad"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/ciudad/name/{name}": {
+          "get": {
+              "tags": [
+                  "ciudad-controller"
+              ],
+              "operationId": "searchByName_6",
+              "parameters": [
+                  {
+                      "name": "name",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/Ciudad"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/ciudad/": {
+          "get": {
+              "tags": [
+                  "ciudad-controller"
+              ],
+              "operationId": "buscarTodos_7",
+              "parameters": [
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  },
+                  {
+                      "name": "size",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PageCiudad"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/asentamientotipo/{id}": {
+          "get": {
+              "tags": [
+                  "asentamiento-tipo-controller"
+              ],
+              "operationId": "buscarPorId_8",
+              "parameters": [
+                  {
+                      "name": "id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/AsentamientoTipo"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/asentamientotipo/name/{name}": {
+          "get": {
+              "tags": [
+                  "asentamiento-tipo-controller"
+              ],
+              "operationId": "searchByName_7",
+              "parameters": [
+                  {
+                      "name": "name",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/AsentamientoTipo"
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/asentamientotipo/": {
+          "get": {
+              "tags": [
+                  "asentamiento-tipo-controller"
+              ],
+              "operationId": "buscarTodos_8",
+              "parameters": [
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  },
+                  {
+                      "name": "size",
+                      "in": "query",
+                      "required": true,
+                      "schema": {
+                          "type": "integer",
+                          "format": "int32"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "OK",
+                      "content": {
+                          "*/*": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PageAsentamientoTipo"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      }
+  },
+  "components": {
+      "schemas": {
+          "ZonaTipo": {
+              "required": [
+                  "nombre"
+              ],
+              "type": "object",
+              "properties": {
+                  "id": {
+                      "type": "integer",
+                      "description": "ID único del tipo de zona",
+                      "format": "int32",
+                      "example": 1
+                  },
+                  "nombre": {
+                      "type": "string",
+                      "description": "Nombre del tipo de zona",
+                      "example": "Urbano"
+                  }
+              },
+              "description": "Representa un tipo de zona con información básica."
+          },
+          "PageZonaTipo": {
+              "type": "object",
+              "properties": {
+                  "totalPages": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "totalElements": {
+                      "type": "integer",
+                      "format": "int64"
+                  },
+                  "pageable": {
+                      "$ref": "#/components/schemas/PageableObject"
+                  },
+                  "size": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "content": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/ZonaTipo"
+                      }
+                  },
+                  "number": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "sort": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/SortObject"
+                      }
+                  },
+                  "numberOfElements": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "first": {
+                      "type": "boolean"
+                  },
+                  "last": {
+                      "type": "boolean"
+                  },
+                  "empty": {
+                      "type": "boolean"
+                  }
+              }
+          },
+          "PageableObject": {
+              "type": "object",
+              "properties": {
+                  "pageNumber": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "pageSize": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "offset": {
+                      "type": "integer",
+                      "format": "int64"
+                  },
+                  "sort": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/SortObject"
+                      }
+                  },
+                  "paged": {
+                      "type": "boolean"
+                  },
+                  "unpaged": {
+                      "type": "boolean"
+                  }
+              }
+          },
+          "SortObject": {
+              "type": "object",
+              "properties": {
+                  "direction": {
+                      "type": "string"
+                  },
+                  "nullHandling": {
+                      "type": "string"
+                  },
+                  "ascending": {
+                      "type": "boolean"
+                  },
+                  "property": {
+                      "type": "string"
+                  },
+                  "ignoreCase": {
+                      "type": "boolean"
+                  }
+              }
+          },
+          "Municipio": {
+              "required": [
+                  "nombre"
+              ],
+              "type": "object",
+              "properties": {
+                  "id": {
+                      "type": "integer",
+                      "description": "ID único del municipio",
+                      "format": "int32",
+                      "example": 983
+                  },
+                  "nombre": {
+                      "type": "string",
+                      "description": "Nombre del municipio",
+                      "example": "Guadalupe"
+                  }
+              },
+              "description": "Representa un municipio con información básica."
+          },
+          "PageMunicipio": {
+              "type": "object",
+              "properties": {
+                  "totalPages": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "totalElements": {
+                      "type": "integer",
+                      "format": "int64"
+                  },
+                  "pageable": {
+                      "$ref": "#/components/schemas/PageableObject"
+                  },
+                  "size": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "content": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/Municipio"
+                      }
+                  },
+                  "number": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "sort": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/SortObject"
+                      }
+                  },
+                  "numberOfElements": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "first": {
+                      "type": "boolean"
+                  },
+                  "last": {
+                      "type": "boolean"
+                  },
+                  "empty": {
+                      "type": "boolean"
+                  }
+              }
+          },
+          "InegiClaveMunicipio": {
+              "required": [
+                  "nombre"
+              ],
+              "type": "object",
+              "properties": {
+                  "id": {
+                      "type": "integer",
+                      "description": "ID único de la clave INEGI del municipio",
+                      "format": "int32",
+                      "example": 1
+                  },
+                  "nombre": {
+                      "type": "string",
+                      "description": "Nombre de la clave INEGI del municipio",
+                      "example": "010"
+                  }
+              },
+              "description": "Representa una clave INEGI asociada a un municipio."
+          },
+          "PageInegiClaveMunicipio": {
+              "type": "object",
+              "properties": {
+                  "totalPages": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "totalElements": {
+                      "type": "integer",
+                      "format": "int64"
+                  },
+                  "pageable": {
+                      "$ref": "#/components/schemas/PageableObject"
+                  },
+                  "size": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "content": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/InegiClaveMunicipio"
+                      }
+                  },
+                  "number": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "sort": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/SortObject"
+                      }
+                  },
+                  "numberOfElements": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "first": {
+                      "type": "boolean"
+                  },
+                  "last": {
+                      "type": "boolean"
+                  },
+                  "empty": {
+                      "type": "boolean"
+                  }
+              }
+          },
+          "InegiClaveCiudad": {
+              "required": [
+                  "nombre"
+              ],
+              "type": "object",
+              "properties": {
+                  "id": {
+                      "type": "integer",
+                      "description": "ID único de la clave INEGI de la ciudad",
+                      "format": "int32",
+                      "example": 1
+                  },
+                  "nombre": {
+                      "type": "string",
+                      "description": "Nombre de la clave INEGI de la ciudad",
+                      "example": "01"
+                  }
+              },
+              "description": "Representa una clave INEGI asociada a una ciudad."
+          },
+          "PageInegiClaveCiudad": {
+              "type": "object",
+              "properties": {
+                  "totalPages": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "totalElements": {
+                      "type": "integer",
+                      "format": "int64"
+                  },
+                  "pageable": {
+                      "$ref": "#/components/schemas/PageableObject"
+                  },
+                  "size": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "content": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/InegiClaveCiudad"
+                      }
+                  },
+                  "number": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "sort": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/SortObject"
+                      }
+                  },
+                  "numberOfElements": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "first": {
+                      "type": "boolean"
+                  },
+                  "last": {
+                      "type": "boolean"
+                  },
+                  "empty": {
+                      "type": "boolean"
+                  }
+              }
+          },
+          "Estado": {
+              "required": [
+                  "inegiClave",
+                  "nombre"
+              ],
+              "type": "object",
+              "properties": {
+                  "id": {
+                      "type": "integer",
+                      "description": "ID único del estado",
+                      "format": "int32",
+                      "example": 19
+                  },
+                  "nombre": {
+                      "type": "string",
+                      "description": "Nombre del estado",
+                      "example": "Nuevo León"
+                  },
+                  "inegiClave": {
+                      "type": "string",
+                      "description": "Clave INEGI del estado",
+                      "example": "19"
+                  }
+              },
+              "description": "Representa un estado con información básica."
+          },
+          "PageEstado": {
+              "type": "object",
+              "properties": {
+                  "totalPages": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "totalElements": {
+                      "type": "integer",
+                      "format": "int64"
+                  },
+                  "pageable": {
+                      "$ref": "#/components/schemas/PageableObject"
+                  },
+                  "size": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "content": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/Estado"
+                      }
+                  },
+                  "number": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "sort": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/SortObject"
+                      }
+                  },
+                  "numberOfElements": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "first": {
+                      "type": "boolean"
+                  },
+                  "last": {
+                      "type": "boolean"
+                  },
+                  "empty": {
+                      "type": "boolean"
+                  }
+              }
+          },
+          "Ciudad": {
+              "required": [
+                  "nombre"
+              ],
+              "type": "object",
+              "properties": {
+                  "id": {
+                      "type": "integer",
+                      "description": "ID único de la ciudad",
+                      "format": "int32",
+                      "example": 1
+                  },
+                  "nombre": {
+                      "type": "string",
+                      "description": "Nombre de la ciudad",
+                      "example": "Monterrey"
+                  }
+              },
+              "description": "Representa una ciudad con información básica."
+          },
+          "CodigoPostal": {
+              "required": [
+                  "nombre"
+              ],
+              "type": "object",
+              "properties": {
+                  "id": {
+                      "type": "integer",
+                      "description": "ID único del código postal",
+                      "format": "int64",
+                      "example": 1
+                  },
+                  "nombre": {
+                      "type": "string",
+                      "description": "Nombre del código postal",
+                      "example": "01000"
+                  }
+              },
+              "description": "Representa un código postal con información básica."
+          },
+          "Colonia": {
+              "required": [
+                  "nombre"
+              ],
+              "type": "object",
+              "properties": {
+                  "id": {
+                      "type": "integer",
+                      "description": "ID único de la colonia",
+                      "format": "int64",
+                      "example": 88724
+                  },
+                  "nombre": {
+                      "type": "string",
+                      "description": "Nombre de la colonia",
+                      "example": "Cañada Blanca"
+                  },
+                  "estado": {
+                      "$ref": "#/components/schemas/Estado"
+                  },
+                  "municipio": {
+                      "$ref": "#/components/schemas/Municipio"
+                  },
+                  "ciudad": {
+                      "$ref": "#/components/schemas/Ciudad"
+                  },
+                  "codigoPostal": {
+                      "$ref": "#/components/schemas/CodigoPostal"
+                  }
+              },
+              "description": "Representa una colonia con información básica."
+          },
+          "PageColonia": {
+              "type": "object",
+              "properties": {
+                  "totalPages": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "totalElements": {
+                      "type": "integer",
+                      "format": "int64"
+                  },
+                  "pageable": {
+                      "$ref": "#/components/schemas/PageableObject"
+                  },
+                  "size": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "content": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/Colonia"
+                      }
+                  },
+                  "number": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "sort": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/SortObject"
+                      }
+                  },
+                  "numberOfElements": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "first": {
+                      "type": "boolean"
+                  },
+                  "last": {
+                      "type": "boolean"
+                  },
+                  "empty": {
+                      "type": "boolean"
+                  }
+              }
+          },
+          "PageCodigoPostal": {
+              "type": "object",
+              "properties": {
+                  "totalPages": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "totalElements": {
+                      "type": "integer",
+                      "format": "int64"
+                  },
+                  "pageable": {
+                      "$ref": "#/components/schemas/PageableObject"
+                  },
+                  "size": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "content": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/CodigoPostal"
+                      }
+                  },
+                  "number": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "sort": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/SortObject"
+                      }
+                  },
+                  "numberOfElements": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "first": {
+                      "type": "boolean"
+                  },
+                  "last": {
+                      "type": "boolean"
+                  },
+                  "empty": {
+                      "type": "boolean"
+                  }
+              }
+          },
+          "PageCiudad": {
+              "type": "object",
+              "properties": {
+                  "totalPages": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "totalElements": {
+                      "type": "integer",
+                      "format": "int64"
+                  },
+                  "pageable": {
+                      "$ref": "#/components/schemas/PageableObject"
+                  },
+                  "size": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "content": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/Ciudad"
+                      }
+                  },
+                  "number": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "sort": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/SortObject"
+                      }
+                  },
+                  "numberOfElements": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "first": {
+                      "type": "boolean"
+                  },
+                  "last": {
+                      "type": "boolean"
+                  },
+                  "empty": {
+                      "type": "boolean"
+                  }
+              }
+          },
+          "AsentamientoTipo": {
+              "required": [
+                  "nombre",
+                  "sepomexClave"
+              ],
+              "type": "object",
+              "properties": {
+                  "id": {
+                      "type": "integer",
+                      "description": "ID único del tipo de asentamiento",
+                      "format": "int32",
+                      "example": 1
+                  },
+                  "nombre": {
+                      "type": "string",
+                      "description": "Nombre del tipo de asentamiento",
+                      "example": "Colonia"
+                  },
+                  "sepomexClave": {
+                      "type": "string",
+                      "description": "Clave SEPOMEX del tipo de asentamiento",
+                      "example": "09"
+                  }
+              },
+              "description": "Representa un tipo de asentamiento con información básica."
+          },
+          "PageAsentamientoTipo": {
+              "type": "object",
+              "properties": {
+                  "totalPages": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "totalElements": {
+                      "type": "integer",
+                      "format": "int64"
+                  },
+                  "pageable": {
+                      "$ref": "#/components/schemas/PageableObject"
+                  },
+                  "size": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "content": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/AsentamientoTipo"
+                      }
+                  },
+                  "number": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "sort": {
+                      "type": "array",
+                      "items": {
+                          "$ref": "#/components/schemas/SortObject"
+                      }
+                  },
+                  "numberOfElements": {
+                      "type": "integer",
+                      "format": "int32"
+                  },
+                  "first": {
+                      "type": "boolean"
+                  },
+                  "last": {
+                      "type": "boolean"
+                  },
+                  "empty": {
+                      "type": "boolean"
+                  }
+              }
+          }
+      }
+  }
+}
