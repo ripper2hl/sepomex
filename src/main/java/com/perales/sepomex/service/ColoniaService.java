@@ -2,6 +2,7 @@ package com.perales.sepomex.service;
 
 import com.google.common.collect.Iterables;
 import com.perales.sepomex.contract.ServiceGeneric;
+import com.perales.sepomex.exception.ResourceNotFoundException;
 import com.perales.sepomex.model.*;
 import com.perales.sepomex.repository.*;
 import com.perales.sepomex.util.Parser;
@@ -54,7 +55,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     public Colonia buscarPorId(Long id) {
         Colonia colonia = coloniaRepository.findOneById(id);
         if(colonia == null){
-            throw new NoSuchElementException();
+            throw new ResourceNotFoundException("No se la colonia con el ID: " + id);
         }
         return colonia;
     }

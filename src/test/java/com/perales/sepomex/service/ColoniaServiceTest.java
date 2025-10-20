@@ -1,6 +1,7 @@
 package com.perales.sepomex.service;
 
 import com.perales.sepomex.configuration.AppTestConfig;
+import com.perales.sepomex.exception.ResourceNotFoundException;
 import com.perales.sepomex.model.Colonia;
 import com.perales.sepomex.model.Municipio;
 import lombok.extern.log4j.Log4j2;
@@ -69,8 +70,8 @@ class ColoniaServiceTest {
     void borrar() {
         Colonia colonia = generadorColonia();
         coloniaService.borrar( colonia.getId() );
-        NoSuchElementException exception = Assertions.assertThrows(NoSuchElementException.class, () ->coloniaService.buscarPorId( colonia.getId() ));
-        assertThat("Debe lanzar la un NoSuchElementException ", exception, is( notNullValue() ) );
+        ResourceNotFoundException exception = Assertions.assertThrows(com.perales.sepomex.exception.ResourceNotFoundException.class, () ->coloniaService.buscarPorId( colonia.getId() ));
+        assertThat("Debe lanzar la un ResourceNotFoundException", exception, is( notNullValue() ) );
     }
     
     @Test
