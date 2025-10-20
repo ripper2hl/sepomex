@@ -55,7 +55,7 @@ public class ColoniaService implements ServiceGeneric<Colonia, Long> {
     public Colonia buscarPorId(Long id) {
         Colonia colonia = coloniaRepository.findOneById(id);
         if(colonia == null){
-            throw new ResourceNotFoundException("No se la colonia con el ID: " + id);
+            throw new ResourceNotFoundException("No existe el ID: " + id);
         }
         return colonia;
     }
